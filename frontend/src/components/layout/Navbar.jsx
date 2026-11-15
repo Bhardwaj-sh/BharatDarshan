@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, Menu, X, User, ShieldCheck, LogOut, Sparkles, MapPin, Search } from 'lucide-react';
+import { Menu, X, User, ShieldCheck, LogOut, Search, ChevronRight } from 'lucide-react';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,7 +45,7 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Destinations', path: '/#showcase' },
     { name: 'Experiences', path: '/#experiences' },
-    { name: 'Interactive Map', path: '/#map-explorer' },
+    { name: 'Interactive Map', path: '/#interactive-map' },
     { name: 'All 36 Regions', path: '/explore' },
     { name: 'About', path: '/about' },
   ];
@@ -53,7 +53,9 @@ export default function Navbar() {
   const userName = user?.name ? user.name.split(' ')[0] : 'Traveler';
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300 px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
+    <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 px-4 sm:px-6 lg:px-8 py-4 sm:py-5 ${
+      isScrolled ? 'bg-midnight-950/80 backdrop-blur-md border-b border-white/10' : ''
+    }`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         
         {/* Brand Logo with Electric Cyan Dot (Inspired by • MERIDIAN in reference) */}
@@ -103,7 +105,6 @@ export default function Navbar() {
                 {user.role === 'admin' ? <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" /> : <User className="w-3.5 h-3.5 text-cyan-400" />}
                 <span>{userName}</span>
               </Link>
-
               <button
                 onClick={handleLogout}
                 title="Sign Out"
@@ -157,9 +158,10 @@ export default function Navbar() {
                   key={link.name}
                   href={link.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-midnight-950 hover:bg-cyan-400 transition-all"
+                  className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-midnight-950 hover:bg-cyan-400 transition-all flex items-center justify-between"
                 >
-                  {link.name}
+                  <span>{link.name}</span>
+                  <ChevronRight className="w-4 h-4 text-slate-500" />
                 </a>
               ))}
 
@@ -198,6 +200,14 @@ export default function Navbar() {
                     </Link>
                   </div>
                 )}
+
+                <Link
+                  to="/explore"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn-luxury-cyan w-full text-center text-xs uppercase tracking-wider py-3 font-bold"
+                >
+                  Explore All 36 Regions
+                </Link>
               </div>
             </div>
           </motion.div>
