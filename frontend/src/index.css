@@ -16,7 +16,12 @@
     color: #030712;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
     letter-spacing: -0.025em;
     color: #FFFFFF;
@@ -24,6 +29,7 @@
 }
 
 @layer components {
+
   /* Ultra-Luxury Translucent Floating Glass Panel */
   .glass-panel {
     background-color: rgba(5, 11, 24, 0.72);
@@ -169,6 +175,7 @@
   0% {
     transform: scale(1) translate(0, 0);
   }
+
   50% {
     transform: scale(1.08) translate(-1%, -1%);
   }
@@ -178,9 +185,12 @@
 }
 
 @keyframes pulseCyanGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
   }
+
   50% {
     box-shadow: 0 0 45px rgba(0, 229, 255, 0.7);
   }
@@ -190,6 +200,8 @@
   0% {
     transform: translateY(-100%);
   }
+
+
   100% {
     transform: translateY(1000%);
   }
@@ -207,14 +219,17 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #030712;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #0F1A36;
   border-radius: 9999px;
   border: 2px solid #030712;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #00E5FF;
 }
