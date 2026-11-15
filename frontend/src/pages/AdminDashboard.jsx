@@ -42,7 +42,6 @@ export default function AdminDashboard() {
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('bharat_user') || 'null');
     if (!savedUser || savedUser.role !== 'admin') {
-      // If not logged in as admin, alert and redirect to login
       navigate('/login');
       return;
     }
@@ -57,7 +56,6 @@ export default function AdminDashboard() {
       await loadAdminData();
     } catch (err) {
       console.error('Update status error:', err);
-      // Fallback local update
       const updated = bookings.map((b) => (b._id === id || b.reference === id ? { ...b, bookingStatus: newStatus, status: newStatus } : b));
       setBookings(updated);
       localStorage.setItem('bharat_bookings', JSON.stringify(updated));
@@ -69,44 +67,44 @@ export default function AdminDashboard() {
   const confirmedCount = bookings.filter((b) => (b.bookingStatus || b.status) === 'Confirmed').length;
 
   return (
-    <div className="pt-28 pb-20 bg-slate-50 min-h-screen text-slate-800">
+    <div className="pt-32 pb-24 bg-[#05070F] min-h-screen text-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold uppercase tracking-wider mb-2 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-extrabold uppercase tracking-wider mb-2">
               <ShieldCheck className="w-4 h-4 text-amber-400" />
               <span>Admin Management Portal</span>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl font-black text-slate-950">
+            <h1 className="font-display text-3xl sm:text-4xl font-black text-white">
               Operations & Enquiries Console
             </h1>
-            <p className="text-xs text-slate-600 mt-1 font-normal">
+            <p className="text-xs text-slate-400 mt-1 font-normal">
               Live server connection: Review customer enquiries, update booking statuses, and enforce 1-to-1 region mapping.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={loadAdminData}
-              className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-950 shadow-sm"
+              className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
               title="Refresh Data"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
-            <Link to="/" className="btn-ghost-dark text-xs py-2.5 px-5 rounded-xl">
+            <Link to="/" className="btn-ghost-glow text-xs py-2.5 px-5 rounded-xl">
               Return to Public Site
             </Link>
           </div>
         </div>
 
         {actionMsg && (
-          <div className="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center justify-between">
+          <div className="mb-6 p-4 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 text-xs flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
               <span>{actionMsg}</span>
             </div>
-            <button onClick={() => setActionMsg('')} className="text-xs font-bold text-emerald-700 hover:underline">
+            <button onClick={() => setActionMsg('')} className="text-xs font-bold text-emerald-300 hover:underline">
               Dismiss
             </button>
           </div>
@@ -115,74 +113,74 @@ export default function AdminDashboard() {
         {/* Analytics Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           
-          <div className="bg-white rounded-3xl p-6 border border-ivory-200 shadow-soft">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-charcoal-400 block mb-1">
+          <div className="glass-dark rounded-3xl p-6 border border-white/10 shadow-xl">
+            <span className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 block mb-1">
               Active Regions
             </span>
-            <span className="font-serif text-3xl font-bold text-forest-950 block">{stats.totalStates || 36}</span>
-            <span className="text-xs text-emerald-700 font-medium mt-1 block">
+            <span className="font-display text-4xl font-black text-white block">{stats.totalStates || 36}</span>
+            <span className="text-xs text-emerald-400 font-bold mt-1 block">
               1 Flagship Tour / Region Enforced
             </span>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-ivory-200 shadow-soft">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-charcoal-400 block mb-1">
+          <div className="glass-dark rounded-3xl p-6 border border-white/10 shadow-xl">
+            <span className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 block mb-1">
               Registered Users
             </span>
-            <span className="font-serif text-3xl font-bold text-forest-950 block">{stats.totalUsers || 2}</span>
-            <span className="text-xs text-charcoal-500 mt-1 block">Active platform travellers</span>
+            <span className="font-display text-4xl font-black text-white block">{stats.totalUsers || 2}</span>
+            <span className="text-xs text-slate-400 mt-1 block font-medium">Active platform travellers</span>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-amber-200 shadow-soft bg-amber-50/30">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-amber-700 block mb-1">
+          <div className="glass-dark rounded-3xl p-6 border border-amber-500/30 shadow-xl bg-amber-500/5">
+            <span className="text-[10px] uppercase font-extrabold tracking-widest text-amber-400 block mb-1">
               Action Required
             </span>
-            <span className="font-serif text-3xl font-bold text-amber-800 block">{stats.pendingBookings ?? pendingCount}</span>
-            <span className="text-xs text-amber-700 font-medium mt-1 block">Pending Review</span>
+            <span className="font-display text-4xl font-black text-amber-400 block">{stats.pendingBookings ?? pendingCount}</span>
+            <span className="text-xs text-amber-300 font-bold mt-1 block">Pending Review</span>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-emerald-200 shadow-soft bg-emerald-50/30">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-700 block mb-1">
+          <div className="glass-dark rounded-3xl p-6 border border-emerald-500/30 shadow-xl bg-emerald-500/5">
+            <span className="text-[10px] uppercase font-extrabold tracking-widest text-emerald-400 block mb-1">
               Confirmed Trips
             </span>
-            <span className="font-serif text-3xl font-bold text-emerald-800 block">{stats.confirmedBookings ?? confirmedCount}</span>
-            <span className="text-xs text-emerald-700 font-medium mt-1 block">Verified & Scheduled</span>
+            <span className="font-display text-4xl font-black text-emerald-400 block">{stats.confirmedBookings ?? confirmedCount}</span>
+            <span className="text-xs text-emerald-300 font-bold mt-1 block">Verified & Scheduled</span>
           </div>
 
         </div>
 
         {/* Enquiries Table Section */}
-        <div className="bg-white rounded-3xl border border-ivory-200 shadow-soft overflow-hidden mb-12">
+        <div className="glass-dark rounded-3xl border border-white/10 shadow-2xl overflow-hidden mb-12">
           
-          <div className="p-6 border-b border-ivory-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="p-6 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h3 className="font-serif text-xl font-bold text-forest-950">
+              <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
                 Customer Tour Enquiries (Real MongoDB Records)
               </h3>
-              <p className="text-xs text-charcoal-500 mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 Update status to 'Confirmed' to update the customer's dashboard in real-time.
               </p>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs text-charcoal-500 font-medium">Filter Status:</span>
+              <span className="text-xs text-slate-400 font-medium">Filter Status:</span>
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="bg-ivory-50 border border-ivory-200 text-xs text-charcoal-800 rounded-xl px-3 py-1.5 focus:outline-none"
+                className="bg-black/40 border border-white/10 text-xs text-white rounded-xl px-3 py-1.5 focus:outline-none"
               >
-                <option value="all">All Enquiries ({bookings.length})</option>
-                <option value="Pending">Pending ({pendingCount})</option>
-                <option value="Confirmed">Confirmed ({confirmedCount})</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Completed">Completed</option>
+                <option value="all" className="bg-slate-900 text-white">All Enquiries ({bookings.length})</option>
+                <option value="Pending" className="bg-slate-900 text-white">Pending ({pendingCount})</option>
+                <option value="Confirmed" className="bg-slate-900 text-white">Confirmed ({confirmedCount})</option>
+                <option value="Cancelled" className="bg-slate-900 text-white">Cancelled</option>
+                <option value="Completed" className="bg-slate-900 text-white">Completed</option>
               </select>
             </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-ivory-50 border-b border-ivory-200 text-[10px] uppercase tracking-wider text-charcoal-400 font-bold">
+              <thead className="bg-white/5 border-b border-white/10 text-[10px] uppercase tracking-wider text-slate-400 font-extrabold">
                 <tr>
                   <th className="py-4 px-6">Reference</th>
                   <th className="py-4 px-6">Lead Traveller</th>
@@ -193,7 +191,7 @@ export default function AdminDashboard() {
                   <th className="py-4 px-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-ivory-200">
+              <tbody className="divide-y divide-white/5">
                 {bookings.map((b) => {
                   const ref = b.bookingReference || b.reference;
                   const status = b.bookingStatus || b.status;
@@ -203,34 +201,34 @@ export default function AdminDashboard() {
                   const regName = b.stateId?.name || b.regionName || 'Rajasthan';
 
                   return (
-                    <tr key={ref || b._id} className="hover:bg-ivory-50/50 transition-colors">
-                      <td className="py-4 px-6 font-mono font-bold text-forest-900">
+                    <tr key={ref || b._id} className="hover:bg-white/5 transition-colors">
+                      <td className="py-4 px-6 font-mono font-bold text-amber-400">
                         {ref}
                       </td>
                       <td className="py-4 px-6">
-                        <div className="font-semibold text-charcoal-900">{b.leadTravellerName || b.contactName || 'Lead Traveller'}</div>
-                        <div className="text-[10px] text-charcoal-500">{b.leadTravellerEmail || b.contactEmail}</div>
+                        <div className="font-bold text-white">{b.leadTravellerName || b.contactName || 'Lead Traveller'}</div>
+                        <div className="text-[10px] text-slate-400">{b.leadTravellerEmail || b.contactEmail}</div>
                       </td>
                       <td className="py-4 px-6">
-                        <div className="font-semibold text-forest-950">{regName}</div>
-                        <div className="text-[10px] text-charcoal-500">{dateStr}</div>
+                        <div className="font-bold text-white">{regName}</div>
+                        <div className="text-[10px] text-slate-400">{dateStr}</div>
                       </td>
-                      <td className="py-4 px-6 font-medium text-charcoal-800">
+                      <td className="py-4 px-6 font-semibold text-slate-200">
                         {b.travellerCount || b.travellers} Adults
                       </td>
                       <td className="py-4 px-6">
-                        <div className="font-bold text-forest-950">₹{total?.toLocaleString('en-IN')}</div>
-                        <div className="text-[10px] text-charcoal-500">₹{perPerson?.toLocaleString('en-IN')}/pax</div>
+                        <div className="font-display font-black text-amber-400 text-sm">₹{total?.toLocaleString('en-IN')}</div>
+                        <div className="text-[10px] text-slate-400">₹{perPerson?.toLocaleString('en-IN')}/pax</div>
                       </td>
                       <td className="py-4 px-6">
                         <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                           status === 'Confirmed'
-                            ? 'bg-emerald-100 text-emerald-800'
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                             : status === 'Cancelled'
-                            ? 'bg-rose-100 text-rose-800'
+                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
                             : status === 'Completed'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-amber-100 text-amber-800'
+                            ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                            : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
                         }`}>
                           {status}
                         </span>
@@ -239,7 +237,7 @@ export default function AdminDashboard() {
                         {status !== 'Confirmed' && (
                           <button
                             onClick={() => handleStatusUpdate(b._id, 'Confirmed')}
-                            className="px-3 py-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-medium transition-colors"
+                            className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold transition-colors shadow-md"
                           >
                             Confirm
                           </button>
@@ -247,7 +245,7 @@ export default function AdminDashboard() {
                         {status !== 'Cancelled' && (
                           <button
                             onClick={() => handleStatusUpdate(b._id, 'Cancelled')}
-                            className="px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-[11px] font-medium transition-colors"
+                            className="px-3.5 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[11px] font-bold transition-colors"
                           >
                             Cancel
                           </button>
@@ -255,7 +253,7 @@ export default function AdminDashboard() {
                         {status === 'Confirmed' && (
                           <button
                             onClick={() => handleStatusUpdate(b._id, 'Completed')}
-                            className="px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-medium transition-colors"
+                            className="px-3.5 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-[11px] font-bold transition-colors"
                           >
                             Mark Done
                           </button>

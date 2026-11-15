@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { RAJASTHAN_DATA } from '../data/rajasthanData';
 import { REGIONS_DATA } from '../data/regionsData';
 import RegionHero from '../components/region/RegionHero';
@@ -12,7 +13,7 @@ import PriceCalculator from '../components/region/PriceCalculator';
 import CultureSection from '../components/region/CultureSection';
 import EnquiryModal from '../components/region/EnquiryModal';
 import { stateService } from '../services/api';
-import { Check, X, ShieldCheck, ArrowRight, Compass } from 'lucide-react';
+import { Check, X, ShieldCheck, ArrowRight, Compass, Sparkles } from 'lucide-react';
 
 export default function RegionDetailPage() {
   const { slug } = useParams();
@@ -124,9 +125,9 @@ export default function RegionDetailPage() {
 
   if (!regionData) {
     return (
-      <div className="min-h-screen pt-36 pb-20 text-center flex flex-col items-center justify-center bg-ivory-100">
-        <Compass className="w-12 h-12 text-gold-500 animate-spin-slow mb-4" />
-        <h2 className="font-serif text-2xl font-bold text-forest-950">Connecting to Destination...</h2>
+      <div className="min-h-screen pt-36 pb-20 text-center flex flex-col items-center justify-center bg-[#05070F] text-white">
+        <Compass className="w-14 h-14 text-amber-400 animate-spin-slow mb-4" />
+        <h2 className="font-display text-2xl font-bold text-white">Connecting to Destination...</h2>
       </div>
     );
   }
@@ -137,7 +138,7 @@ export default function RegionDetailPage() {
   };
 
   return (
-    <div className="w-full bg-slate-50 text-slate-900">
+    <div className="w-full bg-[#05070F] text-slate-100">
       
       {/* 1. Cinematic Hero */}
       <RegionHero region={regionData} />
@@ -152,16 +153,17 @@ export default function RegionDetailPage() {
       <AttractionGallery attractions={regionData.majorAttractions} />
 
       {/* 5. Interactive Leaflet Route Map */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-24 bg-[#070A14] border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-8">
-            <span className="text-xs uppercase font-extrabold tracking-widest text-saffron-600 block mb-2">
-              Geographic Realities
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black text-slate-950">
+          <div className="max-w-3xl mb-10">
+            <div className="badge-glow mb-3">
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
+              <span>Geographic Realities</span>
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl font-black text-white">
               Interactive Route & Stop Map
             </h2>
-            <p className="text-sm text-slate-600 mt-2 font-normal">
+            <p className="text-base text-slate-400 mt-2 font-normal">
               Verified geographic markers powered by Leaflet and OpenStreetMap. Track the logical circular route across {regionData.name}.
             </p>
           </div>
@@ -171,7 +173,7 @@ export default function RegionDetailPage() {
       </section>
 
       {/* 6. Main Itinerary & Price Calculator Dual Layout */}
-      <section id="itinerary-section" className="py-20 md:py-24 bg-white border-y border-slate-200/80 scroll-mt-24">
+      <section id="itinerary-section" className="py-24 bg-[#05070F] border-y border-white/10 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -195,34 +197,34 @@ export default function RegionDetailPage() {
       </section>
 
       {/* 7. Package Inclusions & Exclusions Card */}
-      <section className="py-20 bg-slate-50 border-b border-slate-200/80">
+      <section className="py-24 bg-[#070A14] border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft">
-            <div className="mb-6">
-              <span className="text-xs uppercase font-extrabold tracking-widest text-saffron-600 block mb-1">
+          <div className="glass-dark rounded-3xl p-8 sm:p-10 border border-white/15 shadow-2xl">
+            <div className="mb-8">
+              <span className="text-xs uppercase font-extrabold tracking-widest text-amber-400 block mb-2">
                 Complete Package Details
               </span>
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-slate-950">
+              <h3 className="font-display text-3xl sm:text-4xl font-black text-white">
                 {regionData.package?.packageName || regionData.package?.name}
               </h3>
-              <p className="text-xs text-slate-500 mt-1 font-semibold">
+              <p className="text-xs text-slate-400 mt-1 font-semibold">
                 Code: {regionData.package?.code} · Duration: {regionData.durationDays}D / {regionData.durationNights}N
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-slate-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 border-t border-white/10">
               
               {/* Inclusions */}
               <div>
-                <h4 className="font-display text-base font-bold text-emerald-800 mb-4 flex items-center gap-2">
-                  <Check className="w-4 h-4 text-emerald-600" />
+                <h4 className="font-display text-lg font-bold text-emerald-400 mb-5 flex items-center gap-2">
+                  <Check className="w-5 h-5 text-emerald-400" />
                   <span>What is Included in Your Tour</span>
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-3.5">
                   {regionData.package?.inclusions?.map((inc, i) => (
-                    <li key={i} className="text-xs text-slate-700 flex items-start gap-2.5 font-normal">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-1.5 flex-shrink-0" />
+                    <li key={i} className="text-xs sm:text-sm text-slate-300 flex items-start gap-3 font-normal">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0 shadow-[0_0_8px_#34D399]" />
                       <span>{inc}</span>
                     </li>
                   ))}
@@ -231,14 +233,14 @@ export default function RegionDetailPage() {
 
               {/* Exclusions */}
               <div>
-                <h4 className="font-display text-base font-bold text-rose-800 mb-4 flex items-center gap-2">
-                  <X className="w-4 h-4 text-rose-600" />
+                <h4 className="font-display text-lg font-bold text-rose-400 mb-5 flex items-center gap-2">
+                  <X className="w-5 h-5 text-rose-400" />
                   <span>Exclusions & Notes</span>
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-3.5">
                   {regionData.package?.exclusions?.map((exc, i) => (
-                    <li key={i} className="text-xs text-slate-700 flex items-start gap-2.5 font-normal">
-                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1.5 flex-shrink-0" />
+                    <li key={i} className="text-xs sm:text-sm text-slate-300 flex items-start gap-3 font-normal">
+                      <span className="w-2 h-2 rounded-full bg-rose-400 mt-1.5 flex-shrink-0 shadow-[0_0_8px_#FB7185]" />
                       <span>{exc}</span>
                     </li>
                   ))}

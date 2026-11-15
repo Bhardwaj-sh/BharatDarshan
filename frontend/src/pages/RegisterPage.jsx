@@ -32,15 +32,15 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-16 flex items-center justify-center bg-forest-950 px-4">
-      <div className="w-full max-w-md bg-forest-900/90 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl text-ivory-100">
+    <div className="min-h-screen pt-28 pb-16 flex items-center justify-center bg-forest-950 px-4 text-slate-100">
+      <div className="w-full max-w-md bg-forest-900/90 backdrop-blur-md border border-forest-750 p-8 rounded-3xl shadow-2xl">
         
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-full bg-gold-500/20 border border-gold-500/50 flex items-center justify-center text-gold-400 mx-auto mb-4">
+          <div className="w-12 h-12 rounded-full bg-forest-800 border border-lime-400/40 flex items-center justify-center text-lime-400 mx-auto mb-4 shadow-lime-glow">
             <Compass className="w-6 h-6" />
           </div>
-          <h2 className="font-serif text-2xl font-bold text-white">Join Bharat Darshan</h2>
-          <p className="text-xs text-ivory-300 mt-1">Create an account to submit tour enquiries and track your journeys</p>
+          <h2 className="font-display text-2xl font-bold text-white">Join Bharat Darshan</h2>
+          <p className="text-xs text-slate-300 mt-1">Create an account to submit tour enquiries and track your journeys</p>
         </div>
 
         {errorMsg && (
@@ -52,53 +52,52 @@ export default function RegisterPage() {
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="block text-xs uppercase tracking-wider text-ivory-300 font-semibold mb-1.5">
+            <label className="block text-xs uppercase tracking-wider text-slate-300 font-semibold mb-1.5">
               Full Name
             </label>
             <div className="relative">
-              <User className="w-4 h-4 text-gold-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <User className="w-4 h-4 text-lime-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Aarav Sharma"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-forest-950 border border-white/10 text-xs text-ivory-100 placeholder:text-ivory-300/40 focus:outline-none focus:border-gold-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-forest-950 border border-forest-750 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-wider text-ivory-300 font-semibold mb-1.5">
+            <label className="block text-xs uppercase tracking-wider text-slate-300 font-semibold mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-gold-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-lime-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="aarav@example.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-forest-950 border border-white/10 text-xs text-ivory-100 placeholder:text-ivory-300/40 focus:outline-none focus:border-gold-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-forest-950 border border-forest-750 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-wider text-ivory-300 font-semibold mb-1.5">
-              Create Password
+            <label className="block text-xs uppercase tracking-wider text-slate-300 font-semibold mb-1.5">
+              Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-gold-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-lime-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
-                minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-forest-950 border border-white/10 text-xs text-ivory-100 placeholder:text-ivory-300/40 focus:outline-none focus:border-gold-500"
+                placeholder="Minimum 6 characters"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-forest-950 border border-forest-750 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
               />
             </div>
           </div>
@@ -106,17 +105,17 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-gold py-3 text-xs uppercase tracking-wider font-semibold rounded-xl flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+            className="w-full btn-lime py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-full flex items-center justify-center gap-2 mt-3 disabled:opacity-50 shadow-lime-glow cursor-pointer"
           >
-            <span>{loading ? 'Creating Account...' : 'Create Account'}</span>
+            <span>{loading ? 'Creating Account...' : 'Register as Traveller'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-ivory-300">
+        <div className="mt-6 text-center text-xs text-slate-400">
           Already have an account?{' '}
-          <Link to="/login" className="text-gold-400 font-semibold hover:underline">
-            Sign in
+          <Link to="/login" className="text-lime-400 font-semibold hover:underline">
+            Sign In here
           </Link>
         </div>
 

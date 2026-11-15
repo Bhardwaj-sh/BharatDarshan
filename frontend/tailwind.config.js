@@ -7,38 +7,51 @@ export default {
   theme: {
     extend: {
       colors: {
+        forest: {
+          950: '#071611', // Deepest atmospheric black-emerald
+          900: '#0B2019', // Primary reference dark forest green
+          850: '#0E2920', // Card surface
+          800: '#14382C', // Card borders / elevated surfaces
+          750: '#1A4537',
+          700: '#235847',
+          600: '#327761',
+          500: '#439A80',
+          400: '#64B89F',
+        },
+        lime: {
+          300: '#E4F965',
+          400: '#D2F53E', // Primary reference neon lime accent
+          500: '#C2E828',
+          600: '#A6C915',
+        },
+        cream: {
+          50: '#FAFAF7', // Warm off-white reference canvas
+          100: '#F4F5EE',
+          200: '#E7E9DC',
+          300: '#D6D9C8',
+        },
         midnight: {
-          950: '#030712', // Deep sleek obsidian
-          900: '#0B0F19', // Modern dark surface
+          950: '#030712',
+          900: '#0B0F19',
           800: '#111827',
-          700: '#1E293B',
-          600: '#334155',
-          500: '#64748B',
         },
         saffron: {
-          50: '#FFF7ED',
-          100: '#FFEDD5',
-          200: '#FED7AA',
           400: '#FB923C',
-          500: '#F97316', // Electric vibrant saffron
+          500: '#F97316',
           600: '#EA580C',
-        },
-        sunset: {
-          start: '#FF5E3A',
-          mid: '#FF2A6D',
-          end: '#9B51E0'
         }
       },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         display: ['"Outfit"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
       },
       boxShadow: {
-        'soft': '0 10px 30px -5px rgba(15, 23, 42, 0.06)',
-        'card': '0 20px 40px -15px rgba(15, 23, 42, 0.08)',
-        'card-hover': '0 25px 50px -12px rgba(249, 115, 22, 0.15)',
-        'glow-saffron': '0 10px 30px -5px rgba(249, 115, 22, 0.4)',
-        'glow-glass': '0 8px 32px 0 rgba(0, 0, 0, 0.25)',
+        'soft': '0 10px 30px -5px rgba(11, 32, 25, 0.08)',
+        'card': '0 20px 40px -15px rgba(11, 32, 25, 0.12)',
+        'lime-glow': '0 0 25px rgba(210, 245, 62, 0.45)',
+        'lime-glow-lg': '0 0 45px rgba(210, 245, 62, 0.65)',
+        'forest-glow': '0 10px 40px -10px rgba(11, 32, 25, 0.5)',
       }
     },
   },

@@ -4,73 +4,243 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-800 antialiased font-sans;
+    background-color: #081D17;
+    color: #F8FAFC;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background: #F97316;
-    color: #FFFFFF;
+    background: #D2F53E;
+    color: #061510;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight text-slate-900;
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+    letter-spacing: -0.025em;
+    color: #FFFFFF;
   }
 }
 
 @layer components {
-  /* Modern Glassmorphic Surfaces */
-  .glass-nav {
-    @apply bg-white/80 backdrop-blur-xl border border-white/50 shadow-sm;
+  /* High-Impact Vibrant Lime Buttons from Reference */
+  .btn-lime {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 9999px;
+    background-color: #D2F53E;
+    color: #061510;
+    font-weight: 800;
+    font-size: 0.875rem;
+    letter-spacing: -0.01em;
+    box-shadow: 0 0 25px rgba(210, 245, 62, 0.45);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
   }
 
-  .glass-dark {
-    @apply bg-midnight-950/80 backdrop-blur-xl border border-white/10;
+  .btn-lime:hover {
+    background-color: #E2F957;
+    box-shadow: 0 0 45px rgba(210, 245, 62, 0.7);
+    transform: scale(1.04);
   }
 
-  .glass-card {
-    @apply bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-soft hover:shadow-card-hover transition-all duration-300;
+  .btn-lime:active {
+    transform: scale(0.96);
   }
 
-  /* Radiant Modern Buttons */
-  .btn-gradient {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-saffron-500 via-amber-500 to-orange-500 text-white font-semibold tracking-wide hover:opacity-95 active:scale-95 transition-all duration-200 shadow-glow-saffron hover:shadow-lg;
+  .btn-lime-sm {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1.15rem;
+    border-radius: 9999px;
+    background-color: #D2F53E;
+    color: #061510;
+    font-size: 0.75rem;
+    font-weight: 800;
+    box-shadow: 0 0 15px rgba(210, 245, 62, 0.35);
+    transition: all 0.2s ease;
+    cursor: pointer;
   }
 
-  .btn-dark {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-midnight-900 text-white font-semibold tracking-wide hover:bg-midnight-800 active:scale-95 transition-all duration-200 shadow-md;
+  .btn-lime-sm:hover {
+    background-color: #E2F957;
+    transform: scale(1.05);
   }
 
-  .btn-ghost-dark {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl border border-slate-200 bg-white/60 text-slate-700 font-semibold hover:bg-white hover:border-slate-300 active:scale-95 transition-all duration-200;
+  .btn-lime-sm:active {
+    transform: scale(0.95);
   }
 
-  /* Vibrant Text Gradients */
-  .text-gradient-sunset {
-    @apply bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 bg-clip-text text-transparent font-extrabold;
+  .btn-outline-lime {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(210, 245, 62, 0.6);
+    color: #D2F53E;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
   }
 
-  .text-gradient-dark {
-    @apply bg-gradient-to-r from-slate-950 via-slate-800 to-slate-900 bg-clip-text text-transparent;
+  .btn-outline-lime:hover {
+    background-color: #D2F53E;
+    color: #061510;
+    box-shadow: 0 0 25px rgba(210, 245, 62, 0.4);
   }
 
-  /* Modern Badge */
-  .badge-glow {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-saffron-50 text-saffron-600 border border-saffron-200/60 shadow-sm;
+  /* Forest Glassmorphism */
+  .glass-forest {
+    background-color: rgba(8, 29, 23, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-forest-card {
+    background-color: rgba(12, 36, 29, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .glass-forest-card:hover {
+    border-color: rgba(210, 245, 62, 0.45);
+    box-shadow: 0 12px 35px rgba(210, 245, 62, 0.15);
+  }
+
+  /* Glow Badges */
+  .badge-lime {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: rgba(210, 245, 62, 0.15);
+    color: #D2F53E;
+    border: 1px solid rgba(210, 245, 62, 0.35);
+  }
+
+  .badge-forest {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: rgba(20, 56, 44, 0.9);
+    color: #6EE7B7;
+    border: 1px solid rgba(49, 108, 90, 0.6);
+  }
+
+  .badge-saffron {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #FCD34D;
+    border: 1px solid rgba(245, 158, 11, 0.35);
   }
 }
 
-/* Custom modern scrollbar */
+/* Animations */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+@keyframes pulseGlowLime {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(210, 245, 62, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(210, 245, 62, 0.7);
+  }
+}
+
+@keyframes driftMist {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateX(-35px) translateY(-10px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.25;
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-mist {
+  animation: driftMist 16s ease-in-out infinite;
+}
+
+.animate-pulse-lime {
+  animation: pulseGlowLime 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 30s linear infinite;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #061510;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 4px;
+  background: #14382C;
+  border-radius: 9999px;
+  border: 2px solid #061510;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #F97316;
+  background: #D2F53E;
 }

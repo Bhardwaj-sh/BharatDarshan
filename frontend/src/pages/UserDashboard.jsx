@@ -8,7 +8,7 @@ export default function UserDashboard() {
   const [user, setUser] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('trips'); // 'trips' | 'profile'
+  const [activeTab, setActiveTab] = useState('trips');
 
   const fetchTrips = async () => {
     setLoading(true);
@@ -17,7 +17,6 @@ export default function UserDashboard() {
       if (res.data?.data && res.data.data.length > 0) {
         setBookings(res.data.data);
       } else {
-        // Fallback to local storage if API returned empty
         const local = JSON.parse(localStorage.getItem('bharat_bookings') || '[]');
         setBookings(local);
       }
@@ -33,7 +32,6 @@ export default function UserDashboard() {
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('bharat_user') || 'null');
     if (!savedUser) {
-      // If not logged in, redirect to login
       navigate('/login');
       return;
     }
@@ -45,28 +43,28 @@ export default function UserDashboard() {
     switch (status) {
       case 'Confirmed':
         return (
-          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1 shadow-[0_0_10px_rgba(52,211,153,0.3)]">
+            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
             <span>Confirmed</span>
           </span>
         );
       case 'Cancelled':
         return (
-          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-300">
+          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/40">
             Cancelled
           </span>
         );
       case 'Completed':
         return (
-          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-300">
+          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
             Completed
           </span>
         );
       case 'Pending':
       default:
         return (
-          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-1">
-            <Clock className="w-3 h-3 text-amber-600" />
+          <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1 shadow-[0_0_10px_rgba(245,158,11,0.2)]">
+            <Clock className="w-3 h-3 text-amber-400" />
             <span>Enquiry Pending Review</span>
           </span>
         );
@@ -74,13 +72,13 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="pt-28 pb-20 bg-slate-50 min-h-screen text-slate-800">
+    <div className="pt-32 pb-24 bg-[#05070F] min-h-screen text-slate-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Welcome Header */}
-        <div className="bg-slate-950 text-white rounded-3xl p-6 sm:p-10 mb-8 border border-slate-900 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="glass-dark text-white rounded-3xl p-6 sm:p-10 mb-8 border border-white/15 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-saffron-500 to-amber-400 flex items-center justify-center text-white font-display text-2xl font-black shadow-glow-saffron">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-white font-display text-2xl font-black shadow-[0_0_20px_rgba(245,158,11,0.4)]">
               {user?.name ? user.name[0].toUpperCase() : 'U'}
             </div>
             <div>
@@ -99,25 +97,25 @@ export default function UserDashboard() {
           <div className="flex items-center gap-3">
             <button
               onClick={fetchTrips}
-              className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors"
+              className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
               title="Refresh Enquiries"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
-            <Link to="/explore" className="btn-gradient text-xs uppercase tracking-wider py-2.5 px-5 font-bold">
+            <Link to="/explore" className="btn-gradient text-xs uppercase tracking-wider py-2.5 px-5 font-bold shadow-glow-saffron">
               Explore More Regions
             </Link>
           </div>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 mb-8 border-b border-slate-200 pb-3">
+        <div className="flex items-center gap-2 mb-8 border-b border-white/10 pb-3">
           <button
             onClick={() => setActiveTab('trips')}
             className={`px-5 py-2.5 rounded-2xl text-xs font-bold transition-all ${
               activeTab === 'trips'
-                ? 'bg-slate-950 text-white shadow-sm'
-                : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)] font-extrabold'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             My Trips & Enquiries ({bookings.length})
@@ -126,8 +124,8 @@ export default function UserDashboard() {
             onClick={() => setActiveTab('profile')}
             className={`px-5 py-2.5 rounded-2xl text-xs font-bold transition-all ${
               activeTab === 'profile'
-                ? 'bg-slate-950 text-white shadow-sm'
-                : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)] font-extrabold'
+                : 'text-slate-400 hover:text-white'
             }`}
           >
             Profile & Settings
@@ -150,59 +148,59 @@ export default function UserDashboard() {
                 return (
                   <div
                     key={ref || index}
-                    className="bg-white rounded-3xl p-6 sm:p-8 border border-ivory-200 shadow-soft hover:shadow-card transition-all"
+                    className="glass-dark rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl hover:border-amber-500/40 transition-all"
                   >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-ivory-200 mb-6">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-white/10 mb-6">
                       <div>
                         <div className="flex items-center gap-2 mb-1.5">
-                          <span className="font-mono text-xs font-bold text-forest-900 bg-forest-900/10 px-2.5 py-0.5 rounded-md">
+                          <span className="font-mono text-xs font-bold text-amber-400 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-md">
                             Ref: {ref}
                           </span>
                           {getStatusBadge(status)}
                         </div>
-                        <h3 className="font-serif text-xl sm:text-2xl font-bold text-forest-950">
+                        <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
                           {pkgTitle}
                         </h3>
-                        <p className="text-xs text-charcoal-500 mt-1">
-                          Region: <strong className="text-forest-900">{regName}</strong>
+                        <p className="text-xs text-slate-400 mt-1">
+                          Region: <strong className="text-amber-400">{regName}</strong>
                         </p>
                       </div>
 
                       <div className="text-left md:text-right">
-                        <span className="text-[10px] uppercase tracking-wider text-charcoal-400 block font-semibold">
+                        <span className="text-[10px] uppercase tracking-wider text-slate-400 block font-semibold">
                           Locked Total Snapshot
                         </span>
-                        <span className="font-serif text-2xl font-bold text-forest-950">
+                        <span className="font-display text-2xl font-black text-amber-400">
                           ₹{total?.toLocaleString('en-IN')}
                         </span>
-                        <span className="block text-[11px] text-charcoal-500">
+                        <span className="block text-[11px] text-slate-400">
                           ₹{perPerson?.toLocaleString('en-IN')} / person
                         </span>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-charcoal-600 mb-6">
-                      <div className="flex items-center gap-2 bg-ivory-50 p-3 rounded-2xl border border-ivory-200">
-                        <Calendar className="w-4 h-4 text-gold-600 flex-shrink-0" />
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-300 mb-6">
+                      <div className="flex items-center gap-2 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+                        <Calendar className="w-4 h-4 text-amber-400 flex-shrink-0" />
                         <div>
-                          <span className="block text-[10px] uppercase font-bold text-charcoal-400">Scheduled Date</span>
-                          <span className="font-semibold text-charcoal-800">{dateStr}</span>
+                          <span className="block text-[10px] uppercase font-bold text-slate-400">Scheduled Date</span>
+                          <span className="font-bold text-white">{dateStr}</span>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 bg-ivory-50 p-3 rounded-2xl border border-ivory-200">
-                        <Users className="w-4 h-4 text-gold-600 flex-shrink-0" />
+                      <div className="flex items-center gap-2 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+                        <Users className="w-4 h-4 text-amber-400 flex-shrink-0" />
                         <div>
-                          <span className="block text-[10px] uppercase font-bold text-charcoal-400">Passenger Count</span>
-                          <span className="font-semibold text-charcoal-800">{booking.travellerCount || booking.travellers} Adults</span>
+                          <span className="block text-[10px] uppercase font-bold text-slate-400">Passenger Count</span>
+                          <span className="font-bold text-white">{booking.travellerCount || booking.travellers} Adults</span>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 bg-ivory-50 p-3 rounded-2xl border border-ivory-200">
-                        <Clock className="w-4 h-4 text-gold-600 flex-shrink-0" />
+                      <div className="flex items-center gap-2 bg-white/5 p-3.5 rounded-2xl border border-white/10">
+                        <Clock className="w-4 h-4 text-amber-400 flex-shrink-0" />
                         <div>
-                          <span className="block text-[10px] uppercase font-bold text-charcoal-400">Lead Passenger</span>
-                          <span className="font-semibold text-charcoal-800">
+                          <span className="block text-[10px] uppercase font-bold text-slate-400">Lead Passenger</span>
+                          <span className="font-bold text-white">
                             {booking.leadTravellerName || user?.name}
                           </span>
                         </div>
@@ -210,23 +208,23 @@ export default function UserDashboard() {
                     </div>
 
                     {status === 'Pending' && (
-                      <div className="bg-amber-50 rounded-2xl p-4 border border-amber-200 text-xs text-amber-900 mb-6 flex items-start gap-2.5">
-                        <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                      <div className="bg-amber-500/10 rounded-2xl p-4 border border-amber-500/30 text-xs text-amber-300 mb-6 flex items-start gap-2.5">
+                        <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
                         <div>
-                          <strong className="font-semibold">Next Step:</strong> Your enquiry is currently under review by our destination specialist. Once hotel availability and vehicle permits are confirmed, your status will update to <span className="font-bold">Confirmed</span>.
+                          <strong className="font-bold">Next Step:</strong> Your enquiry is currently under review by our destination specialist. Once hotel availability and vehicle permits are confirmed, your status will update to <span className="font-black text-white">Confirmed</span>.
                         </div>
                       </div>
                     )}
 
                     <div className="flex items-center justify-between pt-2">
-                      <div className="flex items-center gap-2 text-xs text-charcoal-500">
-                        <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      <div className="flex items-center gap-2 text-xs text-slate-400">
+                        <ShieldCheck className="w-4 h-4 text-emerald-400" />
                         <span>Price Snapshot Authenticated by Server</span>
                       </div>
 
                       <Link
                         to={`/region/${booking.stateId?.slug || 'rajasthan'}`}
-                        className="btn-outline-forest text-xs py-2 px-4 rounded-full flex items-center gap-1.5"
+                        className="btn-ghost-glow text-xs py-2 px-4 rounded-xl flex items-center gap-1.5"
                       >
                         <span>View Full Itinerary</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -236,13 +234,13 @@ export default function UserDashboard() {
                 );
               })
             ) : (
-              <div className="text-center py-16 bg-white rounded-3xl border border-ivory-200 p-8">
-                <Compass className="w-12 h-12 text-gold-500 mx-auto mb-3" />
-                <h3 className="font-serif text-xl font-bold text-forest-950">No Trips or Enquiries Yet</h3>
-                <p className="text-xs text-charcoal-600 mt-1 max-w-sm mx-auto mb-6">
+              <div className="text-center py-20 bg-slate-900/60 rounded-3xl border border-white/10 p-8">
+                <Compass className="w-14 h-14 text-amber-400 mx-auto mb-3 animate-spin-slow" />
+                <h3 className="font-display text-2xl font-bold text-white">No Trips or Enquiries Yet</h3>
+                <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto mb-6">
                   You haven't submitted any travel enquiries yet. Explore our 36 regional flagship tours to begin.
                 </p>
-                <Link to="/explore" className="btn-gold text-xs uppercase tracking-wider py-3 px-6">
+                <Link to="/explore" className="btn-gradient text-xs uppercase tracking-wider py-3 px-6 font-bold">
                   Explore India Now
                 </Link>
               </div>
@@ -252,32 +250,32 @@ export default function UserDashboard() {
 
         {/* Tab 2: Profile */}
         {activeTab === 'profile' && (
-          <div className="bg-white rounded-3xl p-8 border border-ivory-200 shadow-soft max-w-2xl">
-            <h3 className="font-serif text-xl font-bold text-forest-950 mb-6">
+          <div className="glass-dark rounded-3xl p-8 border border-white/10 max-w-2xl">
+            <h3 className="font-display text-2xl font-bold text-white mb-6">
               Account Profile
             </h3>
             <div className="space-y-4 text-xs">
               <div>
-                <label className="block text-charcoal-400 uppercase font-bold tracking-wider mb-1">Full Name</label>
+                <label className="block text-slate-400 uppercase font-bold tracking-wider mb-1">Full Name</label>
                 <input
                   type="text"
                   readOnly
                   value={user?.name || ''}
-                  className="w-full bg-ivory-50 border border-ivory-200 rounded-xl px-4 py-2.5 text-charcoal-800"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-white"
                 />
               </div>
               <div>
-                <label className="block text-charcoal-400 uppercase font-bold tracking-wider mb-1">Email Address</label>
+                <label className="block text-slate-400 uppercase font-bold tracking-wider mb-1">Email Address</label>
                 <input
                   type="email"
                   readOnly
                   value={user?.email || ''}
-                  className="w-full bg-ivory-50 border border-ivory-200 rounded-xl px-4 py-2.5 text-charcoal-800"
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-white"
                 />
               </div>
               <div>
-                <label className="block text-charcoal-400 uppercase font-bold tracking-wider mb-1">Account Role</label>
-                <span className="inline-block px-3 py-1 bg-forest-900/10 text-forest-900 font-bold rounded-full uppercase tracking-wider text-[10px]">
+                <label className="block text-slate-400 uppercase font-bold tracking-wider mb-1">Account Role</label>
+                <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold rounded-full uppercase tracking-wider text-[10px]">
                   {user?.role || 'user'}
                 </span>
               </div>

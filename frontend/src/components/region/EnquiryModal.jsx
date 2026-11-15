@@ -54,13 +54,13 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-slate-950 text-white rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-slate-800 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-950/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="bg-forest-950 text-white rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-forest-750 shadow-2xl relative max-h-[90vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-forest-800 hover:bg-forest-750 text-white flex items-center justify-center transition-colors cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
@@ -68,13 +68,13 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
         {!submittedBooking ? (
           <div>
             <div className="mb-6">
-              <span className="text-[10px] uppercase font-extrabold tracking-widest text-amber-400 block mb-1">
+              <span className="text-[10px] uppercase font-extrabold tracking-widest text-lime-400 block mb-1">
                 Booking Enquiry (Status: Pending)
               </span>
               <h3 className="font-display text-2xl font-black text-white">
                 Submit Your Journey Request
               </h3>
-              <p className="text-xs text-slate-400 mt-1 font-medium">
+              <p className="text-xs text-slate-300 mt-1 font-medium">
                 {packageData?.packageName || 'Rajasthan Tour Package'}
               </p>
             </div>
@@ -87,20 +87,20 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
             )}
 
             {/* Summary Box */}
-            <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800 mb-6 text-xs space-y-2">
+            <div className="bg-forest-900 rounded-2xl p-4 border border-forest-800 mb-6 text-xs space-y-2">
               <div className="flex justify-between items-center text-slate-400">
                 <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-amber-400" /> Travel Date:
+                  <Calendar className="w-3.5 h-3.5 text-lime-400" /> Travel Date:
                 </span>
                 <span className="font-bold text-white">{enquiryParams?.travelDate}</span>
               </div>
               <div className="flex justify-between items-center text-slate-400">
                 <span className="flex items-center gap-1.5">
-                  <Users className="w-3.5 h-3.5 text-amber-400" /> Travellers:
+                  <Users className="w-3.5 h-3.5 text-lime-400" /> Travellers:
                 </span>
                 <span className="font-bold text-white">{enquiryParams?.travellers} Adults</span>
               </div>
-              <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
+              <div className="pt-2 border-t border-forest-800 flex justify-between items-center">
                 <span className="text-slate-400">Price Per Person:</span>
                 <span className="font-display text-sm font-bold text-white">
                   ₹{enquiryParams?.pricePerPerson?.toLocaleString('en-IN')}
@@ -108,7 +108,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-400">Calculated Total:</span>
-                <span className="font-display text-base font-black text-amber-400">
+                <span className="font-display text-base font-black text-lime-400">
                   ₹{enquiryParams?.estimatedTotal?.toLocaleString('en-IN')}
                 </span>
               </div>
@@ -126,7 +126,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Aarav Sharma"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
+                  className="w-full bg-forest-900 border border-forest-750 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
                 />
               </div>
 
@@ -141,7 +141,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="aarav@example.com"
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
+                    className="w-full bg-forest-900 border border-forest-750 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
                   />
                 </div>
 
@@ -155,7 +155,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+91 98765 43210"
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
+                    className="w-full bg-forest-900 border border-forest-750 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
                   />
                 </div>
               </div>
@@ -169,14 +169,14 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                   value={specialRequests}
                   onChange={(e) => setSpecialRequests(e.target.value)}
                   placeholder="e.g., Pure vegetarian meals, ground-floor heritage rooms..."
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
+                  className="w-full bg-forest-900 border border-forest-750 rounded-xl p-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full btn-gradient py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-xl flex items-center justify-center gap-2 mt-4 disabled:opacity-50 shadow-glow-saffron"
+                className="w-full btn-lime py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-full flex items-center justify-center gap-2 mt-4 disabled:opacity-50 shadow-lime-glow cursor-pointer"
               >
                 <span>{loading ? 'Submitting & Validating...' : 'Confirm & Send Enquiry'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -185,11 +185,11 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
           </div>
         ) : (
           <div className="text-center py-6">
-            <div className="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-4 border border-amber-500/50 shadow-glow-saffron">
+            <div className="w-14 h-14 rounded-full bg-lime-400/20 text-lime-400 flex items-center justify-center mx-auto mb-4 border border-lime-400/50 shadow-lime-glow">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
-            <span className="text-[10px] uppercase font-bold tracking-widest bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full">
+            <span className="text-[10px] uppercase font-bold tracking-widest bg-lime-400/20 text-lime-300 border border-lime-400/40 px-3 py-1 rounded-full">
               Status: {submittedBooking.bookingStatus || 'PENDING REVIEW'}
             </span>
 
@@ -198,7 +198,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
             </h3>
             
             <p className="text-xs text-slate-300 leading-relaxed mb-6 max-w-sm mx-auto font-normal">
-              Your booking reference is <strong className="text-amber-400 font-mono">{submittedBooking.bookingReference}</strong>. The server has permanently locked your pricing snapshot at ₹{submittedBooking.totalAmountSnapshot?.toLocaleString('en-IN')}.
+              Your booking reference is <strong className="text-lime-400 font-mono">{submittedBooking.bookingReference}</strong>. The server has permanently locked your pricing snapshot at ₹{submittedBooking.totalAmountSnapshot?.toLocaleString('en-IN')}.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -207,13 +207,13 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                   onClose();
                   navigate('/dashboard');
                 }}
-                className="btn-gradient text-xs uppercase tracking-wider py-3 px-6 font-bold"
+                className="btn-lime text-xs uppercase tracking-wider py-3 px-6 font-bold cursor-pointer"
               >
                 View in My Trips
               </button>
               <button
                 onClick={onClose}
-                className="btn-ghost-dark bg-white/10 text-white border-white/20 text-xs uppercase tracking-wider py-3 px-6 font-bold"
+                className="px-6 py-3 rounded-full bg-forest-800 text-slate-300 hover:text-white border border-forest-700 text-xs uppercase tracking-wider font-bold cursor-pointer"
               >
                 Back to Journey
               </button>

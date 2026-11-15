@@ -9,7 +9,7 @@ export default function ExplorePage() {
   const initialSearch = searchParams.get('search') || '';
 
   return (
-    <div className="pt-24 pb-16 bg-slate-50 min-h-screen">
+    <div className="pt-24 pb-16 bg-forest-900 min-h-screen text-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <ExploreGrid initialFilter={{ category: initialCategory, search: initialSearch, type: 'all' }} />
       </div>
