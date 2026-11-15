@@ -6,17 +6,17 @@ export default function IndiaFactsSection() {
   const icons = [MapPin, Compass, Award, ShieldCheck];
 
   return (
-    <section className="py-20 bg-ivory-50 border-y border-ivory-200">
+    <section className="py-24 bg-white border-y border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs uppercase tracking-widest text-gold-600 font-semibold mb-2 block">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-xs uppercase font-extrabold tracking-widest text-saffron-600 mb-2 block">
             Authenticity & Integrity
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-950">
+          <h2 className="font-display text-3xl sm:text-4xl font-black text-slate-950">
             India at a Glance
           </h2>
-          <p className="text-xs sm:text-sm text-charcoal-600 mt-2">
+          <p className="text-sm text-slate-600 mt-2 font-normal">
             Verified platform facts and geographic realities — without fabricated statistics.
           </p>
         </div>
@@ -27,19 +27,19 @@ export default function IndiaFactsSection() {
             return (
               <div
                 key={index}
-                className="bg-white rounded-3xl p-6 border border-ivory-200 shadow-soft flex flex-col justify-between"
+                className="bg-slate-50 rounded-3xl p-7 border border-slate-200/80 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all flex flex-col justify-between"
               >
-                <div className="w-10 h-10 rounded-2xl bg-forest-900/5 text-forest-800 flex items-center justify-center mb-6">
-                  <IconComponent className="w-5 h-5 text-gold-600" />
+                <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-saffron-600 flex items-center justify-center mb-6 shadow-sm">
+                  <IconComponent className="w-6 h-6" />
                 </div>
                 <div>
-                  <span className="font-serif text-2xl font-bold text-forest-950 block mb-1">
+                  <span className="font-display text-3xl font-black text-slate-950 block mb-1">
                     {fact.value}
                   </span>
-                  <h4 className="text-xs font-semibold text-charcoal-800 uppercase tracking-wider mb-2">
+                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">
                     {fact.label}
                   </h4>
-                  <p className="text-xs text-charcoal-500 leading-relaxed">
+                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
                     {fact.detail}
                   </p>
                 </div>

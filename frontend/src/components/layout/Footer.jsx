@@ -1,63 +1,63 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, Mail, ShieldCheck, Heart, ArrowUpRight } from 'lucide-react';
+import { Compass, Mail, ShieldCheck, Heart, ArrowUpRight, Sparkles } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="relative bg-forest-950 text-ivory-200 overflow-hidden pt-16 pb-12 border-t border-forest-800">
+    <footer className="relative bg-slate-950 text-slate-300 overflow-hidden pt-20 pb-12 border-t border-slate-900">
       
-      {/* Editorial Background Brand Watermark */}
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 pointer-events-none select-none opacity-5 whitespace-nowrap">
-        <span className="font-serif text-[120px] md:text-[200px] font-bold text-white tracking-widest uppercase">
+      {/* Background Brand Watermark */}
+      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 pointer-events-none select-none opacity-[0.03] whitespace-nowrap">
+        <span className="font-display text-[140px] md:text-[220px] font-black text-white tracking-widest uppercase">
           BHARAT DARSHAN
         </span>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Top Section: Brand & Newsletter */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+        {/* Top: Brand & Newsletter */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-14 border-b border-slate-900">
           
           <div className="lg:col-span-5 flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gold-500/20 border border-gold-500/60 flex items-center justify-center text-gold-400">
-                <Compass className="w-5 h-5 text-gold-400" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-saffron-500 to-amber-400 flex items-center justify-center text-white shadow-glow-saffron">
+                <Compass className="w-5 h-5 text-white" />
               </div>
-              <span className="font-serif text-2xl font-bold tracking-wide text-ivory-50">
+              <span className="font-display text-2xl font-black tracking-tight text-white">
                 Bharat Darshan
               </span>
             </div>
             
-            <p className="text-sm text-ivory-300 max-w-sm leading-relaxed">
-              Discover India. Experience Every Journey. A curated tourism platform covering all 28 Indian States and 8 Union Territories with exactly one flagship, geographically realistic tour package per region.
+            <p className="text-sm text-slate-400 max-w-sm leading-relaxed font-normal">
+              Discover India. Experience Every Journey. Dedicated to representing every State and Union Territory in India through one masterfully planned, culturally authentic, and geographically realistic itinerary.
             </p>
 
-            <div className="flex items-center gap-2 text-xs text-gold-400/90 pt-2">
-              <ShieldCheck className="w-4 h-4 text-gold-400" />
-              <span>Transparent Per-Person Pricing · Zero Client-Trust Architecture</span>
+            <div className="flex items-center gap-2 text-xs text-amber-400 font-semibold pt-1">
+              <ShieldCheck className="w-4 h-4 text-amber-400" />
+              <span>Zero-Trust Server Verified Pricing · Exactly 1 Tour / Region</span>
             </div>
           </div>
 
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <div className="bg-forest-900/60 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
-              <h4 className="font-serif text-lg font-medium text-ivory-100 mb-2">
-                Begin Your Journey Across India
+            <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md">
+              <h4 className="font-display text-xl font-bold text-white mb-2">
+                Stay Inspired for Your Next Journey
               </h4>
-              <p className="text-xs text-ivory-300 mb-4">
-                Receive our monthly editorial digest featuring seasonal routes, festival calendars, and travel guides.
+              <p className="text-xs text-slate-400 mb-5 font-normal">
+                Receive our monthly travel journal highlighting seasonal festival routes, regional cuisines, and verified travel tips across India.
               </p>
               
               <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-2 max-w-md">
                 <input
                   type="email"
-                  placeholder="Enter your email address"
-                  className="bg-forest-950/80 border border-white/15 rounded-full px-5 py-2.5 text-xs text-ivory-100 placeholder:text-ivory-300/60 focus:outline-none focus:border-gold-500 transition-colors flex-1"
+                  placeholder="Enter your email"
+                  className="bg-slate-950 border border-slate-800 rounded-2xl px-5 py-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 transition-colors flex-1"
                 />
                 <button
                   type="submit"
-                  className="btn-gold text-xs uppercase tracking-wider py-2.5 px-6 whitespace-nowrap"
+                  className="btn-gradient text-xs uppercase tracking-wider py-3 px-6 whitespace-nowrap font-bold"
                 >
-                  Join Digest
+                  Subscribe
                 </button>
               </form>
             </div>
@@ -65,77 +65,77 @@ export default function Footer() {
 
         </div>
 
-        {/* Middle Section: Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 text-xs">
+        {/* Links Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 text-xs">
           <div>
-            <h5 className="font-serif text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
-              Popular Regions
+            <h5 className="font-display text-xs font-black text-amber-400 uppercase tracking-widest mb-4">
+              Featured Flagships
             </h5>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3 font-medium">
               <li>
-                <Link to="/region/rajasthan" className="hover:text-gold-300 transition-colors flex items-center gap-1">
-                  Rajasthan <ArrowUpRight className="w-3 h-3 text-gold-500/60" />
+                <Link to="/region/rajasthan" className="hover:text-amber-300 transition-colors flex items-center gap-1 text-slate-300">
+                  Rajasthan Tour <ArrowUpRight className="w-3 h-3 text-saffron-500" />
                 </Link>
               </li>
               <li>
-                <Link to="/region/kerala" className="hover:text-gold-300 transition-colors">Kerala Backwaters</Link>
+                <Link to="/region/kerala" className="hover:text-amber-300 transition-colors text-slate-300">Kerala Backwaters</Link>
               </li>
               <li>
-                <Link to="/region/ladakh" className="hover:text-gold-300 transition-colors">Ladakh High Passes</Link>
+                <Link to="/region/ladakh" className="hover:text-amber-300 transition-colors text-slate-300">Ladakh High Passes</Link>
               </li>
               <li>
-                <Link to="/region/himachal-pradesh" className="hover:text-gold-300 transition-colors">Himachal Valleys</Link>
+                <Link to="/region/himachal-pradesh" className="hover:text-amber-300 transition-colors text-slate-300">Himachal Valleys</Link>
               </li>
               <li>
-                <Link to="/region/goa" className="hover:text-gold-300 transition-colors">Goa Heritage & Coast</Link>
+                <Link to="/region/goa" className="hover:text-amber-300 transition-colors text-slate-300">Goa Heritage & Coast</Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h5 className="font-serif text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
-              Experiences
+            <h5 className="font-display text-xs font-black text-amber-400 uppercase tracking-widest mb-4">
+              Explore Themes
             </h5>
-            <ul className="space-y-2.5">
-              <li><Link to="/#categories" className="hover:text-gold-300 transition-colors">Heritage & Palaces</Link></li>
-              <li><Link to="/#categories" className="hover:text-gold-300 transition-colors">Himalayan Escapes</Link></li>
-              <li><Link to="/#categories" className="hover:text-gold-300 transition-colors">Coastal Journeys</Link></li>
-              <li><Link to="/#categories" className="hover:text-gold-300 transition-colors">Wildlife & Jungles</Link></li>
-              <li><Link to="/#categories" className="hover:text-gold-300 transition-colors">Spiritual Pilgrimages</Link></li>
+            <ul className="space-y-3 font-medium">
+              <li><Link to="/#categories" className="hover:text-amber-300 transition-colors text-slate-300">Heritage & Palaces</Link></li>
+              <li><Link to="/#categories" className="hover:text-amber-300 transition-colors text-slate-300">Himalayan Escapes</Link></li>
+              <li><Link to="/#categories" className="hover:text-amber-300 transition-colors text-slate-300">Coastal Coastlines</Link></li>
+              <li><Link to="/#categories" className="hover:text-amber-300 transition-colors text-slate-300">Wildlife & Jungles</Link></li>
+              <li><Link to="/#categories" className="hover:text-amber-300 transition-colors text-slate-300">Spiritual Sanctuaries</Link></li>
             </ul>
           </div>
 
           <div>
-            <h5 className="font-serif text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
-              The Platform
+            <h5 className="font-display text-xs font-black text-amber-400 uppercase tracking-widest mb-4">
+              Platform
             </h5>
-            <ul className="space-y-2.5">
-              <li><Link to="/explore" className="hover:text-gold-300 transition-colors">All 36 States & UTs</Link></li>
-              <li><Link to="/about" className="hover:text-gold-300 transition-colors">About Bharat Darshan</Link></li>
-              <li><Link to="/login" className="hover:text-gold-300 transition-colors">Traveller Login</Link></li>
-              <li><Link to="/admin" className="hover:text-gold-300 transition-colors">Admin Portal</Link></li>
+            <ul className="space-y-3 font-medium">
+              <li><Link to="/explore" className="hover:text-amber-300 transition-colors text-slate-300">All 36 States & UTs</Link></li>
+              <li><Link to="/about" className="hover:text-amber-300 transition-colors text-slate-300">Our Vision</Link></li>
+              <li><Link to="/login" className="hover:text-amber-300 transition-colors text-slate-300">Traveller Sign In</Link></li>
+              <li><Link to="/admin" className="hover:text-amber-300 transition-colors text-slate-300">Admin Portal</Link></li>
             </ul>
           </div>
 
           <div>
-            <h5 className="font-serif text-sm font-semibold text-gold-400 uppercase tracking-wider mb-4">
-              Philosophy & Guarantee
+            <h5 className="font-display text-xs font-black text-amber-400 uppercase tracking-widest mb-4">
+              Authentic Travel
             </h5>
-            <p className="text-ivory-300 leading-relaxed">
-              We never fabricate customer reviews, fake view counters, or artificial discounts. Every itinerary is planned around geographic reality and authentic local culture.
+            <p className="text-slate-400 leading-relaxed font-normal">
+              We never fabricate customer numbers, fake countdown timers, or artificial discounts. Every itinerary is planned around geographic reality and living local culture.
             </p>
           </div>
         </div>
 
-        {/* Bottom Section: Copyright */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-ivory-300">
-          <p>© {new Date().getFullYear()} Bharat Darshan. Designed & Built with Pride for Incredible India.</p>
-          <div className="flex items-center gap-6">
+        {/* Bottom */}
+        <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© {new Date().getFullYear()} Bharat Darshan. Built with Pride for Incredible India.</p>
+          <div className="flex items-center gap-6 font-semibold">
             <span>28 Indian States</span>
             <span>·</span>
             <span>8 Union Territories</span>
             <span>·</span>
-            <span>36 Flagship Journeys</span>
+            <span>36 Curated Journeys</span>
           </div>
         </div>
 

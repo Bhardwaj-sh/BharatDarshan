@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FAQS } from '../../data/regionsData';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState(0);
@@ -10,18 +10,19 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="py-20 md:py-28 bg-ivory-100 text-charcoal-800">
+    <section className="py-24 bg-slate-50 text-slate-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center mb-14">
-          <span className="text-xs uppercase tracking-widest text-gold-600 font-semibold mb-2 block">
-            Clear Guidance
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-950">
-            Answers to Your Questions
+        <div className="text-center mb-16">
+          <div className="badge-glow mb-4">
+            <HelpCircle className="w-3.5 h-3.5 text-saffron-500" />
+            <span>Clear Guidance</span>
+          </div>
+          <h2 className="font-display text-4xl sm:text-5xl font-black text-slate-950">
+            Frequently Asked Questions
           </h2>
-          <p className="text-xs sm:text-sm text-charcoal-600 mt-2 max-w-lg mx-auto">
-            Everything you need to know about our single-package philosophy, pricing transparency, and the enquiry process.
+          <p className="text-sm text-slate-600 mt-2 max-w-lg mx-auto font-normal">
+            Everything you need to know about our single-package philosophy, pricing transparency, and booking enquiry workflow.
           </p>
         </div>
 
@@ -33,28 +34,28 @@ export default function FaqSection() {
                 key={index}
                 className={`rounded-2xl transition-all duration-300 overflow-hidden border ${
                   isOpen
-                    ? 'bg-forest-950 text-white border-forest-800 shadow-md'
-                    : 'bg-white text-charcoal-800 border-ivory-200 shadow-soft hover:border-ivory-300'
+                    ? 'bg-slate-950 text-white border-slate-900 shadow-xl'
+                    : 'bg-white text-slate-800 border-slate-200/80 shadow-soft hover:border-slate-300'
                 }`}
               >
                 <button
                   onClick={() => toggleFaq(index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
                 >
-                  <span className={`font-serif text-base sm:text-lg font-medium pr-4 ${
-                    isOpen ? 'text-gold-400' : 'text-forest-950'
+                  <span className={`font-display text-base sm:text-lg font-bold pr-4 ${
+                    isOpen ? 'text-amber-400' : 'text-slate-950'
                   }`}>
                     {faq.question}
                   </span>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 ${
-                    isOpen ? 'rotate-180 bg-forest-800 text-gold-400' : 'bg-ivory-100 text-charcoal-600'
+                    isOpen ? 'rotate-180 bg-white/10 text-amber-400' : 'bg-slate-100 text-slate-600'
                   }`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-1 text-xs sm:text-sm text-ivory-200/90 leading-relaxed border-t border-forest-900/60 animate-in fade-in duration-200">
+                  <div className="px-6 pb-6 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-white/10 animate-in fade-in duration-200">
                     {faq.answer}
                   </div>
                 )}

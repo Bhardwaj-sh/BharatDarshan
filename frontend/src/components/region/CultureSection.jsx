@@ -1,37 +1,37 @@
 import React from 'react';
-import { Utensils, Sparkles, Calendar, Sun, CloudRain, Snowflake } from 'lucide-react';
+import { Utensils, Sparkles, Calendar } from 'lucide-react';
 
 export default function CultureSection({ cultureData, seasons = [] }) {
   if (!cultureData) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-ivory-100 text-charcoal-800">
+    <section className="py-20 bg-slate-50 text-slate-900 border-t border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Culinary & Food */}
+        {/* Culinary Traditions */}
         <div className="mb-16">
-          <div className="max-w-3xl mb-8">
-            <span className="text-xs uppercase tracking-widest text-gold-600 font-bold block mb-2">
+          <div className="max-w-3xl mb-10">
+            <span className="text-xs uppercase font-extrabold tracking-widest text-saffron-600 block mb-2">
               Gastronomic Traditions
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-950">
+            <h2 className="font-display text-3xl sm:text-4xl font-black text-slate-950">
               Regional Flavors & Culinary Heritage
             </h2>
-            <p className="text-xs sm:text-sm text-charcoal-600 mt-2">
-              Every day of the itinerary includes curated opportunities to savor traditional dishes.
+            <p className="text-sm text-slate-600 mt-2 font-normal">
+              Every day of your journey offers curated opportunities to savor authentic delicacies.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {cultureData.dishes?.map((dish, idx) => (
-              <div key={idx} className="bg-white rounded-3xl p-6 border border-ivory-200 shadow-soft">
-                <div className="w-9 h-9 rounded-full bg-gold-500/10 text-gold-600 flex items-center justify-center mb-4">
+              <div key={idx} className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+                <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4 border border-amber-200/50">
                   <Utensils className="w-4 h-4" />
                 </div>
-                <h4 className="font-serif text-lg font-bold text-forest-950 mb-2">
+                <h4 className="font-display text-lg font-bold text-slate-950 mb-2">
                   {dish.name}
                 </h4>
-                <p className="text-xs text-charcoal-600 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
                   {dish.desc}
                 </p>
               </div>
@@ -39,40 +39,40 @@ export default function CultureSection({ cultureData, seasons = [] }) {
           </div>
         </div>
 
-        {/* Culture, Festivals & Weather Guidance */}
+        {/* Culture & Climate Guidance */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Festivals & Handicrafts */}
-          <div className="lg:col-span-6 bg-white rounded-3xl p-8 border border-ivory-200 shadow-soft">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-gold-600 font-bold mb-4">
+          {/* Festivals & Crafts */}
+          <div className="lg:col-span-6 bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft">
+            <div className="flex items-center gap-2 text-xs uppercase font-extrabold tracking-widest text-saffron-600 mb-5">
               <Sparkles className="w-4 h-4" />
               <span>Festivals & Living Crafts</span>
             </div>
 
             <div className="space-y-6">
               <div>
-                <h4 className="font-serif text-lg font-bold text-forest-950 mb-2">
+                <h4 className="font-display text-lg font-bold text-slate-950 mb-3">
                   Celebrated Festivals
                 </h4>
                 <div className="space-y-3">
                   {cultureData.festivals?.map((f, i) => (
-                    <div key={i} className="bg-ivory-50 rounded-2xl p-4 border border-ivory-200/80">
-                      <span className="font-semibold text-xs text-forest-950 block">{f.name}</span>
-                      <span className="text-xs text-charcoal-600 mt-0.5 block">{f.desc}</span>
+                    <div key={i} className="bg-slate-50 rounded-2xl p-4 border border-slate-200/70">
+                      <span className="font-bold text-xs text-slate-950 block">{f.name}</span>
+                      <span className="text-xs text-slate-600 mt-0.5 block font-normal">{f.desc}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h4 className="font-serif text-lg font-bold text-forest-950 mb-2">
+                <h4 className="font-display text-lg font-bold text-slate-950 mb-3">
                   Master Handicrafts
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {cultureData.handicrafts?.map((craft, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 rounded-full bg-forest-900/5 text-forest-900 text-xs font-medium border border-forest-900/10"
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-800 text-xs font-semibold border border-slate-200/60"
                     >
                       {craft}
                     </span>
@@ -82,35 +82,35 @@ export default function CultureSection({ cultureData, seasons = [] }) {
             </div>
           </div>
 
-          {/* Seasonal Weather Guidance (Accurate, non-fabricated) */}
-          <div className="lg:col-span-6 bg-forest-950 text-ivory-100 rounded-3xl p-8 border border-white/10 shadow-soft">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-gold-400 font-bold mb-2">
+          {/* Seasonal Weather Guidance */}
+          <div className="lg:col-span-6 bg-slate-950 text-white rounded-3xl p-8 border border-slate-800 shadow-xl">
+            <div className="flex items-center gap-2 text-xs uppercase font-extrabold tracking-widest text-amber-400 mb-2">
               <Calendar className="w-4 h-4" />
               <span>Climate & Best Time to Visit</span>
             </div>
-            <h3 className="font-serif text-2xl font-bold text-white mb-6">
+            <h3 className="font-display text-2xl font-black text-white mb-6">
               Seasonal Travel Guidance
             </h3>
 
             <div className="space-y-4">
               {seasons.map((season, idx) => (
-                <div key={idx} className="bg-forest-900/80 rounded-2xl p-4 border border-white/10">
+                <div key={idx} className="bg-slate-900 rounded-2xl p-4 border border-slate-800">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="font-serif font-bold text-sm text-gold-400">
+                    <span className="font-display font-bold text-sm text-amber-300">
                       {season.season}
                     </span>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-forest-800 text-ivory-200 border border-white/10">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-3 py-0.5 rounded-full bg-white/10 text-slate-200 border border-white/10">
                       {season.status} · {season.temp}
                     </span>
                   </div>
-                  <p className="text-xs text-ivory-300 leading-relaxed">
+                  <p className="text-xs text-slate-400 leading-relaxed font-normal">
                     {season.notes}
                   </p>
                 </div>
               ))}
             </div>
 
-            <p className="text-[10px] text-ivory-400 mt-6 italic">
+            <p className="text-[10px] text-slate-500 mt-6 italic">
               * Note: Climate estimates reflect historical meteorological patterns for the region rather than live sensors.
             </p>
           </div>

@@ -137,7 +137,7 @@ export default function RegionDetailPage() {
   };
 
   return (
-    <div className="w-full bg-ivory-100 text-charcoal-800">
+    <div className="w-full bg-slate-50 text-slate-900">
       
       {/* 1. Cinematic Hero */}
       <RegionHero region={regionData} />
@@ -152,16 +152,16 @@ export default function RegionDetailPage() {
       <AttractionGallery attractions={regionData.majorAttractions} />
 
       {/* 5. Interactive Leaflet Route Map */}
-      <section className="py-16 md:py-20 bg-ivory-100">
+      <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-8">
-            <span className="text-xs uppercase tracking-widest text-gold-600 font-bold block mb-2">
+            <span className="text-xs uppercase font-extrabold tracking-widest text-saffron-600 block mb-2">
               Geographic Realities
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-950">
+            <h2 className="font-display text-3xl sm:text-4xl font-black text-slate-950">
               Interactive Route & Stop Map
             </h2>
-            <p className="text-xs sm:text-sm text-charcoal-600 mt-2">
+            <p className="text-sm text-slate-600 mt-2 font-normal">
               Verified geographic markers powered by Leaflet and OpenStreetMap. Track the logical circular route across {regionData.name}.
             </p>
           </div>
@@ -171,7 +171,7 @@ export default function RegionDetailPage() {
       </section>
 
       {/* 6. Main Itinerary & Price Calculator Dual Layout */}
-      <section id="itinerary-section" className="py-16 md:py-24 bg-white border-y border-ivory-200 scroll-mt-24">
+      <section id="itinerary-section" className="py-20 md:py-24 bg-white border-y border-slate-200/80 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -195,33 +195,33 @@ export default function RegionDetailPage() {
       </section>
 
       {/* 7. Package Inclusions & Exclusions Card */}
-      <section className="py-16 bg-ivory-50 border-b border-ivory-200">
+      <section className="py-20 bg-slate-50 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="bg-white rounded-3xl p-8 border border-ivory-200 shadow-soft">
+          <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft">
             <div className="mb-6">
-              <span className="text-xs uppercase tracking-widest text-gold-600 font-bold block mb-1">
+              <span className="text-xs uppercase font-extrabold tracking-widest text-saffron-600 block mb-1">
                 Complete Package Details
               </span>
-              <h3 className="font-serif text-2xl font-bold text-forest-950">
+              <h3 className="font-display text-2xl sm:text-3xl font-black text-slate-950">
                 {regionData.package?.packageName || regionData.package?.name}
               </h3>
-              <p className="text-xs text-charcoal-600 mt-1">
+              <p className="text-xs text-slate-500 mt-1 font-semibold">
                 Code: {regionData.package?.code} · Duration: {regionData.durationDays}D / {regionData.durationNights}N
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-ivory-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-slate-100">
               
               {/* Inclusions */}
               <div>
-                <h4 className="font-serif text-base font-bold text-emerald-800 mb-4 flex items-center gap-2">
+                <h4 className="font-display text-base font-bold text-emerald-800 mb-4 flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-600" />
                   <span>What is Included in Your Tour</span>
                 </h4>
-                <ul className="space-y-2.5">
+                <ul className="space-y-3">
                   {regionData.package?.inclusions?.map((inc, i) => (
-                    <li key={i} className="text-xs text-charcoal-700 flex items-start gap-2.5">
+                    <li key={i} className="text-xs text-slate-700 flex items-start gap-2.5 font-normal">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-1.5 flex-shrink-0" />
                       <span>{inc}</span>
                     </li>
@@ -231,13 +231,13 @@ export default function RegionDetailPage() {
 
               {/* Exclusions */}
               <div>
-                <h4 className="font-serif text-base font-bold text-rose-800 mb-4 flex items-center gap-2">
+                <h4 className="font-display text-base font-bold text-rose-800 mb-4 flex items-center gap-2">
                   <X className="w-4 h-4 text-rose-600" />
                   <span>Exclusions & Notes</span>
                 </h4>
-                <ul className="space-y-2.5">
+                <ul className="space-y-3">
                   {regionData.package?.exclusions?.map((exc, i) => (
-                    <li key={i} className="text-xs text-charcoal-700 flex items-start gap-2.5">
+                    <li key={i} className="text-xs text-slate-700 flex items-start gap-2.5 font-normal">
                       <span className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1.5 flex-shrink-0" />
                       <span>{exc}</span>
                     </li>

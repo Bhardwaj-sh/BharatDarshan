@@ -74,23 +74,23 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="pt-28 pb-20 bg-ivory-100 min-h-screen text-charcoal-800">
+    <div className="pt-28 pb-20 bg-slate-50 min-h-screen text-slate-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Welcome Header */}
-        <div className="bg-forest-950 text-white rounded-3xl p-6 sm:p-10 mb-8 border border-forest-900 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="bg-slate-950 text-white rounded-3xl p-6 sm:p-10 mb-8 border border-slate-900 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-gold-500/20 border-2 border-gold-400 flex items-center justify-center text-gold-400 font-serif text-2xl font-bold">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-saffron-500 to-amber-400 flex items-center justify-center text-white font-display text-2xl font-black shadow-glow-saffron">
               {user?.name ? user.name[0].toUpperCase() : 'U'}
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-gold-400 block mb-1">
+              <span className="text-[10px] uppercase font-extrabold tracking-widest text-amber-400 block mb-1">
                 Traveller Portal
               </span>
-              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+              <h1 className="font-display text-2xl sm:text-3xl font-black text-white">
                 Namaste, {user?.name || 'Traveller'}
               </h1>
-              <p className="text-xs text-ivory-300 mt-1">
+              <p className="text-xs text-slate-400 mt-1">
                 {user?.email} · Member of Bharat Darshan
               </p>
             </div>
@@ -99,35 +99,35 @@ export default function UserDashboard() {
           <div className="flex items-center gap-3">
             <button
               onClick={fetchTrips}
-              className="p-2.5 rounded-full bg-forest-900 border border-white/10 text-ivory-300 hover:text-white transition-colors"
+              className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors"
               title="Refresh Enquiries"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
-            <Link to="/explore" className="btn-gold text-xs uppercase tracking-wider py-2.5 px-5">
+            <Link to="/explore" className="btn-gradient text-xs uppercase tracking-wider py-2.5 px-5 font-bold">
               Explore More Regions
             </Link>
           </div>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 mb-8 border-b border-ivory-200 pb-3">
+        <div className="flex items-center gap-2 mb-8 border-b border-slate-200 pb-3">
           <button
             onClick={() => setActiveTab('trips')}
-            className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
+            className={`px-5 py-2.5 rounded-2xl text-xs font-bold transition-all ${
               activeTab === 'trips'
-                ? 'bg-forest-800 text-white shadow-sm'
-                : 'text-charcoal-600 hover:text-forest-950 hover:bg-white'
+                ? 'bg-slate-950 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-950 hover:bg-white'
             }`}
           >
             My Trips & Enquiries ({bookings.length})
           </button>
           <button
             onClick={() => setActiveTab('profile')}
-            className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
+            className={`px-5 py-2.5 rounded-2xl text-xs font-bold transition-all ${
               activeTab === 'profile'
-                ? 'bg-forest-800 text-white shadow-sm'
-                : 'text-charcoal-600 hover:text-forest-950 hover:bg-white'
+                ? 'bg-slate-950 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-950 hover:bg-white'
             }`}
           >
             Profile & Settings

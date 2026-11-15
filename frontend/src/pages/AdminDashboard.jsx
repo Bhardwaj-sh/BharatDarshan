@@ -69,32 +69,32 @@ export default function AdminDashboard() {
   const confirmedCount = bookings.filter((b) => (b.bookingStatus || b.status) === 'Confirmed').length;
 
   return (
-    <div className="pt-28 pb-20 bg-ivory-100 min-h-screen text-charcoal-800">
+    <div className="pt-28 pb-20 bg-slate-50 min-h-screen text-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/10 text-forest-900 text-xs font-bold uppercase tracking-wider mb-2">
-              <ShieldCheck className="w-4 h-4 text-gold-600" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold uppercase tracking-wider mb-2 shadow-sm">
+              <ShieldCheck className="w-4 h-4 text-amber-400" />
               <span>Admin Management Portal</span>
             </div>
-            <h1 className="font-serif text-3xl font-bold text-forest-950">
+            <h1 className="font-display text-3xl sm:text-4xl font-black text-slate-950">
               Operations & Enquiries Console
             </h1>
-            <p className="text-xs text-charcoal-600 mt-1">
+            <p className="text-xs text-slate-600 mt-1 font-normal">
               Live server connection: Review customer enquiries, update booking statuses, and enforce 1-to-1 region mapping.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={loadAdminData}
-              className="p-2.5 rounded-full bg-white border border-ivory-200 text-charcoal-600 hover:text-forest-950 shadow-sm"
+              className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-950 shadow-sm"
               title="Refresh Data"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
-            <Link to="/" className="btn-outline-forest text-xs py-2.5 px-5 rounded-full">
+            <Link to="/" className="btn-ghost-dark text-xs py-2.5 px-5 rounded-xl">
               Return to Public Site
             </Link>
           </div>

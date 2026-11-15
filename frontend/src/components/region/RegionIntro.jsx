@@ -5,70 +5,67 @@ export default function RegionIntro({ intro, name }) {
   if (!intro) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-ivory-100 text-charcoal-800">
+    <section className="py-20 bg-slate-50 text-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="max-w-3xl mb-12">
-          <span className="text-xs uppercase tracking-widest text-gold-600 font-bold block mb-2">
-            The Living Heritage
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest-950">
+        <div className="max-w-3xl mb-14">
+          <div className="badge-glow mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-saffron-500" />
+            <span>Living Heritage</span>
+          </div>
+          <h2 className="font-display text-3xl sm:text-4xl font-black text-slate-950">
             About {name}: Royalty, Sand & Spirit
           </h2>
         </div>
 
-        {/* 4-Pillar Grid */}
+        {/* 4 Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
-          {/* History */}
-          <div className="bg-white rounded-3xl p-8 border border-ivory-200 shadow-soft">
-            <div className="w-10 h-10 rounded-2xl bg-forest-900/5 text-forest-800 flex items-center justify-center mb-4">
-              <Landmark className="w-5 h-5 text-gold-600" />
+          <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft hover:shadow-card transition-all">
+            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-5 border border-amber-200/60">
+              <Landmark className="w-6 h-6" />
             </div>
-            <h3 className="font-serif text-xl font-bold text-forest-950 mb-3">
+            <h3 className="font-display text-xl font-bold text-slate-950 mb-3">
               Historical Legacy
             </h3>
-            <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
               {intro.history}
             </p>
           </div>
 
-          {/* Geography */}
-          <div className="bg-white rounded-3xl p-8 border border-ivory-200 shadow-soft">
-            <div className="w-10 h-10 rounded-2xl bg-forest-900/5 text-forest-800 flex items-center justify-center mb-4">
-              <Mountain className="w-5 h-5 text-gold-600" />
+          <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft hover:shadow-card transition-all">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-5 border border-emerald-200/60">
+              <Mountain className="w-6 h-6" />
             </div>
-            <h3 className="font-serif text-xl font-bold text-forest-950 mb-3">
+            <h3 className="font-display text-xl font-bold text-slate-950 mb-3">
               Geography & Terrain
             </h3>
-            <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
               {intro.geography}
             </p>
           </div>
 
-          {/* Culture */}
-          <div className="bg-white rounded-3xl p-8 border border-ivory-200 shadow-soft">
-            <div className="w-10 h-10 rounded-2xl bg-forest-900/5 text-forest-800 flex items-center justify-center mb-4">
-              <Sparkles className="w-5 h-5 text-gold-600" />
+          <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft hover:shadow-card transition-all">
+            <div className="w-12 h-12 rounded-2xl bg-saffron-50 text-saffron-600 flex items-center justify-center mb-5 border border-saffron-200/60">
+              <Sparkles className="w-6 h-6" />
             </div>
-            <h3 className="font-serif text-xl font-bold text-forest-950 mb-3">
+            <h3 className="font-display text-xl font-bold text-slate-950 mb-3">
               Art & Living Culture
             </h3>
-            <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
               {intro.culture}
             </p>
           </div>
 
-          {/* What makes it distinctive */}
-          <div className="bg-white rounded-3xl p-8 border border-ivory-200 shadow-soft">
-            <div className="w-10 h-10 rounded-2xl bg-forest-900/5 text-forest-800 flex items-center justify-center mb-4">
-              <BookOpen className="w-5 h-5 text-gold-600" />
+          <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft hover:shadow-card transition-all">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-5 border border-indigo-200/60">
+              <BookOpen className="w-6 h-6" />
             </div>
-            <h3 className="font-serif text-xl font-bold text-forest-950 mb-3">
+            <h3 className="font-display text-xl font-bold text-slate-950 mb-3">
               What Sets It Apart
             </h3>
-            <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
               {intro.distinctive}
             </p>
           </div>

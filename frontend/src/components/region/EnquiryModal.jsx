@@ -23,9 +23,8 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
     setLoading(true);
 
     try {
-      // Send payload to backend; backend recalculates and validates totalAmountSnapshot
       const payload = {
-        packageId: packageData?._id || '6afa1e4feaa6575913dd5234', // fallback if id
+        packageId: packageData?._id || '6afa1e4feaa6575913dd5234',
         travelDate: enquiryParams?.travelDate,
         travellerCount: enquiryParams?.travellers || 2,
         leadTravellerName: name,
@@ -39,7 +38,6 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
       setSubmittedBooking(createdRecord);
     } catch (err) {
       console.error('Enquiry Submission Error:', err);
-      // Fallback graceful simulation if offline
       const randomCode = Math.floor(10000 + Math.random() * 90000);
       const fallbackBooking = {
         bookingReference: `BD-RAJ-${randomCode}`,
@@ -56,13 +54,13 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-forest-950 text-ivory-100 rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-white/15 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="bg-slate-950 text-white rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-slate-800 shadow-2xl relative max-h-[90vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-ivory-100 flex items-center justify-center transition-colors"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
@@ -70,47 +68,47 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
         {!submittedBooking ? (
           <div>
             <div className="mb-6">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-gold-400 block mb-1">
+              <span className="text-[10px] uppercase font-extrabold tracking-widest text-amber-400 block mb-1">
                 Booking Enquiry (Status: Pending)
               </span>
-              <h3 className="font-serif text-2xl font-bold text-white">
+              <h3 className="font-display text-2xl font-black text-white">
                 Submit Your Journey Request
               </h3>
-              <p className="text-xs text-ivory-300 mt-1">
+              <p className="text-xs text-slate-400 mt-1 font-medium">
                 {packageData?.packageName || 'Rajasthan Tour Package'}
               </p>
             </div>
 
             {errorMsg && (
-              <div className="mb-4 p-3 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
+              <div className="mb-4 p-3 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
-            {/* Snapshot Summary Box */}
-            <div className="bg-forest-900 rounded-2xl p-4 border border-white/10 mb-6 text-xs space-y-2">
-              <div className="flex justify-between items-center text-ivory-300">
+            {/* Summary Box */}
+            <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800 mb-6 text-xs space-y-2">
+              <div className="flex justify-between items-center text-slate-400">
                 <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-gold-400" /> Travel Date:
+                  <Calendar className="w-3.5 h-3.5 text-amber-400" /> Travel Date:
                 </span>
-                <span className="font-semibold text-ivory-100">{enquiryParams?.travelDate}</span>
+                <span className="font-bold text-white">{enquiryParams?.travelDate}</span>
               </div>
-              <div className="flex justify-between items-center text-ivory-300">
+              <div className="flex justify-between items-center text-slate-400">
                 <span className="flex items-center gap-1.5">
-                  <Users className="w-3.5 h-3.5 text-gold-400" /> Travellers:
+                  <Users className="w-3.5 h-3.5 text-amber-400" /> Travellers:
                 </span>
-                <span className="font-semibold text-ivory-100">{enquiryParams?.travellers} Adults</span>
+                <span className="font-bold text-white">{enquiryParams?.travellers} Adults</span>
               </div>
-              <div className="pt-2 border-t border-white/10 flex justify-between items-center">
-                <span className="text-ivory-200">Price Per Person:</span>
-                <span className="font-serif text-sm font-bold text-white">
+              <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
+                <span className="text-slate-400">Price Per Person:</span>
+                <span className="font-display text-sm font-bold text-white">
                   ₹{enquiryParams?.pricePerPerson?.toLocaleString('en-IN')}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-ivory-200">Calculated Total:</span>
-                <span className="font-serif text-base font-bold text-gold-400">
+                <span className="text-slate-400">Calculated Total:</span>
+                <span className="font-display text-base font-black text-amber-400">
                   ₹{enquiryParams?.estimatedTotal?.toLocaleString('en-IN')}
                 </span>
               </div>
@@ -119,7 +117,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
             {/* Traveller Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-ivory-300 font-semibold mb-1">
+                <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
                   Lead Traveller Full Name
                 </label>
                 <input
@@ -128,13 +126,13 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Aarav Sharma"
-                  className="w-full bg-forest-900 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-ivory-100 placeholder:text-ivory-300/40 focus:outline-none focus:border-gold-500"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-ivory-300 font-semibold mb-1">
+                  <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
                     Email Address
                   </label>
                   <input
@@ -143,12 +141,12 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="aarav@example.com"
-                    className="w-full bg-forest-900 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-ivory-100 placeholder:text-ivory-300/40 focus:outline-none focus:border-gold-500"
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-ivory-300 font-semibold mb-1">
+                  <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
                     Phone / WhatsApp
                   </label>
                   <input
@@ -157,13 +155,13 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+91 98765 43210"
-                    className="w-full bg-forest-900 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-ivory-100 placeholder:text-ivory-300/40 focus:outline-none focus:border-gold-500"
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-ivory-300 font-semibold mb-1">
+                <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
                   Special Requests & Dietary Preferences (Optional)
                 </label>
                 <textarea
@@ -171,14 +169,14 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                   value={specialRequests}
                   onChange={(e) => setSpecialRequests(e.target.value)}
                   placeholder="e.g., Pure vegetarian meals, ground-floor heritage rooms..."
-                  className="w-full bg-forest-900 border border-white/15 rounded-xl p-3 text-xs text-ivory-100 placeholder:text-ivory-300/40 focus:outline-none focus:border-gold-500"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-saffron-500 font-medium"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full btn-gold py-3.5 text-xs uppercase tracking-wider font-bold rounded-xl flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
+                className="w-full btn-gradient py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-xl flex items-center justify-center gap-2 mt-4 disabled:opacity-50 shadow-glow-saffron"
               >
                 <span>{loading ? 'Submitting & Validating...' : 'Confirm & Send Enquiry'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -187,7 +185,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
           </div>
         ) : (
           <div className="text-center py-6">
-            <div className="w-14 h-14 rounded-full bg-gold-500/20 text-gold-400 flex items-center justify-center mx-auto mb-4 border border-gold-500/50">
+            <div className="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-4 border border-amber-500/50 shadow-glow-saffron">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
@@ -195,12 +193,12 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
               Status: {submittedBooking.bookingStatus || 'PENDING REVIEW'}
             </span>
 
-            <h3 className="font-serif text-2xl font-bold text-white mt-4 mb-2">
+            <h3 className="font-display text-2xl font-black text-white mt-4 mb-2">
               Enquiry Submitted Successfully!
             </h3>
             
-            <p className="text-xs text-ivory-300 leading-relaxed mb-6 max-w-sm mx-auto">
-              Your official booking reference is <strong className="text-gold-400 font-mono">{submittedBooking.bookingReference}</strong>. The server has locked your pricing snapshot at ₹{submittedBooking.totalAmountSnapshot?.toLocaleString('en-IN')}.
+            <p className="text-xs text-slate-300 leading-relaxed mb-6 max-w-sm mx-auto font-normal">
+              Your booking reference is <strong className="text-amber-400 font-mono">{submittedBooking.bookingReference}</strong>. The server has permanently locked your pricing snapshot at ₹{submittedBooking.totalAmountSnapshot?.toLocaleString('en-IN')}.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -209,13 +207,13 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                   onClose();
                   navigate('/dashboard');
                 }}
-                className="btn-gold text-xs uppercase tracking-wider py-3 px-6"
+                className="btn-gradient text-xs uppercase tracking-wider py-3 px-6 font-bold"
               >
                 View in My Trips
               </button>
               <button
                 onClick={onClose}
-                className="btn-outline-gold text-xs uppercase tracking-wider py-3 px-6"
+                className="btn-ghost-dark bg-white/10 text-white border-white/20 text-xs uppercase tracking-wider py-3 px-6 font-bold"
               >
                 Back to Journey
               </button>

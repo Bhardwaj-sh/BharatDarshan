@@ -7,42 +7,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        forest: {
-          950: '#091411',
-          900: '#0D1D19',
-          800: '#142B25', // Main deep forest green
-          700: '#1C3B33',
-          600: '#285247',
-          500: '#3B5B4F',
+        midnight: {
+          950: '#030712', // Deep sleek obsidian
+          900: '#0B0F19', // Modern dark surface
+          800: '#111827',
+          700: '#1E293B',
+          600: '#334155',
+          500: '#64748B',
         },
-        gold: {
-          300: '#F3DAB0',
-          400: '#E5BA7D',
-          500: '#D5A45D', // Main warm golden accent
-          600: '#B8863A',
-          700: '#8E6322',
+        saffron: {
+          50: '#FFF7ED',
+          100: '#FFEDD5',
+          200: '#FED7AA',
+          400: '#FB923C',
+          500: '#F97316', // Electric vibrant saffron
+          600: '#EA580C',
         },
-        ivory: {
-          50: '#FCFAF7',
-          100: '#F5F0E7', // Main warm ivory
-          200: '#EBE4D5',
-          300: '#DDD3BF',
-        },
-        charcoal: {
-          900: '#191C22',
-          800: '#252A32', // Main charcoal
-          700: '#343A44',
-          600: '#4D5460',
+        sunset: {
+          start: '#FF5E3A',
+          mid: '#FF2A6D',
+          end: '#9B51E0'
         }
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Outfit"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'soft': '0 10px 30px -5px rgba(20, 43, 37, 0.08)',
-        'card': '0 14px 34px -10px rgba(13, 29, 25, 0.12)',
-        'glow-gold': '0 0 25px -5px rgba(213, 164, 93, 0.3)',
+        'soft': '0 10px 30px -5px rgba(15, 23, 42, 0.06)',
+        'card': '0 20px 40px -15px rgba(15, 23, 42, 0.08)',
+        'card-hover': '0 25px 50px -12px rgba(249, 115, 22, 0.15)',
+        'glow-saffron': '0 10px 30px -5px rgba(249, 115, 22, 0.4)',
+        'glow-glass': '0 8px 32px 0 rgba(0, 0, 0, 0.25)',
       }
     },
   },
