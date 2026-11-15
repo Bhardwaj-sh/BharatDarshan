@@ -661,6 +661,75 @@ export const REGIONS_DATA = [
   }
 ];
 
+// Curated 3-Panel Photographic Mosaic for the Grand Destination Showcase
+export const REGION_PANEL_PRESETS = {
+  rajasthan: {
+    primary: { image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=85', title: 'Amber Fort Citadel', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80', title: 'Thar Desert Dunes', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80', title: 'Lake Pichola Palace', tag: '03' }
+  },
+  kerala: {
+    primary: { image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=85', title: 'Alleppey Backwaters', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80', title: 'Munnar Tea Hills', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80', title: 'Varkala Ocean Cliffs', tag: '03' }
+  },
+  ladakh: {
+    primary: { image: 'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=800&q=85', title: 'Pangong Tso Crystal', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&w=600&q=80', title: 'Thiksey Gompa', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80', title: 'Nubra Dunes & Passes', tag: '03' }
+  },
+  'jammu-and-kashmir': {
+    primary: { image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=85', title: 'Dal Lake Shikara', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=600&q=80', title: 'Gulmarg Gondola', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=80', title: 'Betaab Valley Pines', tag: '03' }
+  },
+  meghalaya: {
+    primary: { image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=85', title: 'Living Root Bridge', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80', title: 'Nohkalikai Cascades', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&w=600&q=80', title: 'Dawki Glass River', tag: '03' }
+  },
+  goa: {
+    primary: { image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=85', title: 'Fontainhas Heritage', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80', title: 'Palolem Golden Sands', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1575550959106-5a7defe28b56?auto=format&fit=crop&w=600&q=80', title: 'Dudhsagar Cascades', tag: '03' }
+  },
+  'himachal-pradesh': {
+    primary: { image: 'https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&w=800&q=85', title: 'Spiti Valley Monasteries', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80', title: 'Solang Valley Snow', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=80', title: 'Dharamshala Pines', tag: '03' }
+  },
+  'uttar-pradesh': {
+    primary: { image: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=85', title: 'Varanasi Ganga Aarti', tag: '01' },
+    secondary: { image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=600&q=80', title: 'Taj Mahal at Sunrise', tag: '02' },
+    tertiary: { image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80', title: 'Fatehpur Sikri Courtyards', tag: '03' }
+  }
+};
+
+export function getRegionFloatingPanels(region) {
+  if (!region) return null;
+  const preset = REGION_PANEL_PRESETS[region.slug];
+  if (preset) return preset;
+
+  // Graceful fallback for any of the 36 regions using authentic imagery
+  return {
+    primary: {
+      image: region.heroImage || region.thumbnail,
+      title: region.highlights?.[0] || region.capital || `${region.name} Vista`,
+      tag: '01'
+    },
+    secondary: {
+      image: region.thumbnail || region.heroImage,
+      title: region.highlights?.[1] || `${region.name} Heritage`,
+      tag: '02'
+    },
+    tertiary: {
+      image: region.heroImage || region.thumbnail,
+      title: region.highlights?.[2] || 'Cultural Realm',
+      tag: '03'
+    }
+  };
+}
+
 // Sourced Facts for India at a Glance (No fake stats!)
 export const INDIA_FACTS = [
   { label: 'States & Union Territories', value: '36 Regions', detail: '28 States & 8 Union Territories across the sub-continent' },

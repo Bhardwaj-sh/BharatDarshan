@@ -7,38 +7,35 @@ export default {
   theme: {
     extend: {
       colors: {
-        forest: {
-          950: '#071611', // Deepest atmospheric black-emerald
-          900: '#0B2019', // Primary reference dark forest green
-          850: '#0E2920', // Card surface
-          800: '#14382C', // Card borders / elevated surfaces
-          750: '#1A4537',
-          700: '#235847',
-          600: '#327761',
-          500: '#439A80',
-          400: '#64B89F',
-        },
-        lime: {
-          300: '#E4F965',
-          400: '#D2F53E', // Primary reference neon lime accent
-          500: '#C2E828',
-          600: '#A6C915',
-        },
-        cream: {
-          50: '#FAFAF7', // Warm off-white reference canvas
-          100: '#F4F5EE',
-          200: '#E7E9DC',
-          300: '#D6D9C8',
-        },
         midnight: {
-          950: '#030712',
-          900: '#0B0F19',
-          800: '#111827',
+          950: '#030712', // Deepest obsidian black
+          900: '#050B18', // Primary midnight surface
+          850: '#0A1224', // Elevated card surface
+          800: '#0F1A36', // Card borders / elevated containers
+          750: '#162347',
+          700: '#1F305E',
         },
-        saffron: {
-          400: '#FB923C',
-          500: '#F97316',
-          600: '#EA580C',
+        cyan: {
+          300: '#67E8F9',
+          400: '#22D3EE',
+          500: '#00E5FF', // Electric cyan highlight from prompt
+          glow: '#00E5FF',
+        },
+        sapphire: {
+          400: '#38BDF8',
+          500: '#0284C7',
+          600: '#0369A1',
+        },
+        champagne: {
+          100: '#FEF9E7',
+          200: '#FCF3CF',
+          300: '#F9E79F',
+          400: '#F3E5AB', // Subtle champagne highlight from prompt
+          500: '#E6C280',
+        },
+        amber: {
+          400: '#FBBF24',
+          500: '#F59E0B',
         }
       },
       fontFamily: {
@@ -47,11 +44,11 @@ export default {
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
       },
       boxShadow: {
-        'soft': '0 10px 30px -5px rgba(11, 32, 25, 0.08)',
-        'card': '0 20px 40px -15px rgba(11, 32, 25, 0.12)',
-        'lime-glow': '0 0 25px rgba(210, 245, 62, 0.45)',
-        'lime-glow-lg': '0 0 45px rgba(210, 245, 62, 0.65)',
-        'forest-glow': '0 10px 40px -10px rgba(11, 32, 25, 0.5)',
+        'cyan-glow': '0 0 25px rgba(0, 229, 255, 0.45)',
+        'cyan-glow-lg': '0 0 50px rgba(0, 229, 255, 0.7)',
+        'champagne-glow': '0 0 25px rgba(243, 229, 171, 0.35)',
+        'glass-card': '0 20px 50px rgba(0, 0, 0, 0.65)',
+        'floating-panel': '0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 229, 255, 0.15)',
       }
     },
   },

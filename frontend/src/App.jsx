@@ -29,13 +29,13 @@ export default function App() {
           <Route
             path="*"
             element={
-              <div className="min-h-[70vh] flex flex-col items-center justify-center pt-28 pb-16 px-4 text-center bg-forest-900 text-white">
-                <h2 className="font-display text-7xl font-black text-lime-400 mb-2">404</h2>
+              <div className="min-h-[70vh] flex flex-col items-center justify-center pt-28 pb-16 px-4 text-center bg-midnight-950 text-white">
+                <h2 className="font-display text-7xl font-black text-cyan-400 mb-2">404</h2>
                 <h3 className="font-display text-2xl font-bold text-white mb-4">Destination Not Found</h3>
-                <p className="text-xs text-slate-300 max-w-sm mb-6">
+                <p className="text-xs text-slate-300 max-w-sm mb-6 font-light">
                   The pathway you seek does not exist on our India travel map. Let us guide you back home.
                 </p>
-                <a href="/" className="btn-lime text-xs uppercase tracking-wider py-3 px-6">
+                <a href="/" className="btn-luxury-cyan text-xs uppercase tracking-wider py-3 px-6 rounded-full font-bold">
                   Return to Home
                 </a>
               </div>
