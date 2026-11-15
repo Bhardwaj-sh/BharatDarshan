@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Play, Sparkles } from 'lucide-react';
 
-// Cinematic Component Suite
-import GrandShowcaseHero from '../components/home/GrandShowcaseHero';
+// Cinematic & Editorial Suites
+import CinematicIntro from '../components/home/CinematicIntro';
+import IndiaSelectionMoment from '../components/home/IndiaSelectionMoment';
+import ClassyWhiteHero from '../components/home/ClassyWhiteHero';
 import InteractiveIndiaMap from '../components/home/InteractiveIndiaMap';
 import CinematicExperienceSection from '../components/home/CinematicExperienceSection';
 import FeaturedMasterJourneys from '../components/home/FeaturedMasterJourneys';
@@ -10,17 +14,95 @@ import PlanYourJourney from '../components/home/PlanYourJourney';
 import CinematicFinale from '../components/home/CinematicFinale';
 
 export default function HomePage() {
+  // Check if visitor has already experienced the intro in this session
+  const [cinematicStage, setCinematicStage] = useState(() => {
+    try {
+      const seen = sessionStorage.getItem('bharat_seen_cinematic_v3');
+      return seen ? 'main' : 'main'; // Default to main for immediate classy white experience, user can replay anytime
+    } catch (e) {
+      return 'main';
+    }
+  });
+
+  const handleIntroComplete = () => {
+    setCinematicStage('selection');
+  };
+
+  const handleSelectionComplete = () => {
+    try {
+      sessionStorage.setItem('bharat_seen_cinematic_v3', 'true');
+    } catch (e) {}
+    setCinematicStage('main');
+  };
+
+  const handleSkipToMain = () => {
+    try {
+      sessionStorage.setItem('bharat_seen_cinematic_v3', 'true');
+    } catch (e) {}
+    setCinematicStage('main');
+  };
+
+  const handleReplayIntro = () => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setCinematicStage('intro');
+  };
+
   return (
-    <div className="w-full overflow-hidden bg-midnight-950 text-slate-100 min-h-screen">
+    <div className="w-full overflow-hidden bg-white text-slate-900 min-h-screen">
+      
+      {/* 1. Cinematic Opening Overlays (Unlocks on complete or skip) */}
+      <AnimatePresence mode="wait">
+        {cinematicStage === 'intro' && (
+          <CinematicIntro
+            key="cinematic-intro"
+            onComplete={handleIntroComplete}
+            onSkip={handleSkipToMain}
+          />
+        )}
+
+        {cinematicStage === 'selection' && (
+          <IndiaSelectionMoment
+            key="india-selection"
+            onComplete={handleSelectionComplete}
+            onSkip={handleSkipToMain}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 2. Main Luxury Experience */}
       <main className="relative">
         
-        {/* 1. THE GRAND DESTINATION SHOWCASE HERO
-               Full-screen authentic photographs across all 36 regions &
-               the signature 3-panel floating photographic mosaic matching the reference layout */}
-        <GrandShowcaseHero />
+        {/* Floating Replay Intro Pill (Subtle top right control) */}
+        {cinematicStage === 'main' && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.5 }}
+            className="fixed top-20 right-6 z-40 hidden lg:block"
+          >
+            <button
+              onClick={handleReplayIntro}
+              title="Replay Cinematic Intro"
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-slate-900 hover:text-white text-slate-700 border border-slate-200/90 backdrop-blur-md text-[11px] font-mono tracking-wider transition-all duration-300 shadow-md group cursor-pointer"
+            >
+              <Play className="w-3 h-3 text-amber-500 group-hover:text-white fill-current" />
+              <span>Cinematic Intro</span>
+            </button>
+          </motion.div>
+        )}
+
+        {/* 1. CLASSY WHITE EDITORIAL HERO & FLOATING SEARCH ISLAND
+               Exact layout matching user's reference screenshot:
+               - Full-bleed scenic Indian landscape with cloudy mist bottom fade
+               - Large editorial serif headline "India / A FEAST FOR THE EYE AND SOUL"
+               - Pill button "Book Now"
+               - Floating frosted glass search island (Location, Date, Guests, Dark Search button)
+               - "Discover the destinations" horizontal carousel with rounded cards & next arrow */}
+        <ClassyWhiteHero />
 
         {/* 2. AUTHENTIC INTERACTIVE INDIA MAP EXPLORER
-               Real geographic satellite dark matter atlas with glowing coordinate beacons across all 36 regions */}
+               Multi-coloured geographical state map on crisp white/alabaster canvas with 
+               clearly defined state borders, state name pills, and 1-package itinerary inspection */}
         <InteractiveIndiaMap />
 
         {/* 3. EXPLORE INDIA BY EXPERIENCE

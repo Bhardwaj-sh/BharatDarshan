@@ -7,61 +7,102 @@ import {
   MapPin, 
   Clock, 
   ArrowRight, 
-  ArrowLeft,
-  Sparkles, 
   Navigation,
-  Layers,
-  Globe2,
+  Sparkles,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  ShieldCheck,
+  Flame,
+  Layers
 } from 'lucide-react';
 import { REGIONS_DATA } from '../../data/regionsData';
+import indiaGeoData from '../../data/indiaStatesGeo.json';
 import L from 'leaflet';
 
+// Curated Vibrant Indian Color Palette matching reference image (Emerald, Saffron, Coral, Purple, Gold, Turquoise, Terracotta)
+export const STATE_COLOR_MAP = {
+  'rajasthan': { fill: '#B45309', border: '#FDE68A', label: 'Rajasthan' },
+  'gujarat': { fill: '#C2410C', border: '#FDBA74', label: 'Gujarat' },
+  'maharashtra': { fill: '#854D0E', border: '#FDE047', label: 'Maharashtra' },
+  'karnataka': { fill: '#A16207', border: '#FEF08A', label: 'Karnataka' },
+  'kerala': { fill: '#047857', border: '#6EE7B7', label: 'Kerala' },
+  'tamil-nadu': { fill: '#BE123C', border: '#FDA4AF', label: 'Tamil Nadu' },
+  'andhra-pradesh': { fill: '#0369A1', border: '#7DD3FC', label: 'Andhra Pradesh' },
+  'telangana': { fill: '#0F766E', border: '#5EEAD4', label: 'Telangana' },
+  'goa': { fill: '#E11D48', border: '#FDA4AF', label: 'Goa' },
+  'madhya-pradesh': { fill: '#15803D', border: '#86EFAC', label: 'Madhya Pradesh' },
+  'chhattisgarh': { fill: '#047857', border: '#6EE7B7', label: 'Chhattisgarh' },
+  'odisha': { fill: '#9A3412', border: '#FDBA74', label: 'Odisha' },
+  'west-bengal': { fill: '#1E3A8A', border: '#93C5FD', label: 'West Bengal' },
+  'bihar': { fill: '#92400E', border: '#FDE047', label: 'Bihar' },
+  'jharkhand': { fill: '#0F766E', border: '#5EEAD4', label: 'Jharkhand' },
+  'uttar-pradesh': { fill: '#6D28D9', border: '#C084FC', label: 'Uttar Pradesh' },
+  'punjab': { fill: '#D97706', border: '#FDE047', label: 'Punjab' },
+  'haryana': { fill: '#B45309', border: '#FDE68A', label: 'Haryana' },
+  'delhi': { fill: '#4338CA', border: '#A5B4FC', label: 'Delhi' },
+  'himachal-pradesh': { fill: '#0E7490', border: '#67E8F9', label: 'Himachal Pradesh' },
+  'uttarakhand': { fill: '#1E40AF', border: '#93C5FD', label: 'Uttarakhand' },
+  'jammu-and-kashmir': { fill: '#5B21B6', border: '#C084FC', label: 'Jammu & Kashmir' },
+  'ladakh': { fill: '#3730A3', border: '#A5B4FC', label: 'Ladakh' },
+  'sikkim': { fill: '#BE185D', border: '#F472B6', label: 'Sikkim' },
+  'assam': { fill: '#166534', border: '#86EFAC', label: 'Assam' },
+  'arunachal-pradesh': { fill: '#14532D', border: '#86EFAC', label: 'Arunachal Pradesh' },
+  'meghalaya': { fill: '#115E59', border: '#5EEAD4', label: 'Meghalaya' },
+  'nagaland': { fill: '#7C2D12', border: '#FDBA74', label: 'Nagaland' },
+  'manipur': { fill: '#581C87', border: '#D8B4FE', label: 'Manipur' },
+  'mizoram': { fill: '#831843', border: '#F472B6', label: 'Mizoram' },
+  'tripura': { fill: '#9D174D', border: '#FDA4AF', label: 'Tripura' },
+  'andaman-and-nicobar': { fill: '#0E7490', border: '#67E8F9', label: 'Andaman & Nicobar' },
+  'lakshadweep': { fill: '#0284C7', border: '#38BDF8', label: 'Lakshadweep' },
+  'chandigarh': { fill: '#0284C7', border: '#38BDF8', label: 'Chandigarh' },
+  'puducherry': { fill: '#C026D3', border: '#F0ABFC', label: 'Puducherry' },
+  'daman-and-diu': { fill: '#D97706', border: '#FDE047', label: 'Daman & Diu' }
+};
+
 export const REGION_GEO_COORDINATES = {
-  'rajasthan': { lat: 26.9124, lng: 75.7873, zone: 'west', code: 'RJ' },
-  'kerala': { lat: 9.9312, lng: 76.2673, zone: 'south', code: 'KL' },
-  'himachal-pradesh': { lat: 31.1048, lng: 77.1734, zone: 'north', code: 'HP' },
-  'goa': { lat: 15.2993, lng: 74.1240, zone: 'west', code: 'GA' },
-  'uttarakhand': { lat: 30.0668, lng: 79.0193, zone: 'north', code: 'UK' },
-  'ladakh': { lat: 34.1526, lng: 77.5771, zone: 'north', code: 'LA' },
-  'tamil-nadu': { lat: 11.1271, lng: 78.6569, zone: 'south', code: 'TN' },
-  'jammu-and-kashmir': { lat: 34.0837, lng: 74.7973, zone: 'north', code: 'JK' },
-  'madhya-pradesh': { lat: 23.2599, lng: 77.4126, zone: 'central', code: 'MP' },
-  'sikkim': { lat: 27.3389, lng: 88.6065, zone: 'northeast', code: 'SK' },
-  'uttar-pradesh': { lat: 26.8467, lng: 80.9462, zone: 'north', code: 'UP' },
-  'andaman-and-nicobar': { lat: 11.7401, lng: 92.6586, zone: 'islands', code: 'AN' },
-  'karnataka': { lat: 15.3173, lng: 75.7139, zone: 'south', code: 'KA' },
-  'meghalaya': { lat: 25.4670, lng: 91.3662, zone: 'northeast', code: 'ML' },
-  'gujarat': { lat: 23.2156, lng: 72.6369, zone: 'west', code: 'GJ' },
-  'assam': { lat: 26.1445, lng: 91.7362, zone: 'northeast', code: 'AS' },
-  'west-bengal': { lat: 22.5726, lng: 88.3639, zone: 'east', code: 'WB' },
-  'odisha': { lat: 20.2961, lng: 85.8245, zone: 'east', code: 'OD' },
-  'maharashtra': { lat: 19.0760, lng: 72.8777, zone: 'west', code: 'MH' },
-  'punjab': { lat: 31.1471, lng: 75.3412, zone: 'north', code: 'PB' },
-  'delhi': { lat: 28.6139, lng: 77.2090, zone: 'north', code: 'DL' },
-  'telangana': { lat: 17.3850, lng: 78.4867, zone: 'south', code: 'TS' },
-  'andhra-pradesh': { lat: 15.9129, lng: 79.7400, zone: 'south', code: 'AP' },
-  'bihar': { lat: 25.5941, lng: 85.1376, zone: 'east', code: 'BR' },
-  'chhattisgarh': { lat: 21.2514, lng: 81.6296, zone: 'central', code: 'CG' },
-  'puducherry': { lat: 11.9416, lng: 79.8083, zone: 'south', code: 'PY' },
-  'arunachal-pradesh': { lat: 27.0844, lng: 93.6053, zone: 'northeast', code: 'AR' },
-  'nagaland': { lat: 25.6751, lng: 94.1086, zone: 'northeast', code: 'NL' },
-  'manipur': { lat: 24.8170, lng: 93.9368, zone: 'northeast', code: 'MN' },
-  'mizoram': { lat: 23.7271, lng: 92.7176, zone: 'northeast', code: 'MZ' },
-  'tripura': { lat: 23.8315, lng: 91.2868, zone: 'northeast', code: 'TR' },
-  'jharkhand': { lat: 23.3441, lng: 85.3096, zone: 'east', code: 'JH' },
-  'haryana': { lat: 29.0588, lng: 76.0856, zone: 'north', code: 'HR' },
-  'chandigarh': { lat: 30.7333, lng: 76.7794, zone: 'north', code: 'CH' },
-  'daman-and-diu': { lat: 20.4283, lng: 72.8397, zone: 'west', code: 'DD' },
-  'lakshadweep': { lat: 10.5667, lng: 72.6417, zone: 'islands', code: 'LD' }
+  'rajasthan': { lat: 26.9124, lng: 73.7873, zone: 'west' },
+  'kerala': { lat: 10.2505, lng: 76.4711, zone: 'south' },
+  'himachal-pradesh': { lat: 31.8048, lng: 77.1734, zone: 'north' },
+  'goa': { lat: 15.3593, lng: 74.0540, zone: 'west' },
+  'uttarakhand': { lat: 30.1668, lng: 79.2193, zone: 'north' },
+  'ladakh': { lat: 34.2526, lng: 77.8771, zone: 'north' },
+  'tamil-nadu': { lat: 11.1271, lng: 78.6569, zone: 'south' },
+  'jammu-and-kashmir': { lat: 33.7782, lng: 74.8973, zone: 'north' },
+  'madhya-pradesh': { lat: 23.4599, lng: 77.9126, zone: 'central' },
+  'sikkim': { lat: 27.6389, lng: 88.5122, zone: 'northeast' },
+  'uttar-pradesh': { lat: 26.8467, lng: 80.9462, zone: 'north' },
+  'andaman-and-nicobar': { lat: 11.7401, lng: 92.6586, zone: 'islands' },
+  'karnataka': { lat: 14.8173, lng: 75.8139, zone: 'south' },
+  'meghalaya': { lat: 25.5670, lng: 91.2662, zone: 'northeast' },
+  'gujarat': { lat: 22.4587, lng: 71.4924, zone: 'west' },
+  'assam': { lat: 26.2006, lng: 92.9376, zone: 'northeast' },
+  'west-bengal': { lat: 23.4726, lng: 87.8639, zone: 'east' },
+  'odisha': { lat: 20.4517, lng: 84.8985, zone: 'east' },
+  'maharashtra': { lat: 19.3515, lng: 75.7139, zone: 'west' },
+  'punjab': { lat: 30.9471, lng: 75.3412, zone: 'north' },
+  'delhi': { lat: 28.6139, lng: 77.2090, zone: 'north' },
+  'telangana': { lat: 17.8850, lng: 79.0867, zone: 'south' },
+  'andhra-pradesh': { lat: 15.3129, lng: 78.7400, zone: 'south' },
+  'bihar': { lat: 25.6941, lng: 85.6376, zone: 'east' },
+  'chhattisgarh': { lat: 21.2787, lng: 82.1661, zone: 'central' },
+  'puducherry': { lat: 11.9416, lng: 79.8083, zone: 'south' },
+  'arunachal-pradesh': { lat: 28.0844, lng: 94.6053, zone: 'northeast' },
+  'nagaland': { lat: 26.1584, lng: 94.5624, zone: 'northeast' },
+  'manipur': { lat: 24.8170, lng: 93.9368, zone: 'northeast' },
+  'mizoram': { lat: 23.3645, lng: 92.9376, zone: 'northeast' },
+  'tripura': { lat: 23.8315, lng: 91.5868, zone: 'northeast' },
+  'jharkhand': { lat: 23.6102, lng: 85.5096, zone: 'east' },
+  'haryana': { lat: 29.2588, lng: 76.0856, zone: 'north' },
+  'chandigarh': { lat: 30.7333, lng: 76.7794, zone: 'north' },
+  'daman-and-diu': { lat: 20.4283, lng: 72.8397, zone: 'west' },
+  'lakshadweep': { lat: 10.5667, lng: 72.6417, zone: 'islands' }
 };
 
 const ZONES = [
   { id: 'all', label: 'All 36 Regions', center: [22.8, 80.5], zoom: 4.8 },
-  { id: 'north', label: 'North & Himalayas', center: [31.5, 77.0], zoom: 5.7 },
-  { id: 'west', label: 'West & Desert', center: [23.5, 72.5], zoom: 5.6 },
-  { id: 'south', label: 'South & Coast', center: [12.8, 77.8], zoom: 5.6 },
+  { id: 'north', label: 'Himalayas & North', center: [31.5, 77.0], zoom: 5.7 },
+  { id: 'west', label: 'Desert & West', center: [23.5, 72.5], zoom: 5.6 },
+  { id: 'south', label: 'Southern Peninsula', center: [13.0, 77.8], zoom: 5.6 },
   { id: 'east', label: 'East & Heartland', center: [23.0, 84.5], zoom: 5.6 },
   { id: 'northeast', label: 'Northeast Mystique', center: [26.0, 93.0], zoom: 6.0 },
   { id: 'islands', label: 'Islands & UTs', center: [11.7, 92.6], zoom: 6.0 },
@@ -70,21 +111,27 @@ const ZONES = [
 export default function InteractiveIndiaMap() {
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
-  const markersRef = useRef({});
-  const activeMarkerRef = useRef(null);
+  const geoJsonLayerRef = useRef(null);
+  const labelMarkersRef = useRef({});
 
   const [selectedZone, setSelectedZone] = useState('all');
-  const [mapStyle, setMapStyle] = useState('dark'); // 'dark' | 'satellite'
   const [searchQuery, setSearchQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const baseLayerRef = useRef(null);
-  const refLayerRef = useRef(null);
-  const satLayerRef = useRef(null);
-
   const activeRegion = REGIONS_DATA[activeIndex] || REGIONS_DATA[0];
 
-  // Filtered regions for quick list
+  // Normalization helper to map GeoJSON state name to REGIONS_DATA
+  const normStr = (s) => (s || '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z]/g, '');
+
+  const getRegionFromFeatureName = (stName) => {
+    const target = normStr(stName);
+    return REGIONS_DATA.find((r) => {
+      const rn = normStr(r.name);
+      return rn === target || rn.includes(target) || target.includes(rn);
+    });
+  };
+
+  // Filtered regions for quick switcher
   const filteredRegions = REGIONS_DATA.filter((r) => {
     const coords = REGION_GEO_COORDINATES[r.id];
     const matchesSearch =
@@ -96,7 +143,7 @@ export default function InteractiveIndiaMap() {
     return matchesSearch && matchesZone;
   });
 
-  // Initialize Leaflet Map
+  // Initialize Leaflet Map with GeoJSON State Boundaries
   useEffect(() => {
     if (!mapContainerRef.current) return;
     if (mapInstanceRef.current) return;
@@ -106,69 +153,95 @@ export default function InteractiveIndiaMap() {
       center: [22.8, 80.5],
       zoom: 4.8,
       minZoom: 4,
-      maxZoom: 10,
+      maxZoom: 9,
       zoomControl: false,
       attributionControl: false,
       scrollWheelZoom: false,
     });
 
-    // 1. ESRI World Dark Gray Canvas Base (Official, zero watermark, zero API key)
-    const baseLayer = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 16 }
-    ).addTo(map);
-
-    // 2. ESRI World Dark Gray Reference (State and boundary typography)
-    const refLayer = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 16, opacity: 0.8 }
-    ).addTo(map);
-
-    // 3. ESRI Satellite Layer (Optional toggle)
-    const satLayer = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 18 }
-    );
-
-    baseLayerRef.current = baseLayer;
-    refLayerRef.current = refLayer;
-    satLayerRef.current = satLayer;
     mapInstanceRef.current = map;
 
-    // Create markers for all 36 regions
+    // Build GeoJSON Layer with rich state colors matching reference image
+    const geoJsonLayer = L.geoJSON(indiaGeoData, {
+      style: (feature) => {
+        const region = getRegionFromFeatureName(feature.properties?.st_nm);
+        const palette = region ? STATE_COLOR_MAP[region.id] : null;
+        const fillColor = palette ? palette.fill : '#374151';
+        const borderColor = palette ? palette.border : '#FDE68A';
+
+        return {
+          fillColor: fillColor,
+          weight: 1.6,
+          opacity: 0.9,
+          color: borderColor,
+          dashArray: '',
+          fillOpacity: 0.85,
+        };
+      },
+      onEachFeature: (feature, layer) => {
+        const region = getRegionFromFeatureName(feature.properties?.st_nm);
+        if (!region) return;
+
+        layer.on({
+          mouseover: (e) => {
+            const l = e.target;
+            l.setStyle({
+              weight: 3.5,
+              color: '#FFFFFF',
+              fillOpacity: 0.98,
+            });
+            l.bringToFront();
+            const idx = REGIONS_DATA.findIndex((r) => r.id === region.id);
+            if (idx !== -1) setActiveIndex(idx);
+          },
+          mouseout: (e) => {
+            geoJsonLayer.resetStyle(e.target);
+          },
+          click: (e) => {
+            const idx = REGIONS_DATA.findIndex((r) => r.id === region.id);
+            if (idx !== -1) setActiveIndex(idx);
+            const coords = REGION_GEO_COORDINATES[region.id];
+            if (coords) {
+              map.flyTo([coords.lat, coords.lng], 6.0, { duration: 1.2 });
+            }
+          },
+        });
+      },
+    }).addTo(map);
+
+    geoJsonLayerRef.current = geoJsonLayer;
+
+    // Add Prominent State Name Pills and Markers on each state (Exactly like Reference Screenshot)
     REGIONS_DATA.forEach((region, idx) => {
       const coords = REGION_GEO_COORDINATES[region.id];
       if (!coords) return;
 
-      const customIcon = L.divIcon({
-        className: 'custom-map-pin',
+      const palette = STATE_COLOR_MAP[region.id] || { border: '#FDE68A' };
+
+      const labelIcon = L.divIcon({
+        className: 'state-map-label',
         html: `
-          <div class="relative flex items-center justify-center cursor-pointer group pointer-events-auto" data-region-id="${region.id}">
-            <span class="absolute -inset-2.5 rounded-full bg-cyan-400/25 animate-ping"></span>
-            <span class="relative w-4 h-4 rounded-full bg-cyan-400 border-2 border-[#030712] shadow-[0_0_14px_#00E5FF] group-hover:scale-135 transition-transform flex items-center justify-center">
-              <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-            </span>
-            <span class="absolute left-6 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center px-2 py-0.5 rounded-md bg-midnight-950/95 text-[11px] font-mono text-cyan-300 border border-cyan-400/40 whitespace-nowrap shadow-2xl pointer-events-none z-30">
-              ${region.name} • ${region.capital}
-            </span>
+          <div class="state-label-pill" id="pill-${region.id}">
+            <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0 shadow-[0_0_8px_#F59E0B]"></span>
+            <span class="font-display">${region.name}</span>
           </div>
         `,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
+        iconSize: [110, 26],
+        iconAnchor: [55, 13],
       });
 
-      const marker = L.marker([coords.lat, coords.lng], { icon: customIcon }).addTo(map);
+      const labelMarker = L.marker([coords.lat, coords.lng], { icon: labelIcon }).addTo(map);
 
-      marker.on('click', () => {
+      labelMarker.on('click', () => {
         setActiveIndex(idx);
-        map.flyTo([coords.lat, coords.lng], 6.2, { duration: 1.2 });
+        map.flyTo([coords.lat, coords.lng], 6.0, { duration: 1.2 });
       });
 
-      marker.on('mouseover', () => {
+      labelMarker.on('mouseover', () => {
         setActiveIndex(idx);
       });
 
-      markersRef.current[region.id] = marker;
+      labelMarkersRef.current[region.id] = labelMarker;
     });
 
     return () => {
@@ -177,24 +250,22 @@ export default function InteractiveIndiaMap() {
     };
   }, []);
 
-  // Handle map style toggle (Dark Atlas vs Satellite)
-  const toggleMapStyle = (style) => {
-    setMapStyle(style);
-    if (!mapInstanceRef.current) return;
-    const map = mapInstanceRef.current;
+  // Update active pill highlight on map when activeRegion changes
+  useEffect(() => {
+    if (!activeRegion) return;
+    Object.keys(labelMarkersRef.current).forEach((regId) => {
+      const el = document.getElementById(`pill-${regId}`);
+      if (el) {
+        if (regId === activeRegion.id) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      }
+    });
+  }, [activeRegion]);
 
-    if (style === 'satellite') {
-      if (baseLayerRef.current) map.removeLayer(baseLayerRef.current);
-      if (satLayerRef.current) satLayerRef.current.addTo(map);
-      if (refLayerRef.current) refLayerRef.current.bringToFront();
-    } else {
-      if (satLayerRef.current) map.removeLayer(satLayerRef.current);
-      if (baseLayerRef.current) baseLayerRef.current.addTo(map);
-      if (refLayerRef.current) refLayerRef.current.bringToFront();
-    }
-  };
-
-  // Fly to zone
+  // Zone Navigation with Smooth Camera FlyTo
   const handleZoneChange = (zoneId) => {
     setSelectedZone(zoneId);
     const zoneObj = ZONES.find((z) => z.id === zoneId);
@@ -203,15 +274,12 @@ export default function InteractiveIndiaMap() {
     }
   };
 
-  // Select a specific region
   const handleSelectRegion = (region) => {
     const idx = REGIONS_DATA.findIndex((r) => r.id === region.id);
-    if (idx !== -1) {
-      setActiveIndex(idx);
-    }
+    if (idx !== -1) setActiveIndex(idx);
     const coords = REGION_GEO_COORDINATES[region.id];
     if (coords && mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo([coords.lat, coords.lng], 6.2, { duration: 1.2 });
+      mapInstanceRef.current.flyTo([coords.lat, coords.lng], 6.0, { duration: 1.2 });
     }
   };
 
@@ -221,7 +289,7 @@ export default function InteractiveIndiaMap() {
     const nextRegion = REGIONS_DATA[nextIdx];
     const coords = REGION_GEO_COORDINATES[nextRegion.id];
     if (coords && mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo([coords.lat, coords.lng], 6.2, { duration: 1.2 });
+      mapInstanceRef.current.flyTo([coords.lat, coords.lng], 6.0, { duration: 1.2 });
     }
   };
 
@@ -231,7 +299,7 @@ export default function InteractiveIndiaMap() {
     const prevRegion = REGIONS_DATA[prevIdx];
     const coords = REGION_GEO_COORDINATES[prevRegion.id];
     if (coords && mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo([coords.lat, coords.lng], 6.2, { duration: 1.2 });
+      mapInstanceRef.current.flyTo([coords.lat, coords.lng], 6.0, { duration: 1.2 });
     }
   };
 
@@ -244,56 +312,39 @@ export default function InteractiveIndiaMap() {
 
   const currentPrice = activeRegion?.package?.basePrice || activeRegion?.basePrice || 24999;
   const currentDuration = activeRegion?.package?.duration || `${activeRegion?.durationDays || 8} Days / ${activeRegion?.durationNights || 7} Nights`;
+  const currentPalette = STATE_COLOR_MAP[activeRegion?.id] || { fill: '#B45309', border: '#FDE68A' };
 
   return (
-    <section id="interactive-map" className="relative py-24 sm:py-32 bg-midnight-950 text-white overflow-hidden border-t border-white/5">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[700px] h-[500px] bg-cyan-500/10 rounded-full blur-[180px] pointer-events-none" />
+    <section id="interactive-map" className="relative py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 overflow-hidden border-t border-slate-200">
+      
+      {/* Subtle Warm Editorial Glows */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[400px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[400px] bg-emerald-500/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
+        {/* Section Header with Warm Editorial Styling */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider mb-4 shadow-cyan-glow">
-              <Compass className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Interactive Geographical Atlas</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 text-white text-xs font-mono font-bold uppercase tracking-wider mb-4 shadow-sm">
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
+              <span>Geographical State Atlas • 36 Vibrant Territories</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white font-display">
-              Explore India <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-200">By Region</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 font-display">
+              Explore India <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-600 to-emerald-600">By State</span>
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-2xl font-light">
-              High-precision dark geographic atlas across all 28 States and 8 Union Territories. Click any beacon or step through regions.
+            <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl font-normal">
+              Illustrated multi-coloured geographical map of India with distinct state borders, prominent state names, and authentic 1-package itineraries.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Map Style Switcher */}
-            <div className="p-1 rounded-full bg-midnight-900 border border-white/15 flex items-center text-xs font-mono">
-              <button
-                onClick={() => toggleMapStyle('dark')}
-                className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
-                  mapStyle === 'dark' ? 'bg-cyan-500 text-midnight-950 font-bold shadow-cyan-glow' : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Dark Atlas
-              </button>
-              <button
-                onClick={() => toggleMapStyle('satellite')}
-                className={`px-3 py-1.5 rounded-full font-semibold transition-all cursor-pointer ${
-                  mapStyle === 'satellite' ? 'bg-cyan-500 text-midnight-950 font-bold shadow-cyan-glow' : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Night Satellite
-              </button>
-            </div>
-
             <button
               onClick={handleResetView}
-              className="px-4 py-2 rounded-full bg-midnight-900 border border-white/15 text-slate-300 hover:text-white hover:border-cyan-400 text-xs font-mono font-semibold flex items-center gap-2 transition-all cursor-pointer"
+              className="px-5 py-2.5 rounded-full bg-white border border-slate-300 text-slate-800 hover:bg-slate-900 hover:text-white text-xs font-mono font-bold flex items-center gap-2 transition-all cursor-pointer shadow-sm hover:shadow"
             >
-              <Navigation className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Reset</span>
+              <Navigation className="w-3.5 h-3.5 text-amber-500" />
+              <span>Full Subcontinent View</span>
             </button>
           </div>
         </div>
@@ -306,10 +357,10 @@ export default function InteractiveIndiaMap() {
               <button
                 key={zone.id}
                 onClick={() => handleZoneChange(zone.id)}
-                className={`px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer ${
+                className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300 cursor-pointer ${
                   isActive
-                    ? 'bg-cyan-500 text-midnight-950 font-bold shadow-cyan-glow border border-cyan-400'
-                    : 'bg-midnight-900/80 text-slate-400 hover:text-white border border-white/10 hover:border-cyan-500/40'
+                    ? 'bg-slate-900 text-white font-black shadow-md border border-slate-900'
+                    : 'bg-white text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-400 hover:bg-slate-50'
                 }`}
               >
                 {zone.label}
@@ -318,43 +369,43 @@ export default function InteractiveIndiaMap() {
           })}
         </div>
 
-        {/* Main Map + Inspection Card Grid */}
+        {/* Dual Layout: Illustrated Map (8 Cols) + Inspection Card & State List (4 Cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Leaflet Map Column (8 Cols) */}
-          <div className="lg:col-span-8 relative rounded-3xl overflow-hidden bg-midnight-900/90 border border-white/15 shadow-2xl h-[520px] sm:h-[620px]">
+          {/* Main Map Container on Classy Canvas */}
+          <div className="lg:col-span-8 relative rounded-3xl overflow-hidden bg-[#E2E8F0] border border-slate-300/80 shadow-xl h-[560px] sm:h-[660px]">
             
             {/* The Map Canvas */}
-            <div ref={mapContainerRef} className="w-full h-full z-0 bg-[#161a22]" />
+            <div ref={mapContainerRef} className="w-full h-full z-0" />
 
             {/* Top Left Status Badge */}
-            <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-white/15 text-[11px] font-mono text-cyan-300 shadow-xl">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>Live India Map • {REGIONS_DATA.length} Territories Active</span>
+            <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 text-[11px] font-mono text-slate-800 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              <span>Interactive India State Map • Click Any State</span>
             </div>
 
-            {/* Quick Search Overlay Top Right */}
+            {/* Quick State Search Overlay Top Right */}
             <div className="absolute top-4 right-4 z-10 w-64">
               <div className="relative">
-                <Search className="w-3.5 h-3.5 text-cyan-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Jump to state..."
+                  placeholder="Filter state (e.g. Rajasthan)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-xs text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-400 shadow-xl"
+                  className="w-full pl-9 pr-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-slate-300 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 shadow-md"
                 />
               </div>
             </div>
 
             {/* Active Region Indicator Pill on Map Bottom */}
-            <div className="absolute bottom-4 left-4 z-10 hidden sm:flex items-center gap-2 px-4 py-2 rounded-2xl bg-midnight-950/90 backdrop-blur-md border border-white/15 text-xs text-white shadow-2xl">
-              <span className="text-cyan-400 font-mono font-bold">
+            <div className="absolute bottom-4 left-4 z-10 hidden sm:flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 text-xs text-slate-900 shadow-xl">
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: currentPalette.fill }}></span>
+              <span className="text-slate-900 font-mono font-bold">
                 {String(activeIndex + 1).padStart(2, '0')} / {REGIONS_DATA.length}
               </span>
               <span className="text-slate-400">•</span>
-              <span className="font-display font-bold">{activeRegion.name}</span>
-              <span className="text-slate-400">({activeRegion.capital})</span>
+              <span className="font-display font-extrabold text-slate-900 text-sm">{activeRegion.name}</span>
             </div>
           </div>
 
@@ -370,19 +421,19 @@ export default function InteractiveIndiaMap() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.3 }}
-                  className="rounded-3xl overflow-hidden bg-midnight-900/90 border border-white/15 shadow-floating-panel group"
+                  className="rounded-3xl overflow-hidden bg-white border border-slate-200 shadow-lg group"
                 >
-                  <div className="relative h-52 w-full overflow-hidden bg-midnight-950">
+                  <div className="relative h-56 w-full overflow-hidden bg-slate-100">
                     <img
                       src={activeRegion.heroImage}
                       alt={activeRegion.name}
                       className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-midnight-950 via-midnight-950/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                     {/* Sequence Badge */}
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-mono text-cyan-300">
-                      {String(activeIndex + 1).padStart(2, '0')} / {REGIONS_DATA.length} • {activeRegion.type === 'Union Territory' ? 'UT' : 'State'}
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 text-[11px] font-mono text-slate-800 font-bold shadow-sm">
+                      {String(activeIndex + 1).padStart(2, '0')} / {REGIONS_DATA.length} • {activeRegion.type === 'Union Territory' ? 'Union Territory' : 'State'}
                     </div>
 
                     {/* Step Navigation Arrows over Image */}
@@ -390,62 +441,65 @@ export default function InteractiveIndiaMap() {
                       <button
                         onClick={handlePrevRegion}
                         title="Previous Territory"
-                        className="p-1.5 rounded-full bg-black/60 hover:bg-cyan-500 hover:text-midnight-950 text-white border border-white/20 transition-all cursor-pointer"
+                        className="p-2 rounded-full bg-white/85 hover:bg-slate-900 hover:text-white text-slate-800 border border-slate-200 transition-all cursor-pointer shadow-sm"
                       >
                         <ChevronLeft className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={handleNextRegion}
                         title="Next Territory"
-                        className="p-1.5 rounded-full bg-black/60 hover:bg-cyan-500 hover:text-midnight-950 text-white border border-white/20 transition-all cursor-pointer"
+                        className="p-2 rounded-full bg-white/85 hover:bg-slate-900 hover:text-white text-slate-800 border border-slate-200 transition-all cursor-pointer shadow-sm"
                       >
                         <ChevronRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
 
-                    <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-xs text-white">
-                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                    <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 text-xs text-slate-900 font-medium shadow-sm">
+                      <Clock className="w-3.5 h-3.5 text-amber-600" />
                       <span>{currentDuration}</span>
                     </div>
                   </div>
 
-                  <div className="p-5">
-                    <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
-                      <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>Capital: <strong className="text-slate-200">{activeRegion.capital || activeRegion.name}</strong></span>
+                  <div className="p-6">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-1">
+                      <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Capital: <strong className="text-slate-800">{activeRegion.capital || activeRegion.name}</strong></span>
                     </div>
 
-                    <h3 className="text-xl font-bold font-display text-white group-hover:text-cyan-300 transition-colors">
+                    <h3 className="text-2xl font-black font-display text-slate-900 group-hover:text-amber-700 transition-colors">
                       {activeRegion.name}
                     </h3>
 
-                    <p className="mt-2 text-xs text-slate-300 line-clamp-2 leading-relaxed font-light">
+                    <p className="mt-2 text-xs text-slate-600 line-clamp-2 leading-relaxed font-normal">
                       {activeRegion.package?.title || activeRegion.tagline || activeRegion.description}
                     </p>
 
                     {/* Highlights tags */}
-                    <div className="mt-3 flex flex-wrap gap-1.5">
+                    <div className="mt-4 flex flex-wrap gap-1.5">
                       {(activeRegion.highlights || []).slice(0, 3).map((hl, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-[10px] text-slate-300">
+                        <span 
+                          key={i} 
+                          className="px-2.5 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[11px] text-slate-700 font-medium"
+                        >
                           {hl}
                         </span>
                       ))}
                     </div>
 
                     {/* Pricing & CTA */}
-                    <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
+                    <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
                       <div>
                         <span className="text-[10px] uppercase tracking-wider text-slate-400 block font-mono">
                           Verified Pricing
                         </span>
-                        <span className="text-lg font-black text-cyan-400 font-mono">
+                        <span className="text-xl font-black text-slate-900 font-mono">
                           ₹{currentPrice.toLocaleString('en-IN')}
                         </span>
                       </div>
 
                       <Link
                         to={`/region/${activeRegion.id}`}
-                        className="btn-luxury-cyan px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5"
+                        className="btn-classy-dark px-5 py-2.5 text-xs font-bold rounded-xl flex items-center gap-1.5"
                       >
                         <span>Itinerary</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -456,29 +510,37 @@ export default function InteractiveIndiaMap() {
               )}
             </AnimatePresence>
 
-            {/* Quick Territory Switcher List */}
-            <div className="p-4 rounded-3xl bg-midnight-900/70 border border-white/10">
+            {/* Quick Territory Switcher List with Color Dots */}
+            <div className="p-4 rounded-3xl bg-white border border-slate-200 shadow-sm">
               <div className="flex items-center justify-between mb-3 px-2">
-                <span className="text-xs uppercase tracking-wider font-mono font-semibold text-slate-400">
+                <span className="text-xs uppercase tracking-wider font-mono font-bold text-slate-900">
                   Quick Select ({filteredRegions.length})
                 </span>
-                <span className="text-[10px] text-cyan-400 font-mono">Click to Pan</span>
+                <span className="text-[10px] text-slate-400 font-mono">Click to Pan Map</span>
               </div>
 
-              <div className="max-h-48 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+              <div className="max-h-52 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
                 {filteredRegions.map((region) => {
                   const isCurrent = activeRegion?.id === region.id;
+                  const palette = STATE_COLOR_MAP[region.id] || { fill: '#B45309' };
+
                   return (
                     <button
                       key={region.id}
                       onClick={() => handleSelectRegion(region)}
                       className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-colors cursor-pointer ${
                         isCurrent
-                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-bold'
-                          : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                          ? 'bg-slate-100 text-slate-900 border border-slate-300 font-bold shadow-sm'
+                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                       }`}
                     >
-                      <span className="truncate">{region.name}</span>
+                      <div className="flex items-center gap-2 truncate">
+                        <span 
+                          className="w-2.5 h-2.5 rounded-full shrink-0 shadow-sm"
+                          style={{ backgroundColor: palette.fill }}
+                        />
+                        <span className="truncate">{region.name}</span>
+                      </div>
                       <span className="text-[10px] font-mono opacity-60 shrink-0">
                         {region.capital}
                       </span>

@@ -4,16 +4,16 @@
 
 @layer base {
   body {
-    background-color: #030712;
-    color: #F8FAFC;
+    background-color: #FFFFFF;
+    color: #0F172A;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background: #00E5FF;
-    color: #030712;
+    background: #0F172A;
+    color: #FFFFFF;
   }
 
   h1,
@@ -24,212 +24,171 @@
   h6 {
     font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
     letter-spacing: -0.025em;
-    color: #FFFFFF;
+    color: #0F172A;
   }
 }
 
 @layer components {
 
-  /* Ultra-Luxury Translucent Floating Glass Panel */
-  .glass-panel {
-    background-color: rgba(5, 11, 24, 0.72);
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+  /* Classy Floating Glass Search Island (From Reference Screenshot) */
+  .glass-search-island {
+    background-color: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 20px rgba(0, 0, 0, 0.04);
   }
 
-  .glass-pill {
-    background-color: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+  /* Classy White Card */
+  .card-classy-white {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 4px 6px -2px rgba(15, 23, 42, 0.025);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .glass-floating-card {
-    background-color: rgba(5, 11, 24, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 229, 255, 0.15);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .glass-floating-card:hover {
-    border-color: rgba(0, 229, 255, 0.5);
-    box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 229, 255, 0.3);
+  .card-classy-white:hover {
+    border-color: #CBD5E1;
+    box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12);
     transform: translateY(-4px);
   }
 
-  /* Luxury Buttons from Reference */
-  .btn-luxury-white {
+  /* Classy Luxury Buttons */
+  .btn-classy-dark {
     position: relative;
     overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.625rem;
-    padding: 0.875rem 1.85rem;
-    border-radius: 9999px;
-    background-color: #FFFFFF;
-    color: #030712;
-    font-weight: 800;
-    font-size: 0.875rem;
-    letter-spacing: -0.01em;
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: pointer;
-  }
-
-  .btn-luxury-white:hover {
-    background-color: #F8FAFC;
-    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4), 0 0 25px rgba(0, 229, 255, 0.4);
-    transform: scale(1.03);
-  }
-
-  .btn-luxury-cyan {
-    position: relative;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.625rem;
-    padding: 0.875rem 1.85rem;
-    border-radius: 9999px;
-    background-color: #00E5FF;
-    color: #030712;
-    font-weight: 800;
-    font-size: 0.875rem;
-    letter-spacing: -0.01em;
-    box-shadow: 0 0 25px rgba(0, 229, 255, 0.45);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: pointer;
-  }
-
-  .btn-luxury-cyan:hover {
-    background-color: #38BDF8;
-    box-shadow: 0 0 45px rgba(0, 229, 255, 0.7);
-    transform: scale(1.03);
-  }
-
-  .btn-luxury-glass {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.6rem;
+    padding: 0.85rem 1.85rem;
     border-radius: 9999px;
-    background-color: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #0F172A;
     color: #FFFFFF;
     font-weight: 700;
     font-size: 0.875rem;
+    letter-spacing: -0.01em;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+
+  .btn-classy-dark:hover {
+    background-color: #1E293B;
+    box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.45);
+    transform: scale(1.02);
+  }
+
+  .btn-classy-outline {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.85rem;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #0F172A;
+    font-weight: 700;
+    font-size: 0.875rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+
+  .btn-classy-outline:hover {
+    background-color: #FFFFFF;
+    transform: scale(1.03);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-luxury-gold {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.85rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.875rem;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
     transition: all 0.3s ease;
     cursor: pointer;
   }
 
-  .btn-luxury-glass:hover {
-    background-color: rgba(255, 255, 255, 0.16);
-    border-color: rgba(0, 229, 255, 0.6);
-    box-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
-  }
-
-  /* Glow Badges */
-  .badge-cyan {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.25rem 0.85rem;
-    border-radius: 9999px;
-    font-size: 0.6875rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background-color: rgba(0, 229, 255, 0.12);
-    color: #00E5FF;
-    border: 1px solid rgba(0, 229, 255, 0.35);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
-  }
-
-  .badge-champagne {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.25rem 0.85rem;
-    border-radius: 9999px;
-    font-size: 0.6875rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background-color: rgba(243, 229, 171, 0.12);
-    color: #F3E5AB;
-    border: 1px solid rgba(243, 229, 171, 0.35);
+  .btn-luxury-gold:hover {
+    background: #000000;
+    transform: translateY(-2px);
   }
 }
 
-/* Fluid Keyframe Animations */
-@keyframes kenBurnsDrift {
-  0% {
-    transform: scale(1) translate(0, 0);
-  }
-
-  50% {
-    transform: scale(1.08) translate(-1%, -1%);
-  }
-  100% {
-    transform: scale(1) translate(0, 0);
-  }
+/* Leaflet Container Styling for India Map */
+.leaflet-container {
+  background: transparent !important;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
 }
 
-@keyframes pulseCyanGlow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
-  }
-
-  50% {
-    box-shadow: 0 0 45px rgba(0, 229, 255, 0.7);
-  }
+/* Custom State Name Marker Pills on the Map */
+.state-map-label {
+  pointer-events: none;
+  background: transparent !important;
+  border: none !important;
 }
 
-@keyframes scanlineMove {
-  0% {
-    transform: translateY(-100%);
-  }
-
-
-  100% {
-    transform: translateY(1000%);
-  }
+.state-label-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background-color: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s ease-out;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
-.animate-ken-burns {
-  animation: kenBurnsDrift 20s ease-in-out infinite;
+.state-label-pill:hover,
+.state-label-pill.active {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: #06070B;
+  border-color: #FDE68A;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), 0 4px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(1.15) translateY(-2px);
+  z-index: 50 !important;
 }
 
-.animate-pulse-cyan {
-  animation: pulseCyanGlow 3s ease-in-out infinite;
-}
-
-/* Custom Midnight Obsidian Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #F8FAFC;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0F1A36;
+  background: #CBD5E1;
   border-radius: 9999px;
-  border: 2px solid #030712;
+  border: 2px solid #F8FAFC;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00E5FF;
+  background: #94A3B8;
 }

@@ -7,36 +7,75 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Deep Warm Charcoal / Obsidian night base (eliminating cold mono-blue)
         midnight: {
-          950: '#030712', // Deepest obsidian black
-          900: '#050B18', // Primary midnight surface
-          850: '#0A1224', // Elevated card surface
-          800: '#0F1A36', // Card borders / elevated containers
-          750: '#162347',
-          700: '#1F305E',
+          950: '#06070B', // Deep warm obsidian night
+          900: '#0E1017', // Warm charcoal surface
+          850: '#141722', // Elevated container
+          800: '#1C2030', // Card surface
+          750: '#252B40',
+          700: '#303752',
         },
+        // Indian Saffron & Marigold
+        saffron: {
+          300: '#FDBA74',
+          400: '#FB923C',
+          500: '#F97316',
+          600: '#EA580C',
+        },
+        marigold: {
+          300: '#FDE047',
+          400: '#FACC15',
+          500: '#EAB308',
+          600: '#CA8A04',
+        },
+        // Imperial Gold & Champagne
+        gold: {
+          100: '#FEF9E7',
+          200: '#FCF3CF',
+          300: '#FDE68A',
+          400: '#FCD34D',
+          500: '#F59E0B',
+          600: '#D97706',
+        },
+        // Lush Emerald & Malabar Jade
+        emerald: {
+          300: '#6EE7B7',
+          400: '#34D399',
+          500: '#10B981',
+          600: '#059669',
+          700: '#047857',
+        },
+        // Peacock Turquoise & Lagoon Teal
+        turquoise: {
+          300: '#5EEAD4',
+          400: '#2DD4BF',
+          500: '#14B8A6',
+          600: '#0D9488',
+        },
+        // Dravidian Coral & Ruby Red
+        coral: {
+          300: '#FDA4AF',
+          400: '#FB7185',
+          500: '#F43F5E',
+          600: '#E11D48',
+          700: '#BE123C',
+        },
+        // Royal Silk Violet & Kashmiri Saffron Purple
+        royal: {
+          300: '#D8B4FE',
+          400: '#C084FC',
+          500: '#A855F7',
+          600: '#9333EA',
+          700: '#7E22CE',
+          800: '#581C87',
+        },
+        // Accent Electric Cyan for subtle contrast
         cyan: {
           300: '#67E8F9',
           400: '#22D3EE',
-          500: '#00E5FF', // Electric cyan highlight from prompt
-          glow: '#00E5FF',
+          500: '#00E5FF',
         },
-        sapphire: {
-          400: '#38BDF8',
-          500: '#0284C7',
-          600: '#0369A1',
-        },
-        champagne: {
-          100: '#FEF9E7',
-          200: '#FCF3CF',
-          300: '#F9E79F',
-          400: '#F3E5AB', // Subtle champagne highlight from prompt
-          500: '#E6C280',
-        },
-        amber: {
-          400: '#FBBF24',
-          500: '#F59E0B',
-        }
       },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
@@ -44,11 +83,14 @@ export default {
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
       },
       boxShadow: {
-        'cyan-glow': '0 0 25px rgba(0, 229, 255, 0.45)',
-        'cyan-glow-lg': '0 0 50px rgba(0, 229, 255, 0.7)',
-        'champagne-glow': '0 0 25px rgba(243, 229, 171, 0.35)',
-        'glass-card': '0 20px 50px rgba(0, 0, 0, 0.65)',
-        'floating-panel': '0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 229, 255, 0.15)',
+        'gold-glow': '0 0 25px rgba(245, 158, 11, 0.45)',
+        'gold-glow-lg': '0 0 50px rgba(245, 158, 11, 0.7)',
+        'saffron-glow': '0 0 25px rgba(249, 115, 22, 0.45)',
+        'emerald-glow': '0 0 25px rgba(16, 185, 129, 0.45)',
+        'coral-glow': '0 0 25px rgba(244, 63, 94, 0.45)',
+        'purple-glow': '0 0 25px rgba(168, 85, 247, 0.45)',
+        'cyan-glow': '0 0 25px rgba(0, 229, 255, 0.4)',
+        'floating-panel': '0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(245, 158, 11, 0.12)',
       }
     },
   },

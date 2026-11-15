@@ -32,11 +32,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-16 flex items-center justify-center bg-midnight-950 px-4 text-slate-100">
+    <div className="min-h-screen pt-28 pb-16 flex items-center justify-center bg-[#06070B] px-4 text-slate-100">
       <div className="w-full max-w-md bg-midnight-900/90 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl">
         
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mx-auto mb-4 shadow-cyan-glow">
+          <div className="w-12 h-12 rounded-full bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-400 mx-auto mb-4 shadow-gold-glow">
             <Compass className="w-6 h-6" />
           </div>
           <h2 className="font-display text-2xl font-bold text-white">Join Bharat Darshan</h2>
@@ -56,14 +56,14 @@ export default function RegisterPage() {
               Full Name
             </label>
             <div className="relative">
-              <User className="w-4 h-4 text-cyan-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <User className="w-4 h-4 text-amber-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Aarav Sharma"
-                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-midnight-950 border border-white/15 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 font-medium transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-midnight-950 border border-white/15 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 font-medium transition-colors"
               />
             </div>
           </div>
@@ -73,14 +73,14 @@ export default function RegisterPage() {
               Email Address
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-cyan-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-amber-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="aarav@example.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-midnight-950 border border-white/15 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 font-medium transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-midnight-950 border border-white/15 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 font-medium transition-colors"
               />
             </div>
           </div>
@@ -90,14 +90,14 @@ export default function RegisterPage() {
               Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-cyan-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-amber-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Minimum 6 characters"
-                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-midnight-950 border border-white/15 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 font-medium transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-midnight-950 border border-white/15 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 font-medium transition-colors"
               />
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-luxury-cyan py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-full flex items-center justify-center gap-2 mt-3 disabled:opacity-50 cursor-pointer shadow-cyan-glow"
+            className="w-full btn-luxury-gold py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-full flex items-center justify-center gap-2 mt-3 disabled:opacity-50 cursor-pointer shadow-gold-glow"
           >
             <span>{loading ? 'Creating Account...' : 'Register as Traveller'}</span>
             <ArrowRight className="w-4 h-4" />
@@ -114,7 +114,7 @@ export default function RegisterPage() {
 
         <div className="mt-6 text-center text-xs text-slate-400">
           Already have an account?{' '}
-          <Link to="/login" className="text-cyan-400 font-semibold hover:underline">
+          <Link to="/login" className="text-amber-400 font-semibold hover:underline">
             Sign In here
           </Link>
         </div>

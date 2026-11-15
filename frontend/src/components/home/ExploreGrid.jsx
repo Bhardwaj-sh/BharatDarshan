@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Clock, ArrowRight, Compass, Sparkles, Heart, Star } from 'lucide-react';
 import { REGIONS_DATA } from '../../data/regionsData';
+import { STATE_COLOR_MAP } from './InteractiveIndiaMap';
 
 export default function ExploreGrid({ initialFilter }) {
   const [searchTerm, setSearchTerm] = useState(initialFilter?.search || '');
@@ -40,10 +41,10 @@ export default function ExploreGrid({ initialFilter }) {
   const displayedRegions = filteredRegions.slice(0, visibleCount);
 
   return (
-    <section id="explore-regions" className="relative bg-midnight-950 text-white scroll-mt-20 overflow-hidden pt-12 pb-20">
+    <section id="explore-regions" className="relative bg-[#06070B] text-white scroll-mt-20 overflow-hidden pt-12 pb-20">
 
       {/* Ambient Radial Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/10 blur-[160px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/10 blur-[160px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -55,8 +56,8 @@ export default function ExploreGrid({ initialFilter }) {
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider border border-cyan-400/30 mb-4 shadow-cyan-glow">
-            <Compass className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 text-amber-300 text-xs font-bold uppercase tracking-wider border border-amber-400/40 mb-4 shadow-gold-glow">
+            <Compass className="w-3.5 h-3.5 text-amber-400" />
             <span>The India Master Registry</span>
           </div>
           <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-4">
@@ -79,13 +80,13 @@ export default function ExploreGrid({ initialFilter }) {
 
             {/* Search Input */}
             <div className="relative w-full lg:w-96">
-              <Search className="w-4 h-4 text-cyan-400 absolute left-4 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-amber-400 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search state, monument, or capital..."
-                className="w-full pl-11 pr-4 py-3 rounded-full bg-midnight-950/80 border border-white/15 text-xs font-semibold text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-400 transition-all"
+                className="w-full pl-11 pr-4 py-3 rounded-full bg-midnight-950/80 border border-white/15 text-xs font-semibold text-white placeholder:text-slate-400 focus:outline-none focus:border-amber-400 transition-all"
               />
               {searchTerm && (
                 <button
@@ -110,7 +111,7 @@ export default function ExploreGrid({ initialFilter }) {
                 {typeFilter === 'all' && (
                   <motion.div
                     layoutId="activeTerritoryPill"
-                    className="absolute inset-0 bg-cyan-400 rounded-full shadow-cyan-glow"
+                    className="absolute inset-0 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full shadow-gold-glow"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -128,7 +129,7 @@ export default function ExploreGrid({ initialFilter }) {
                 {typeFilter === 'state' && (
                   <motion.div
                     layoutId="activeTerritoryPill"
-                    className="absolute inset-0 bg-cyan-400 rounded-full shadow-cyan-glow"
+                    className="absolute inset-0 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full shadow-gold-glow"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -146,7 +147,7 @@ export default function ExploreGrid({ initialFilter }) {
                 {typeFilter === 'union-territory' && (
                   <motion.div
                     layoutId="activeTerritoryPill"
-                    className="absolute inset-0 bg-cyan-400 rounded-full shadow-cyan-glow"
+                    className="absolute inset-0 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full shadow-gold-glow"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -158,15 +159,15 @@ export default function ExploreGrid({ initialFilter }) {
           {/* Secondary Category Filter Chips */}
           <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10 overflow-x-auto pb-1 text-xs">
             <span className="text-slate-400 shrink-0 font-semibold flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" /> Filter:
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Filter:
             </span>
             {['all', 'North', 'West', 'South', 'East', 'Northeast'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategoryFilter(cat)}
-                className={`px-3.5 py-1.5 rounded-full font-semibold transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full font-bold transition-all whitespace-nowrap cursor-pointer ${
                   categoryFilter === cat
-                    ? 'bg-cyan-500 text-midnight-950 font-bold shadow-cyan-glow'
+                    ? 'bg-amber-500 text-midnight-950 font-black shadow-gold-glow'
                     : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 border border-white/5'
                 }`}
               >
@@ -186,7 +187,7 @@ export default function ExploreGrid({ initialFilter }) {
             </p>
             <button
               onClick={() => { setSearchTerm(''); setTypeFilter('all'); setCategoryFilter('all'); }}
-              className="btn-luxury-cyan text-xs uppercase px-6 py-2.5 font-bold"
+              className="btn-luxury-gold text-xs uppercase px-6 py-2.5 font-bold shadow-gold-glow"
             >
               Reset Filters
             </button>
@@ -202,6 +203,7 @@ export default function ExploreGrid({ initialFilter }) {
                 const price = region.package?.basePrice || region.basePrice || 24999;
                 const formattedPrice = `₹${price.toLocaleString('en-IN')}`;
                 const duration = region.package?.duration || `${region.durationDays || 8} Days / ${region.durationNights || 7} Nights`;
+                const theme = STATE_COLOR_MAP[region.id] || { fill: '#B45309', border: '#FDE68A' };
 
                 return (
                   <motion.div
@@ -212,7 +214,7 @@ export default function ExploreGrid({ initialFilter }) {
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.45, delay: (idx % 6) * 0.06 }}
                     whileHover={{ y: -6 }}
-                    className="group relative rounded-3xl overflow-hidden bg-midnight-900/95 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 shadow-xl hover:shadow-cyan-glow flex flex-col"
+                    className="group relative rounded-3xl overflow-hidden bg-midnight-900/95 border border-white/10 hover:border-amber-400/50 transition-all duration-300 shadow-xl hover:shadow-floating-panel flex flex-col"
                   >
                     {/* Image Header */}
                     <div className="relative h-60 w-full overflow-hidden">
@@ -226,7 +228,14 @@ export default function ExploreGrid({ initialFilter }) {
 
                       {/* Top Badges */}
                       <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                        <span className="px-3 py-1 rounded-full bg-midnight-950/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-cyan-300 border border-cyan-400/30">
+                        <span 
+                          className="px-3 py-1 rounded-full backdrop-blur-md text-[10px] font-extrabold uppercase tracking-wider border shadow-md"
+                          style={{
+                            backgroundColor: `${theme.fill}35`,
+                            borderColor: `${theme.border}70`,
+                            color: theme.border
+                          }}
+                        >
                           {region.type === 'Union Territory' ? 'Union Territory' : 'State of India'}
                         </span>
 
@@ -247,7 +256,7 @@ export default function ExploreGrid({ initialFilter }) {
                       {/* Package Duration Badge on image bottom */}
                       <div className="absolute bottom-3 left-3.5 flex items-center gap-2">
                         <span className="px-2.5 py-1 rounded-full bg-midnight-950/90 backdrop-blur-md text-slate-200 text-xs font-semibold flex items-center gap-1 border border-white/10">
-                          <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                          <Clock className="w-3.5 h-3.5 text-amber-400" />
                           {duration}
                         </span>
                         <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-midnight-950/90 backdrop-blur-md text-amber-400 text-xs font-bold border border-white/10">
@@ -262,17 +271,17 @@ export default function ExploreGrid({ initialFilter }) {
                       <div>
                         {/* Title & Capital */}
                         <div className="mb-2.5">
-                          <h3 className="font-display text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                          <h3 className="font-display text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
                             {region.name}
                           </h3>
                           <p className="text-xs font-semibold text-slate-400 flex items-center gap-1 mt-0.5">
-                            <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                            <MapPin className="w-3.5 h-3.5 text-amber-400" />
                             Capital: <span className="text-slate-200">{region.capital || region.name}</span>
                           </p>
                         </div>
 
                         {/* Package Title */}
-                        <div className="text-xs font-medium text-cyan-300/90 line-clamp-1 mb-3">
+                        <div className="text-xs font-medium text-amber-200/90 line-clamp-1 mb-3">
                           {region.package?.title || region.tagline || `${region.name} Flagship Tour`}
                         </div>
 
@@ -281,7 +290,7 @@ export default function ExploreGrid({ initialFilter }) {
                           {(region.highlights || []).slice(0, 3).map((item, i) => (
                             <span
                               key={i}
-                              className="px-2.5 py-0.5 rounded-full bg-white/5 text-[11px] font-medium text-slate-300 border border-white/10"
+                              className="px-2.5 py-0.5 rounded-md bg-white/5 text-[11px] font-medium text-amber-100 border border-white/10"
                             >
                               {item}
                             </span>
@@ -295,7 +304,7 @@ export default function ExploreGrid({ initialFilter }) {
                           <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
                             Verified Package
                           </div>
-                          <div className="font-display text-lg font-black text-cyan-400 font-mono">
+                          <div className="font-display text-lg font-black text-amber-400 font-mono">
                             {formattedPrice}
                             <span className="text-xs font-normal text-slate-400 font-sans"> /person</span>
                           </div>
@@ -303,7 +312,7 @@ export default function ExploreGrid({ initialFilter }) {
 
                         <Link
                           to={`/region/${region.id}`}
-                          className="btn-luxury-cyan text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer"
+                          className="btn-luxury-gold text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer shadow-gold-glow"
                         >
                           <span>Explore</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -324,7 +333,7 @@ export default function ExploreGrid({ initialFilter }) {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setVisibleCount((prev) => Math.min(prev + 12, filteredRegions.length))}
-              className="px-8 py-3.5 rounded-full bg-midnight-900 hover:bg-cyan-500 hover:text-midnight-950 border border-cyan-400/40 text-cyan-300 font-bold text-sm shadow-cyan-glow transition-all cursor-pointer inline-flex items-center gap-2"
+              className="px-8 py-3.5 rounded-full bg-midnight-900 hover:bg-amber-500 hover:text-midnight-950 border border-amber-400/40 text-amber-300 font-bold text-sm shadow-gold-glow transition-all cursor-pointer inline-flex items-center gap-2"
             >
               <span>Load More Regions ({filteredRegions.length - visibleCount} remaining)</span>
               <ArrowRight className="w-4 h-4" />
