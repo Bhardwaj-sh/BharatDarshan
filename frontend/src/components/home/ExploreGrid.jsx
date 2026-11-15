@@ -239,7 +239,7 @@ export default function ExploreGrid({ initialFilter }) {
                       <div className="absolute bottom-3 left-3.5 flex items-center gap-2">
                         <span className="px-2.5 py-1 rounded-full bg-forest-900/90 backdrop-blur-md text-slate-200 text-xs font-semibold flex items-center gap-1 border border-white/10">
                           <Clock className="w-3.5 h-3.5 text-lime-400" />
-                          {region.package.duration}
+                          {region.package?.duration || `${region.durationDays || 8} Days / ${region.durationNights || 7} Nights`}
                         </span>
                         <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-forest-900/90 backdrop-blur-md text-amber-400 text-xs font-bold border border-white/10">
                           <Star className="w-3 h-3 fill-amber-400" />
@@ -264,7 +264,7 @@ export default function ExploreGrid({ initialFilter }) {
 
                         {/* Package Title */}
                         <div className="text-xs font-medium text-emerald-200/90 line-clamp-1 mb-3">
-                          {region.package.name}
+                          {region.package?.name || region.tagline || `${region.name} Flagship Tour`}
                         </div>
 
                         {/* Highlights Tags */}
@@ -287,7 +287,7 @@ export default function ExploreGrid({ initialFilter }) {
                             Verified Package
                           </div>
                           <div className="font-display text-lg font-black text-lime-400">
-                            ₹{region.package.pricePerPerson.toLocaleString('en-IN')}
+                            ₹{(region.package?.pricePerPerson || region.startingPrice || 29500).toLocaleString('en-IN')}
                             <span className="text-xs font-normal text-slate-400"> /person</span>
                           </div>
                         </div>
