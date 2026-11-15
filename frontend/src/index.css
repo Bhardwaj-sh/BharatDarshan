@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-ivory-100 text-charcoal-800 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, .font-editorial {
+    @apply font-serif tracking-tight;
+  }
+}
+
+@layer components {
+  /* Glassmorphism effects */
+  .glass-dark {
+    @apply bg-forest-900/80 backdrop-blur-md border border-white/10;
+  }
+  
+  .glass-light {
+    @apply bg-white/80 backdrop-blur-md border border-ivory-200/60 shadow-soft;
+  }
+
+  /* Editorial Buttons */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gold-500 text-forest-950 font-medium tracking-wide hover:bg-gold-400 active:scale-95 transition-all duration-200 shadow-md hover:shadow-glow-gold;
+  }
+
+  .btn-forest {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-forest-800 text-ivory-100 font-medium tracking-wide hover:bg-forest-700 active:scale-95 transition-all duration-200 shadow-md;
+  }
+
+  .btn-outline-gold {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-gold-500/60 text-gold-400 hover:bg-gold-500/10 active:scale-95 transition-all duration-200;
+  }
+
+  .btn-outline-forest {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-forest-800/40 text-forest-800 hover:bg-forest-800/5 active:scale-95 transition-all duration-200;
+  }
+
+  /* Editorial typography with inline image capsule */
+  .inline-capsule-img {
+    @apply inline-block align-middle mx-1.5 h-7 md:h-9 w-14 md:w-20 rounded-full object-cover shadow-sm ring-2 ring-gold-500/40;
+  }
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0D1D19;
+}
+::-webkit-scrollbar-thumb {
+  background: #3B5B4F;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D5A45D;
+}
