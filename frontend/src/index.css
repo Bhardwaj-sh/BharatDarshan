@@ -4,7 +4,12 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-800 antialiased font-sans selection:bg-saffron-500 selection:text-white;
+    @apply bg-slate-50 text-slate-800 antialiased font-sans;
+  }
+
+  ::selection {
+    background: #F97316;
+    color: #FFFFFF;
   }
 
   h1, h2, h3, h4, h5, h6 {
