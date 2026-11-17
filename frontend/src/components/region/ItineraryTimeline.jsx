@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, MapPin, Bed, Utensils, ChevronDown, ChevronUp, Sun, Moon, Sunrise, Car, Sparkles } from 'lucide-react';
+import { Bed, Utensils, ChevronDown, ChevronUp, Sun, Moon, Sunrise, Car } from 'lucide-react';
 
 export default function ItineraryTimeline({ days = [] }) {
   const [expandedDays, setExpandedDays] = useState({ 1: true, 2: true });

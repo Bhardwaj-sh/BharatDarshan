@@ -74,15 +74,23 @@ const EXPERIENCES = [
 
 export default function CinematicExperienceSection() {
   return (
-    <section id="experiences" className="relative py-24 sm:py-28 bg-[#FAFAF9] text-slate-900 overflow-hidden border-t border-slate-200">
+    <section id="experiences" className="relative py-16 sm:py-20 bg-gradient-to-b from-[#F5EFEB] via-[#FAF6F0] to-[#F5EFEB] text-slate-900 overflow-hidden border-t border-amber-900/10">
       
+      {/* Subtle Warm Amber Glow */}
+      <div 
+        className="absolute top-1/3 right-1/4 w-[600px] h-[400px] pointer-events-none opacity-40"
+        style={{
+          background: 'radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%)'
+        }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold uppercase tracking-widest shadow-sm mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-900 text-xs font-bold uppercase tracking-widest shadow-sm mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
               <span>The Cultural & Geographical Tapestry</span>
             </div>
             <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight">
@@ -112,6 +120,10 @@ export default function CinematicExperienceSection() {
                 <img
                   src={exp.image}
                   alt={exp.title}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=1200&q=85';
+                  }}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
                   loading="lazy"
                 />

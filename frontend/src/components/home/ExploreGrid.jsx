@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Clock, ArrowRight, Compass, Sparkles, Heart, Star } from 'lucide-react';
 import { REGIONS_DATA } from '../../data/regionsData';
-import { STATE_COLOR_MAP } from './InteractiveIndiaMap';
+import { STATE_COLOR_MAP } from '../../data/mapCoordinates';
 
 export default function ExploreGrid({ initialFilter }) {
   const [searchTerm, setSearchTerm] = useState(initialFilter?.search || '');
@@ -219,9 +219,13 @@ export default function ExploreGrid({ initialFilter }) {
                     {/* Image Header */}
                     <div className="relative h-60 w-full overflow-hidden">
                       <img
-                        src={region.heroImage}
+                        src={region.heroImage || 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80'}
                         alt={region.name}
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80';
+                        }}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-midnight-950 via-midnight-950/30 to-transparent" />

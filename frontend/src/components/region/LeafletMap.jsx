@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet'
 import L from 'leaflet';
 import { Navigation } from 'lucide-react';
 
-const createCustomMarker = (number, title) => {
+const createCustomMarker = (number, _title) => {
   return L.divIcon({
     className: 'custom-map-pin',
     html: `

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Clock, MapPin, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Calendar, Clock, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function RegionHero({ region }) {
   const scrollToItinerary = () => {
@@ -18,8 +18,12 @@ export default function RegionHero({ region }) {
       {/* Background Photography with Modern Vignette */}
       <div className="absolute inset-0 z-0">
         <img
-          src={region.heroImage}
+          src={region.heroImage || 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=2000&q=85'}
           alt={region.name}
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=2000&q=85';
+          }}
           className="w-full h-full object-cover object-center filter brightness-65 scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-900/50 to-forest-950/80" />

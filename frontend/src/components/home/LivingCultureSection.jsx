@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Flame, Eye, Compass, Music, Palette, UtensilsCrossed, BookOpen, ArrowRight } from 'lucide-react';
+import { Sparkles, Flame, Compass, Palette, UtensilsCrossed, ArrowRight } from 'lucide-react';
 
 const CULTURE_PILLARS = [
   {
@@ -78,27 +78,35 @@ export default function LivingCultureSection() {
   const activePillar = CULTURE_PILLARS.find((p) => p.id === activeTab) || CULTURE_PILLARS[0];
 
   return (
-    <section id="culture" className="relative py-24 sm:py-28 bg-white text-slate-900 overflow-hidden border-t border-slate-200">
+    <section id="culture" className="relative py-16 sm:py-20 bg-gradient-to-b from-[#F5EFEB] via-[#FAF6F0] to-[#F5EFEB] text-slate-900 overflow-hidden border-t border-amber-900/10">
       
+      {/* Subtle Warm Amber Glow */}
+      <div 
+        className="absolute top-1/4 right-1/4 w-[600px] h-[400px] pointer-events-none opacity-40"
+        style={{
+          background: 'radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%)'
+        }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
             <span>Living Heritage & Civilization</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 font-display">
             The Living Soul of <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600">Indian Civilization</span>
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
+          <p className="mt-3 text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
             India is not an open-air museum of relics; it is an uninterrupted five-thousand-year living continuum where classical rituals, architecture, culinary sciences, and sacred arts are practiced every sunrise.
           </p>
         </div>
 
         {/* Tab Navigation Pill Bar */}
-        <div className="flex justify-center mb-14">
-          <div className="inline-flex p-1.5 rounded-full bg-slate-100 border border-slate-200 backdrop-blur-md overflow-x-auto max-w-full">
+        <div className="flex justify-center mb-8 sm:mb-10">
+          <div className="inline-flex p-1.5 rounded-full bg-amber-900/5 border border-amber-900/10 backdrop-blur-md overflow-x-auto max-w-full shadow-inner">
             {CULTURE_PILLARS.map((pillar) => {
               const Icon = pillar.icon;
               const isActive = activeTab === pillar.id;
@@ -138,6 +146,10 @@ export default function LivingCultureSection() {
                 <img
                   src={activePillar.image}
                   alt={activePillar.title}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=85';
+                  }}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />

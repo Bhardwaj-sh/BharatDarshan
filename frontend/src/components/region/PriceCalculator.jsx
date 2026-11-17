@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Calendar, Users, ShieldCheck, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Calendar, Users, ShieldCheck, ArrowRight } from 'lucide-react';
+
+// Pre-computed minimum booking lead time (2 days from today)
+const DEFAULT_MIN_DATE = (() => {
+  const d = new Date();
+  d.setDate(d.getDate() + 2);
+  return d.toISOString().split('T')[0];
+})();
 
 export default function PriceCalculator({ packageData, onOpenEnquiry }) {
   const pricePerPerson = packageData?.pricePerPerson || 34500;
-  
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 2);
-  const minDateString = tomorrow.toISOString().split('T')[0];
-
+  const minDateString = DEFAULT_MIN_DATE;
   const [travelDate, setTravelDate] = useState(minDateString);
   const [travellers, setTravellers] = useState(2);
 
@@ -68,6 +71,7 @@ export default function PriceCalculator({ packageData, onOpenEnquiry }) {
             min={minDateString}
             value={travelDate}
             onChange={(e) => setTravelDate(e.target.value)}
+            style={{ colorScheme: 'dark' }}
             className="w-full bg-forest-950 border border-forest-750 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-lime-400 cursor-pointer font-medium"
           />
         </div>

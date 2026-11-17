@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Compass, Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 
 export default function IndiaSelectionMoment({ onComplete }) {
   // Auto-advance after 3.8 seconds into the Grand Showcase

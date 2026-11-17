@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShieldCheck, Users, Calendar, Clock, CheckCircle2, XCircle, ArrowUpRight, RefreshCw, AlertCircle } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, RefreshCw } from 'lucide-react';
 import { adminService } from '../services/api';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const [user] = useState(() => JSON.parse(localStorage.getItem('bharat_user') || 'null'));
   const [stats, setStats] = useState({
     totalUsers: 2,
     totalStates: 36,
@@ -15,7 +16,7 @@ export default function AdminDashboard() {
   });
   const [bookings, setBookings] = useState([]);
   const [filterStatus, setFilterStatus] = useState('all');
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [actionMsg, setActionMsg] = useState('');
 
   const loadAdminData = async () => {
@@ -40,13 +41,12 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem('bharat_user') || 'null');
-    if (!savedUser || savedUser.role !== 'admin') {
+    if (!user || user.role !== 'admin') {
       navigate('/login');
       return;
     }
     loadAdminData();
-  }, [filterStatus]);
+  }, [user, filterStatus, navigate]);
 
   const handleStatusUpdate = async (id, newStatus) => {
     setActionMsg('');
@@ -69,7 +69,7 @@ export default function AdminDashboard() {
   return (
     <div className="pt-32 pb-24 bg-[#05070F] min-h-screen text-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
 
         {/* Analytics Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          
+
           <div className="glass-dark rounded-3xl p-6 border border-white/10 shadow-xl">
             <span className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 block mb-1">
               Active Regions
@@ -151,7 +151,7 @@ export default function AdminDashboard() {
 
         {/* Enquiries Table Section */}
         <div className="glass-dark rounded-3xl border border-white/10 shadow-2xl overflow-hidden mb-12">
-          
+
           <div className="p-6 border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
@@ -221,15 +221,14 @@ export default function AdminDashboard() {
                         <div className="text-[10px] text-slate-400">₹{perPerson?.toLocaleString('en-IN')}/pax</div>
                       </td>
                       <td className="py-4 px-6">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                          status === 'Confirmed'
-                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                            : status === 'Cancelled'
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${status === 'Confirmed'
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                          : status === 'Cancelled'
                             ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
                             : status === 'Completed'
-                            ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                            : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                        }`}>
+                              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                              : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                          }`}>
                           {status}
                         </span>
                       </td>

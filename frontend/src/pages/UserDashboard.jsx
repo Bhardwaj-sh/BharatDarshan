@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Calendar, Users, Clock, ShieldCheck, ArrowRight, User, Heart, Compass, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
+import { Calendar, Users, Clock, ShieldCheck, ArrowRight, Compass, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 import { bookingService } from '../services/api';
 
 export default function UserDashboard() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user] = useState(() => JSON.parse(localStorage.getItem('bharat_user') || 'null'));
   const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('trips');
 
   const fetchTrips = async () => {
@@ -30,14 +30,12 @@ export default function UserDashboard() {
   };
 
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem('bharat_user') || 'null');
-    if (!savedUser) {
+    if (!user) {
       navigate('/login');
       return;
     }
-    setUser(savedUser);
     fetchTrips();
-  }, []);
+  }, [user, navigate]);
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -74,7 +72,8 @@ export default function UserDashboard() {
   return (
     <div className="pt-32 pb-24 bg-[#05070F] min-h-screen text-slate-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
+
         {/* Welcome Header */}
         <div className="glass-dark text-white rounded-3xl p-6 sm:p-10 mb-8 border border-white/15 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">

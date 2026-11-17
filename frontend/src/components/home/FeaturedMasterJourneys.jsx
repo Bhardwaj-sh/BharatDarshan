@@ -13,7 +13,7 @@ import {
   Users
 } from 'lucide-react';
 import { REGIONS_DATA } from '../../data/regionsData';
-import { STATE_COLOR_MAP } from './InteractiveIndiaMap';
+import { STATE_COLOR_MAP } from '../../data/mapCoordinates';
 
 const ZONE_FILTERS = [
   { id: 'all', label: 'All 36 Flagships' },
@@ -44,21 +44,29 @@ export default function FeaturedMasterJourneys() {
   const visibleRegions = filteredRegions.slice(0, displayCount);
 
   return (
-    <section id="master-journeys" className="relative py-24 sm:py-28 bg-white text-slate-900 overflow-hidden border-t border-slate-200">
+    <section id="master-journeys" className="relative py-16 sm:py-20 bg-gradient-to-b from-[#FAF6F0] via-[#F6F1E9] to-[#FAF6F0] text-slate-900 overflow-hidden border-t border-amber-900/10">
       
+      {/* Subtle Warm Amber Glow */}
+      <div 
+        className="absolute top-1/4 left-1/4 w-[600px] h-[400px] pointer-events-none opacity-40"
+        style={{
+          background: 'radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%)'
+        }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider mb-4 shadow-sm">
-              <Compass className="w-3.5 h-3.5 text-slate-800" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3 shadow-sm">
+              <Compass className="w-3.5 h-3.5 text-amber-700" />
               <span>Strict 1-Tour-Per-Region Architecture</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 font-display">
               Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-600 to-emerald-600">Master Journeys</span>
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl font-normal">
+            <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-2xl font-normal">
               Each state and territory of India is represented by exactly one definitive, culturally authentic master itinerary with server-snapshotted pricing.
             </p>
           </div>
@@ -105,20 +113,22 @@ export default function FeaturedMasterJourneys() {
               return (
                 <motion.article
                   key={region.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, delay: idx * 0.04 }}
-                  className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 hover:border-slate-300 transition-all duration-500 shadow-sm hover:shadow-xl flex flex-col"
+                  transition={{ duration: 0.3, delay: idx * 0.03 }}
+                  className="group relative rounded-3xl overflow-hidden bg-white/95 border border-amber-900/10 hover:border-amber-500/40 transition-all duration-300 shadow-sm hover:shadow-xl flex flex-col"
                 >
                   {/* Image Container with Ken Burns Hover */}
                   <div className="relative h-60 w-full overflow-hidden bg-slate-100">
                     <img
-                      src={region.heroImage}
+                      src={(region.heroImage || '').replace('w=1600&q=85', 'w=800&q=80')}
                       alt={region.name}
                       className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
                       loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80";
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 

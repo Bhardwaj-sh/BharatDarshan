@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import { 
   ShieldCheck, 
   Compass, 
@@ -9,7 +8,6 @@ import {
   MapPin, 
   IndianRupee, 
   CheckCircle, 
-  Clock, 
   ArrowRight,
   Headphones
 } from 'lucide-react';
@@ -64,27 +62,35 @@ const SAMPLE_BREAKDOWN = {
 
 export default function PlanYourJourney() {
   return (
-    <section id="plan" className="relative py-24 sm:py-28 bg-[#F8FAFC] text-slate-900 overflow-hidden border-t border-slate-200">
+    <section id="plan" className="relative py-16 sm:py-20 bg-gradient-to-b from-[#FAF6F0] via-[#F6F1E9] to-[#FAF6F0] text-slate-900 overflow-hidden border-t border-amber-900/10">
       
+      {/* Subtle Warm Amber Glow */}
+      <div 
+        className="absolute top-1/4 left-1/3 w-[600px] h-[400px] pointer-events-none opacity-40"
+        style={{
+          background: 'radial-gradient(circle, rgba(245, 158, 11, 0.05) 0%, transparent 70%)'
+        }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider mb-4 shadow-sm">
-            <ShieldCheck className="w-3.5 h-3.5 text-slate-800" />
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3 shadow-sm">
+            <ShieldCheck className="w-3.5 h-3.5 text-amber-700" />
             <span>Effortless & Transparent Planning</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 font-display">
             How Every Journey <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-600 to-emerald-600">Is Orchestrated</span>
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
+          <p className="mt-3 text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
             From the moment you pick your state to the final sunrise of your journey, every detail is engineered for cinematic wonder and flawless execution.
           </p>
         </div>
 
         {/* 4 Architectural Step Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {JOURNEY_STEPS.map((step, idx) => {
+          {JOURNEY_STEPS.map((step) => {
             const Icon = step.icon;
             return (
               <div

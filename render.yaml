@@ -1,0 +1,43 @@
+services:
+  # 1. Backend Web Service
+  - type: web
+    name: bharatdarshan-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        fromService:
+          type: web
+          name: bharatdarshan-ui
+          property: url
+
+  # 2. Frontend Static Site
+  - type: web
+    name: bharatdarshan-ui
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: bharatdarshan-api
+          property: url
+          append: /api

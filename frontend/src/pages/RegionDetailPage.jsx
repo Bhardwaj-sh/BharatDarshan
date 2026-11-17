@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RAJASTHAN_DATA } from '../data/rajasthanData';
 import { REGIONS_DATA } from '../data/regionsData';
+import { STATE_ATTRACTIONS_MAP } from '../data/attractionsData';
 import RegionHero from '../components/region/RegionHero';
 import QuickFactsBar from '../components/region/QuickFactsBar';
 import RegionIntro from '../components/region/RegionIntro';
@@ -28,10 +29,10 @@ export default function RegionDetailPage() {
       try {
         const targetSlug = slug || 'rajasthan';
         const res = await stateService.getBySlug(targetSlug);
-        
+
         if (res.data?.data) {
           const { state, package: tourPkg, itinerary } = res.data.data;
-          
+
           setRegionData({
             id: state.slug,
             slug: state.slug,
@@ -60,27 +61,27 @@ export default function RegionDetailPage() {
               culture: state.culture || RAJASTHAN_DATA.introduction.culture,
               distinctive: state.distinctive || RAJASTHAN_DATA.introduction.distinctive
             },
-            majorAttractions: (state.majorAttractions && state.majorAttractions.length > 0)
+            majorAttractions: (state.majorAttractions && state.majorAttractions.length > 0 && state.majorAttractions.some(a => a.image))
               ? state.majorAttractions
-              : RAJASTHAN_DATA.majorAttractions,
+              : (STATE_ATTRACTIONS_MAP[targetSlug] || RAJASTHAN_DATA.majorAttractions),
             mapCoordinates: (state.mapCoordinates && state.mapCoordinates.length > 0)
               ? state.mapCoordinates
               : RAJASTHAN_DATA.mapCoordinates,
             cultureAndFood: RAJASTHAN_DATA.cultureAndFood,
             seasonalGuidance: RAJASTHAN_DATA.seasonalGuidance,
             package: tourPkg || RAJASTHAN_DATA.package,
-            itinerary: (itinerary && itinerary.length > 0) 
+            itinerary: (itinerary && itinerary.length > 0)
               ? itinerary.map(d => ({
-                  day: d.dayNumber,
-                  title: d.title,
-                  overview: d.overview,
-                  morning: d.morningActivities,
-                  afternoon: d.afternoonActivities,
-                  evening: d.eveningActivities,
-                  stay: d.stay || 'Heritage Haveli',
-                  meal: d.meal || 'Breakfast Included',
-                  distance: d.distance || 'Local transfer'
-                }))
+                day: d.dayNumber,
+                title: d.title,
+                overview: d.overview,
+                morning: d.morningActivities,
+                afternoon: d.afternoonActivities,
+                evening: d.eveningActivities,
+                stay: d.stay || 'Heritage Haveli',
+                meal: d.meal || 'Breakfast Included',
+                distance: d.distance || 'Local transfer'
+              }))
               : RAJASTHAN_DATA.itinerary
           });
           return;
@@ -110,7 +111,7 @@ export default function RegionDetailPage() {
             culture: `Rich in regional language, folk performing arts, authentic craft traditions, and vibrant local celebrations.`,
             distinctive: found.description
           },
-          majorAttractions: RAJASTHAN_DATA.majorAttractions,
+          majorAttractions: STATE_ATTRACTIONS_MAP[found.slug] || RAJASTHAN_DATA.majorAttractions,
           mapCoordinates: RAJASTHAN_DATA.mapCoordinates,
           cultureAndFood: RAJASTHAN_DATA.cultureAndFood,
           seasonalGuidance: RAJASTHAN_DATA.seasonalGuidance,
@@ -139,7 +140,7 @@ export default function RegionDetailPage() {
 
   return (
     <div className="w-full bg-[#05070F] text-slate-100">
-      
+
       {/* 1. Cinematic Hero */}
       <RegionHero region={regionData} />
 
@@ -175,9 +176,9 @@ export default function RegionDetailPage() {
       {/* 6. Main Itinerary & Price Calculator Dual Layout */}
       <section id="itinerary-section" className="py-24 bg-[#05070F] border-y border-white/10 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            
+
             {/* Left 8 Columns: Day-by-Day Timeline */}
             <div className="lg:col-span-8">
               <ItineraryTimeline days={regionData.itinerary} />
@@ -199,7 +200,7 @@ export default function RegionDetailPage() {
       {/* 7. Package Inclusions & Exclusions Card */}
       <section className="py-24 bg-[#070A14] border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           <div className="glass-dark rounded-3xl p-8 sm:p-10 border border-white/15 shadow-2xl">
             <div className="mb-8">
               <span className="text-xs uppercase font-extrabold tracking-widest text-amber-400 block mb-2">
@@ -214,7 +215,7 @@ export default function RegionDetailPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 border-t border-white/10">
-              
+
               {/* Inclusions */}
               <div>
                 <h4 className="font-display text-lg font-bold text-emerald-400 mb-5 flex items-center gap-2">

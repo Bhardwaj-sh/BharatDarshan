@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, CheckCircle2, ShieldCheck, Calendar, Users, MapPin, ArrowRight, AlertCircle } from 'lucide-react';
+import { X, CheckCircle2, Calendar, Users, ArrowRight, AlertCircle } from 'lucide-react';
 import { bookingService } from '../../services/api';
 
 export default function EnquiryModal({ isOpen, onClose, packageData, enquiryParams }) {
-  if (!isOpen) return null;
-
   const navigate = useNavigate();
   const savedUser = JSON.parse(localStorage.getItem('bharat_user') || 'null');
 
@@ -16,6 +14,8 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [submittedBooking, setSubmittedBooking] = useState(null);
+
+  if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -7,6 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Deep Forest / Emerald Night Palette (used across modals, regions, itineraries)
+        forest: {
+          950: '#060E0B',
+          900: '#0B1C15',
+          850: '#12291E',
+          800: '#1A3628',
+          750: '#234434',
+          700: '#2E5441',
+        },
         // Deep Warm Charcoal / Obsidian night base (eliminating cold mono-blue)
         midnight: {
           950: '#06070B', // Deep warm obsidian night

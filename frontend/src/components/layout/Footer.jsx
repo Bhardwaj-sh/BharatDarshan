@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, Mail, ShieldCheck, Heart, ArrowUpRight, Sparkles, Send, MapPin } from 'lucide-react';
+import { ShieldCheck, Heart, ArrowUpRight, Send } from 'lucide-react';
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="relative bg-slate-50 text-slate-600 overflow-hidden pt-20 pb-12 border-t border-slate-200">
+    <footer className="relative bg-[#FAF6F0] text-slate-700 overflow-hidden pt-16 sm:pt-20 pb-12 border-t border-amber-900/10">
       
       {/* Background Brand Watermark */}
       <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 pointer-events-none select-none opacity-[0.03] whitespace-nowrap">
@@ -132,7 +134,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} Bharat Darshan. All rights reserved. 28 States · 8 UTs.</p>
+          <p>© {CURRENT_YEAR} Bharat Darshan. All rights reserved. 28 States · 8 UTs.</p>
           <p className="flex items-center gap-1.5 text-slate-400">
             Crafted with <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> for Incredible India
           </p>

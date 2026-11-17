@@ -4,11 +4,12 @@
 
 @layer base {
   body {
-    background-color: #FFFFFF;
+    background-color: #FAF6F0;
     color: #0F172A;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
@@ -192,3 +193,37 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
 }
+
+/* Smooth Infinite Flow Animation (100% Zero Jitter, Composited on GPU) */
+@keyframes infiniteFlow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-infinite-flow {
+  display: flex;
+  width: max-content;
+  animation: infiniteFlow 160s linear infinite;
+  will-change: transform;
+}
+
+/* Only pause when explicitly toggled via the play/pause button, NEVER on hover */
+.animate-infinite-flow-paused {
+  animation-play-state: paused !important;
+}
+
+.smooth-scroll-x {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fast Rendering & Composite Layer Optimization */
+.gpu-accelerate {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+

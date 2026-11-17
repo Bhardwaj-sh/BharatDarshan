@@ -12,6 +12,7 @@ import Booking from '../models/Booking.js';
 // Import our rich frontend data registries
 import { REGIONS_DATA } from '../../../frontend/src/data/regionsData.js';
 import { RAJASTHAN_DATA } from '../../../frontend/src/data/rajasthanData.js';
+import { STATE_ATTRACTIONS_MAP } from '../../../frontend/src/data/attractionsData.js';
 
 const seedDatabase = async () => {
   try {
@@ -59,16 +60,18 @@ const seedDatabase = async () => {
         category: region.category,
         description: region.description,
         heroImage: region.heroImage,
-        gallery: [region.heroImage, region.thumbnail],
+        gallery: [
+          region.heroImage,
+          region.thumbnail,
+          ...(STATE_ATTRACTIONS_MAP[region.slug] ? STATE_ATTRACTIONS_MAP[region.slug].map(a => a.image) : [])
+        ],
         highlights: region.highlights,
         bestTimeToVisit: region.bestTime,
         history: region.slug === 'rajasthan' ? RAJASTHAN_DATA.introduction.history : `${region.name} holds centuries of deep civilizational heritage in India.`,
         geography: region.slug === 'rajasthan' ? RAJASTHAN_DATA.introduction.geography : `Remarkable terrain and biodiversity unique to ${region.name}.`,
         culture: region.slug === 'rajasthan' ? RAJASTHAN_DATA.introduction.culture : `Vibrant regional folklore, handicrafts, and classical music traditions.`,
         distinctive: region.slug === 'rajasthan' ? RAJASTHAN_DATA.introduction.distinctive : region.description,
-        majorAttractions: region.slug === 'rajasthan' 
-          ? RAJASTHAN_DATA.majorAttractions 
-          : region.highlights.map(h => ({ name: h, city: region.capital, description: `Iconic attraction in ${region.name}.` })),
+        majorAttractions: STATE_ATTRACTIONS_MAP[region.slug] || RAJASTHAN_DATA.majorAttractions,
         mapCoordinates: region.slug === 'rajasthan' ? RAJASTHAN_DATA.mapCoordinates : []
       });
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { MapPin, Info } from 'lucide-react';
 
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80';
+
 export default function AttractionGallery({ attractions = [] }) {
   if (!attractions || attractions.length === 0) return null;
 
@@ -23,19 +25,23 @@ export default function AttractionGallery({ attractions = [] }) {
 
         {/* Attractions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {attractions.map((attraction) => (
+          {attractions.map((attraction, idx) => (
             <div
-              key={attraction.id}
+              key={attraction.id || attraction._id || `${attraction.name}-${idx}`}
               className="bg-slate-900/60 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/10 shadow-2xl group hover:border-amber-500/50 hover:shadow-[0_0_30px_rgba(245,158,11,0.2)] transition-all duration-300"
             >
               <div className="relative h-64 overflow-hidden bg-slate-950">
                 <img
-                  src={attraction.image}
+                  src={attraction.image || FALLBACK_IMAGE}
                   alt={attraction.name}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = FALLBACK_IMAGE;
+                  }}
                   className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                  loading="lazy"
+                  loading="eager"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
                 <span className="absolute bottom-4 left-4 text-xs font-bold text-white bg-black/70 px-3.5 py-1.5 rounded-full backdrop-blur-md border border-white/15 flex items-center gap-1.5 shadow-sm">
                   <MapPin className="w-3.5 h-3.5 text-amber-400" />
                   <span>{attraction.city}</span>

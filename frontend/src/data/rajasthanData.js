@@ -13,7 +13,7 @@ export const RAJASTHAN_DATA = {
     'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1000&q=80',
     'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1000&q=80',
     'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1000&q=80',
-    'https://images.unsplash.com/photo-1600100397608-f010f443b793?auto=format&fit=crop&w=1000&q=80'
+    'https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&w=1000&q=80'
   ],
   startingPrice: 34500,
   durationDays: 9,
@@ -67,7 +67,7 @@ export const RAJASTHAN_DATA = {
       id: 'city-palace-udaipur',
       name: 'City Palace & Lake Pichola',
       city: 'Udaipur',
-      image: 'https://images.unsplash.com/photo-1600100397608-f010f443b793?auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&w=800&q=80',
       description: 'Mewar dynasty’s monumental granite and marble palace complex overlooking serene Lake Pichola, featuring mirror-inlaid courtyards and sunset boat cruises to Jag Mandir.',
       visitorNotes: 'Boat departures operate hourly until 5:00 PM from the Bansi Ghat jetty.'
     }
