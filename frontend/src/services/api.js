@@ -3,8 +3,8 @@ import axios from 'axios';
 const getBaseURL = () => {
   const envUrl = import.meta.env.VITE_API_URL;
   // Guard against unreplaced placeholders
-  if (envUrl && !envUrl.includes('your-render-url')) {
-    return envUrl;
+  if (envUrl && !envUrl.includes('your-render-url') && !envUrl.includes('placeholder')) {
+    return envUrl.replace(/\/+$/, '');
   }
   if (import.meta.env.PROD) return '/api';
   return 'http://localhost:5000/api';
@@ -31,12 +31,22 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response Interceptor: Graceful 401 token handling
+// Response Interceptor: Graceful 401 token handling & SPA HTML fallback guard
 API.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Guard against SPA fallback returning HTML index.html when backend URL is unconfigured
+    if (
+      typeof response.data === 'string' &&
+      (response.data.includes('<!DOCTYPE') || response.data.includes('<!doctype') || response.data.includes('<html'))
+    ) {
+      const err = new Error('Backend API endpoint unreachable (received static HTML fallback).');
+      err.isHtmlFallback = true;
+      return Promise.reject(err);
+    }
+    return response;
+  },
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Token expired or invalid
       console.warn('Authentication token expired or unauthorized');
     }
     return Promise.reject(error);

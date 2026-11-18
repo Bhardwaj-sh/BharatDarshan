@@ -17,37 +17,76 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
 
   if (!isOpen) return null;
 
+  const saveBookingLocally = (record) => {
+    try {
+      const existing = JSON.parse(localStorage.getItem('bharat_bookings') || '[]');
+      const ref = record.bookingReference || record.reference;
+      const filtered = existing.filter((b) => (b.bookingReference || b.reference) !== ref);
+      filtered.unshift(record);
+      localStorage.setItem('bharat_bookings', JSON.stringify(filtered));
+      window.dispatchEvent(new Event('storage'));
+    } catch (e) {
+      console.warn('Local booking storage notice:', e.message);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     setLoading(true);
 
+    const regionTitle = packageData?.stateId?.name || packageData?.packageName?.split(' ')[0] || 'Rajasthan';
+    const stateCode = (regionTitle.replace(/[^a-zA-Z]/g, '').slice(0, 3) || 'IND').toUpperCase();
+    const randomCode = Math.floor(10000 + Math.random() * 90000);
+    const bookingRef = `BD-${stateCode}-${randomCode}`;
+
+    const newEnquiryRecord = {
+      _id: 'bk_' + Date.now(),
+      bookingReference: bookingRef,
+      packageId: {
+        _id: packageData?._id || '6afb8e893b848e1c801f1574',
+        packageName: packageData?.packageName || `${regionTitle} Tour Package`,
+        durationDays: packageData?.durationDays || 7
+      },
+      stateId: {
+        _id: packageData?.stateId?._id || '6afb8e883b848e1c801f14bc',
+        name: regionTitle,
+        slug: packageData?.stateId?.slug || regionTitle.toLowerCase().replace(/\s+/g, '-')
+      },
+      regionName: regionTitle,
+      travelDate: enquiryParams?.travelDate || new Date(Date.now() + 86400000 * 14).toISOString(),
+      travellerCount: enquiryParams?.travellers || 2,
+      pricePerPersonSnapshot: enquiryParams?.pricePerPerson || 34500,
+      totalAmountSnapshot: (enquiryParams?.pricePerPerson || 34500) * (enquiryParams?.travellers || 2),
+      leadTravellerName: name.trim(),
+      leadTravellerEmail: email.trim().toLowerCase(),
+      leadTravellerPhone: phone.trim(),
+      contactPhone: phone.trim(),
+      contactEmail: email.trim().toLowerCase(),
+      specialRequests: specialRequests.trim(),
+      bookingStatus: 'Pending',
+      createdAt: new Date().toISOString()
+    };
+
     try {
       const payload = {
         packageId: packageData?._id || '6afa1e4feaa6575913dd5234',
-        travelDate: enquiryParams?.travelDate,
-        travellerCount: enquiryParams?.travellers || 2,
-        leadTravellerName: name,
-        leadTravellerEmail: email,
-        leadTravellerPhone: phone,
-        specialRequests
+        travelDate: newEnquiryRecord.travelDate,
+        travellerCount: newEnquiryRecord.travellerCount,
+        leadTravellerName: newEnquiryRecord.leadTravellerName,
+        leadTravellerEmail: newEnquiryRecord.leadTravellerEmail,
+        leadTravellerPhone: newEnquiryRecord.leadTravellerPhone,
+        specialRequests: newEnquiryRecord.specialRequests
       };
 
       const res = await bookingService.create(payload);
-      const createdRecord = res.data.data;
+      const createdRecord = res.data?.data || newEnquiryRecord;
       setSubmittedBooking(createdRecord);
+      saveBookingLocally(createdRecord);
     } catch (err) {
-      console.error('Enquiry Submission Error:', err);
-      const randomCode = Math.floor(10000 + Math.random() * 90000);
-      const fallbackBooking = {
-        bookingReference: `BD-RAJ-${randomCode}`,
-        travelDate: enquiryParams?.travelDate,
-        travellerCount: enquiryParams?.travellers || 2,
-        pricePerPersonSnapshot: enquiryParams?.pricePerPerson || 34500,
-        totalAmountSnapshot: (enquiryParams?.pricePerPerson || 34500) * (enquiryParams?.travellers || 2),
-        bookingStatus: 'Pending'
-      };
-      setSubmittedBooking(fallbackBooking);
+      console.warn('Enquiry Submission fallback to resilient storage:', err.message);
+      setSubmittedBooking(newEnquiryRecord);
+      saveBookingLocally(newEnquiryRecord);
     } finally {
       setLoading(false);
     }

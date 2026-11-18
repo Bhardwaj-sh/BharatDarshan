@@ -5,6 +5,9 @@ import mongoose from 'mongoose';
 import app from './app.js';
 import { connectDB } from './config/db.js';
 import User from './models/User.js';
+import Booking from './models/Booking.js';
+import State from './models/State.js';
+import Package from './models/Package.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -47,11 +50,70 @@ const ensureAdminUser = async () => {
   }
 };
 
+// Seed Initial Customer Tour Requests for Admin Visibility
+const ensureSeedBookings = async () => {
+  try {
+    const pendingCount = await Booking.countDocuments({ bookingStatus: 'Pending' });
+    if (pendingCount === 0) {
+      const rajState = await State.findOne({ slug: 'rajasthan' });
+      const rajPkg = rajState ? await Package.findOne({ stateId: rajState._id }) : null;
+      if (rajState && rajPkg) {
+        await Booking.findOneAndUpdate(
+          { bookingReference: 'BD-RAJ-10824' },
+          {
+            bookingReference: 'BD-RAJ-10824',
+            packageId: rajPkg._id,
+            stateId: rajState._id,
+            travelDate: new Date(Date.now() + 86400000 * 14),
+            travellerCount: 2,
+            pricePerPersonSnapshot: 34500,
+            totalAmountSnapshot: 69000,
+            leadTravellerName: 'Aarav Sharma',
+            leadTravellerEmail: 'aarav@example.com',
+            leadTravellerPhone: '+91 98765 01234',
+            specialRequests: 'Heritage haveli with private balcony overlooking Maota Lake; vegetarian meals.',
+            bookingStatus: 'Pending'
+          },
+          { upsert: true, new: true }
+        );
+        console.log('[Seed] Verified seed pending enquiry: BD-RAJ-10824');
+      }
+
+      const kerState = await State.findOne({ slug: 'kerala' });
+      const kerPkg = kerState ? await Package.findOne({ stateId: kerState._id }) : null;
+      if (kerState && kerPkg) {
+        await Booking.findOneAndUpdate(
+          { bookingReference: 'BD-KER-96297' },
+          {
+            bookingReference: 'BD-KER-96297',
+            packageId: kerPkg._id,
+            stateId: kerState._id,
+            travelDate: new Date(Date.now() + 86400000 * 25),
+            travellerCount: 4,
+            pricePerPersonSnapshot: 28900,
+            totalAmountSnapshot: 115600,
+            leadTravellerName: 'Meera Nambiar',
+            leadTravellerEmail: 'meera.n@example.com',
+            leadTravellerPhone: '+91 98451 22334',
+            specialRequests: 'Houseboat stay in Alleppey backwaters; airport pick-up in Kochi.',
+            bookingStatus: 'Confirmed'
+          },
+          { upsert: true, new: true }
+        );
+        console.log('[Seed] Verified seed confirmed enquiry: BD-KER-96297');
+      }
+    }
+  } catch (err) {
+    console.warn('[Seed] Notice ensuring seed bookings:', err.message);
+  }
+};
+
 // Connect to Database first, then listen
 const startServer = async () => {
   try {
     await connectDB();
     await ensureAdminUser();
+    await ensureSeedBookings();
 
     const server = app.listen(PORT, () => {
       console.log(`===============================================`);
