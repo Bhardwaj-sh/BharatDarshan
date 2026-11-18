@@ -45,6 +45,34 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [actionMsg, setActionMsg] = useState('');
 
+  const loadFallbackUsers = () => {
+    const defaultDirectory = [
+      {
+        _id: 'usr_admin_root_master',
+        name: 'Bharat Darshan Admin',
+        email: 'admin123@gmail.com',
+        phone: '+91 9876543210',
+        role: 'admin',
+        status: 'active',
+        createdAt: '2026-11-18T10:00:00.000Z',
+        bookingsCount: 0
+      },
+      {
+        _id: 'usr_aarav_sharma_01',
+        name: 'Aarav Sharma',
+        email: 'aarav@example.com',
+        phone: '+91 9876501234',
+        role: 'user',
+        status: 'active',
+        createdAt: '2026-11-18T11:15:00.000Z',
+        bookingsCount: 1,
+        totalSpend: 34500
+      }
+    ];
+    const registeredLocal = JSON.parse(localStorage.getItem('bharat_registered_users') || '[]');
+    setUsersList([...registeredLocal, ...defaultDirectory]);
+  };
+
   const loadAdminData = async () => {
     setLoading(true);
     try {
@@ -62,13 +90,16 @@ export default function AdminDashboard() {
 
       // 3. Fetch Registered Users
       const usersRes = await adminService.getUsers();
-      if (usersRes.data?.data) {
+      if (usersRes.data?.data && usersRes.data.data.length > 0) {
         setUsersList(usersRes.data.data);
+      } else {
+        loadFallbackUsers();
       }
     } catch (err) {
       console.warn('Admin API load notice:', err.message);
       const localBookings = JSON.parse(localStorage.getItem('bharat_bookings') || '[]');
       if (localBookings.length) setBookings(localBookings);
+      loadFallbackUsers();
     } finally {
       setLoading(false);
     }
