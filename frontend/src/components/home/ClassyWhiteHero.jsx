@@ -1,21 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
-  MapPin, 
-  Calendar, 
-  Users, 
-  Search, 
   ChevronRight, 
   ChevronLeft, 
-  Plus, 
-  Minus,
   Sparkles, 
-  ArrowRight,
-  ArrowUpRight,
-  Compass,
-  Play,
-  Pause
+  ArrowUpRight, 
+  Compass, 
+  Play, 
+  Pause 
 } from 'lucide-react';
 
 // Curated high-res panoramic landscapes matching the Egypt luxury poster design

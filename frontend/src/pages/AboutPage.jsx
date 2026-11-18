@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, ShieldCheck, MapPin, Heart, CheckCircle2, Sparkles, Award } from 'lucide-react';
+import { Compass, ShieldCheck, Heart } from 'lucide-react';
 
 export default function AboutPage() {
   return (
