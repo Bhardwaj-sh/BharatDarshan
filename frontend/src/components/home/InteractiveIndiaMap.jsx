@@ -351,14 +351,19 @@ export default function InteractiveIndiaMap() {
 
     const width = container.clientWidth;
     const height = container.clientHeight;
+    const isMobile = width < 768;
+    const aspect = width / height;
 
     // 1. Scene & Camera Setup (Pure 2D Orthogonal View Angle)
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x071628); // Rich softer deep navy-blue ocean
 
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
-    // Balanced framing with slight ~1-2cm visual zoom-in, zero cropping of Kashmir or Kanyakumari
-    const DEFAULT_CAM_POS = new THREE.Vector3(0.6, 1.2, 80);
+    const camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 1000);
+    // Dynamic framing: on narrow mobile viewports, scale camera distance so entire horizontal span of India fits without cropping
+    const vFovRad = (40 * Math.PI) / 180;
+    const fitW = (36 / 2) / (Math.tan(vFovRad / 2) * aspect);
+    const optimalCamZ = Math.max(80, isMobile ? fitW * 1.08 : 80);
+    const DEFAULT_CAM_POS = new THREE.Vector3(0.6, 1.2, optimalCamZ);
     const DEFAULT_TARGET = new THREE.Vector3(0.6, 1.2, 0);
     camera.position.copy(DEFAULT_CAM_POS);
     camera.lookAt(DEFAULT_TARGET);
@@ -381,7 +386,7 @@ export default function InteractiveIndiaMap() {
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
     controls.minDistance = 25;     // State zoom in level
-    controls.maxDistance = 80;    // Full India level
+    controls.maxDistance = Math.max(85, optimalCamZ + 10);    // Full India level dynamic max
     controls.target.copy(DEFAULT_TARGET);
     controls.mouseButtons = {
       LEFT: THREE.MOUSE.PAN,
@@ -479,8 +484,8 @@ export default function InteractiveIndiaMap() {
       dotGroup.position.copy(p3);
       dotGroup.userData = { region, coords };
 
-      // Outer Selection Glow Halo (Shows only for active state)
-      const haloGeo = new THREE.RingGeometry(0.70, 1.35, 32);
+      // Outer Selection Glow Halo (Shows only for active state, scaled for mobile)
+      const haloGeo = new THREE.RingGeometry(isMobile ? 0.85 : 0.70, isMobile ? 1.60 : 1.35, 32);
       const haloMat = new THREE.MeshBasicMaterial({
         color: 0x38BDF8, // Glowing cyan-blue halo
         transparent: true,
@@ -492,8 +497,8 @@ export default function InteractiveIndiaMap() {
       haloMesh.visible = isInitialActive;
       dotGroup.add(haloMesh);
 
-      // Core Blue Dot (Clean, attractive blue circle, visible on EVERY state)
-      const coreGeo = new THREE.CircleGeometry(0.48, 24);
+      // Core Blue Dot (Clean, attractive blue circle, visible on EVERY state, thumb-friendly on mobile)
+      const coreGeo = new THREE.CircleGeometry(isMobile ? 0.60 : 0.48, 24);
       const coreMat = new THREE.MeshBasicMaterial({
         color: 0x0284C7, // Vibrant attractive ocean-blue
         transparent: true,
@@ -504,7 +509,7 @@ export default function InteractiveIndiaMap() {
       dotGroup.add(coreMesh);
 
       // Inner Highlight Center (Soft ice-blue/white center dot for crispness)
-      const innerGeo = new THREE.CircleGeometry(0.20, 16);
+      const innerGeo = new THREE.CircleGeometry(isMobile ? 0.25 : 0.20, 16);
       const innerMat = new THREE.MeshBasicMaterial({
         color: 0xF0F9FF, // Ice white center
         transparent: true,
@@ -514,8 +519,8 @@ export default function InteractiveIndiaMap() {
       innerMesh.position.set(0, 0, 0.01);
       dotGroup.add(innerMesh);
 
-      // Invisible Extended Hit Area (Allows comfortable, easy clicking of the blue dot)
-      const hitAreaGeo = new THREE.CircleGeometry(1.8, 16);
+      // Extended Touch-Friendly Hit Area (Allows effortless finger tapping on mobile screens)
+      const hitAreaGeo = new THREE.CircleGeometry(isMobile ? 2.6 : 1.8, 16);
       const hitAreaMat = new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0.0,
@@ -701,7 +706,14 @@ export default function InteractiveIndiaMap() {
       if (!container) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
-      camera.aspect = w / h;
+      const mob = w < 768;
+      const asp = w / h;
+      camera.aspect = asp;
+      const vFov = (40 * Math.PI) / 180;
+      const fitWidth = (36 / 2) / (Math.tan(vFov / 2) * asp);
+      const optZ = Math.max(80, mob ? fitWidth * 1.08 : 80);
+      DEFAULT_CAM_POS.set(0.6, 1.2, optZ);
+      controls.maxDistance = Math.max(85, optZ + 10);
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     };
@@ -811,8 +823,8 @@ export default function InteractiveIndiaMap() {
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-12">
           
-          {/* LEFT (8 Cols): Focused India Map in Rich Navy Blue Ocean with Locked Zoom */}
-          <div className="lg:col-span-8 relative rounded-3xl overflow-hidden bg-[#071628] border border-slate-700/60 shadow-2xl h-[600px] sm:h-[680px] flex flex-col justify-between">
+          {/* LEFT (8 Cols): Focused India Map in Rich Navy Blue Ocean with Locked Zoom (Responsive Height) */}
+          <div className="lg:col-span-8 relative rounded-3xl overflow-hidden bg-[#071628] border border-slate-700/60 shadow-2xl h-[500px] xs:h-[560px] sm:h-[640px] lg:h-[680px] flex flex-col justify-between">
             
             {/* The 2D WebGL Canvas */}
             <div ref={mountRef} className="w-full h-full" />

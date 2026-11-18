@@ -336,7 +336,7 @@ export default function ClassyWhiteHero({ onSelectDestination, onReplayIntro }) 
       {/* 1. CINEMATIC FULL-BLEED EGYPT-STYLE LUXURY HERO SECTION */}
       <div className="relative w-full h-[88vh] sm:h-[92vh] md:h-screen min-h-[640px] max-h-[960px] overflow-hidden select-none bg-slate-950">
         
-        {/* Full-bleed high-res Scenic Landscape Backgrounds (Stacked for instant 0.3s GPU crossfade) */}
+        {/* Full-bleed high-res Scenic Landscape Backgrounds (Direct eager <img> tags for instant 0ms First Paint) */}
         <div className="absolute inset-0">
           {HERO_SCENERIES.map((scenery, idx) => {
             const isActive = activeSceneryIndex === idx;
@@ -344,14 +344,20 @@ export default function ClassyWhiteHero({ onSelectDestination, onReplayIntro }) 
               <div 
                 key={scenery.id}
                 aria-hidden={!isActive}
-                className={`absolute inset-0 bg-cover transition-opacity duration-300 ease-out will-change-[opacity] ${
+                className={`absolute inset-0 overflow-hidden transition-opacity duration-300 ease-out will-change-[opacity] ${
                   isActive ? 'opacity-100 z-1 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
                 }`}
-                style={{
-                  backgroundImage: `url('${scenery.image}')`,
-                  backgroundPosition: scenery.position || 'center 40%'
-                }}
-              />
+              >
+                <img
+                  src={scenery.image}
+                  alt={scenery.title}
+                  fetchpriority={idx === 0 ? 'high' : 'auto'}
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: scenery.position || 'center 40%' }}
+                />
+              </div>
             );
           })}
         </div>
@@ -366,36 +372,22 @@ export default function ClassyWhiteHero({ onSelectDestination, onReplayIntro }) 
         <div className="absolute inset-0 bg-black/10 pointer-events-none z-10" />
 
         {/* 2. THE SIGNATURE DISPLAY TYPOGRAPHY: "INDIA"
-               Matching user reference "EGYPT" design:
-               - Giant, ultra-bold, modern sans-serif letters
-               - Sitting high in the sky with clear contrast
-               - Clean drop shadow, zero mixing with foreground boats/trees */}
+               Direct First-Frame Paint with zero opacity delays or sliding animation */}
         <div className="absolute top-[20%] sm:top-[18%] md:top-[16%] lg:top-[15%] left-0 right-0 flex justify-center pointer-events-none z-20 px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display font-black tracking-normal text-white uppercase text-center text-7xl sm:text-9xl md:text-[11rem] lg:text-[14rem] xl:text-[16rem] leading-none drop-shadow-[0_14px_45px_rgba(0,0,0,0.45)]"
+          <h1
+            className="font-display font-black tracking-normal text-white uppercase text-center text-7xl sm:text-9xl md:text-[11rem] lg:text-[14rem] xl:text-[16rem] leading-none drop-shadow-[0_14px_45px_rgba(0,0,0,0.45)] select-none opacity-100 transform-none"
           >
             INDIA
-          </motion.h1>
+          </h1>
         </div>
 
         {/* 3. BOTTOM-LEFT INFORMATION & METRIC STATS
-               Exact 1:1 match of the Egypt reference:
-               - 3 Columns of metric stats (50k+ Happy Travelers, 500+ Curated Journeys, 36 States & UTs)
-               - White pill button [ Book Now (↗) ]
-               - Evocative narrative quote adjacent to CTA */}
+               Direct First-Frame Paint with zero delays */}
         <div className="absolute bottom-0 left-0 right-0 z-30 px-6 sm:px-12 lg:px-16 pb-8 sm:pb-12 md:pb-14">
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             
             {/* Left Content Cluster */}
-            <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col"
-            >
+            <div className="flex flex-col opacity-100 transform-none">
               {/* 3 Metric Columns */}
               <div className="grid grid-cols-3 gap-6 sm:gap-10 md:gap-14 max-w-lg mb-6 sm:mb-8">
                 <div>
@@ -442,15 +434,10 @@ export default function ClassyWhiteHero({ onSelectDestination, onReplayIntro }) 
                   Journey across regal citadels, sacred rivers, and timeless landscapes — because every path leads to new discoveries.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Ambient Scenery Switcher */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.4 }}
-              className="flex items-center gap-2 self-start lg:self-end"
-            >
+            <div className="flex items-center gap-2 self-start lg:self-end opacity-100 transform-none">
               <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-black/45 backdrop-blur-xl border border-white/20 shadow-2xl">
                 {HERO_SCENERIES.map((scenery, idx) => (
                   <button
@@ -466,7 +453,7 @@ export default function ClassyWhiteHero({ onSelectDestination, onReplayIntro }) 
                   </button>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
           </div>
         </div>
@@ -584,22 +571,23 @@ export default function ClassyWhiteHero({ onSelectDestination, onReplayIntro }) 
           /* MODE 1: CONTINUOUS SMOOTH FLOW (Infinite GPU Marquee, 100% Zero Jitter)   */
           /* Continuous glide - Does NOT stop on mouse hover per user requirement      */
           /* ========================================================================= */
-          <div className="w-full overflow-hidden relative group pb-4">
+          <div className="w-full overflow-hidden relative group pb-4 touch-pan-y">
             {/* Blur gradients removed per user request for pure edge-to-edge slide */}
 
-            <div className={`animate-infinite-flow flex items-center gap-5 sm:gap-6 ${isPaused ? 'animate-infinite-flow-paused' : ''}`}>
+            <div className={`animate-infinite-flow flex items-center gap-4 sm:gap-6 ${isPaused ? 'animate-infinite-flow-paused' : ''}`}>
               {/* Duplicate cards seamlessly for infinite unbroken glide */}
               {[...DISCOVER_DESTINATIONS, ...DISCOVER_DESTINATIONS].map((dest, idx) => (
                 <div
                   key={`${dest.id}-${idx}`}
                   onClick={() => handleCardClick(dest)}
-                  className="destination-card flex-shrink-0 w-64 sm:w-72 md:w-80 h-88 sm:h-96 rounded-3xl overflow-hidden relative cursor-pointer group/card shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.22)] transition-all duration-500 hover:-translate-y-2 border border-slate-100"
+                  className="destination-card flex-shrink-0 w-[280px] xs:w-[320px] sm:w-[340px] md:w-[360px] h-[390px] xs:h-[420px] sm:h-[450px] rounded-3xl overflow-hidden relative cursor-pointer group/card shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.22)] transition-all duration-500 hover:-translate-y-2 border border-slate-100"
                 >
                   {/* Destination Image with Zoom on Hover */}
                   <img
                     src={dest.image}
                     alt={dest.name}
-                    loading="eager" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=800&q=80"; }}
+                    loading={idx < 4 ? "eager" : "lazy"} 
+                    onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=800&q=80"; }}
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/card:scale-110"
                   />
 
@@ -634,20 +622,21 @@ export default function ClassyWhiteHero({ onSelectDestination, onReplayIntro }) 
           /* ========================================================================= */
           <div 
             ref={carouselRef}
-            className="flex items-center gap-5 sm:gap-6 overflow-x-auto pb-4 no-scrollbar smooth-scroll-x"
+            className="flex items-center gap-4 sm:gap-6 overflow-x-auto pb-4 no-scrollbar smooth-scroll-x touch-pan-y"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {DISCOVER_DESTINATIONS.map((dest) => (
               <div
                 key={dest.id}
                 onClick={() => handleCardClick(dest)}
-                className="destination-card flex-shrink-0 w-64 sm:w-72 md:w-80 h-88 sm:h-96 rounded-3xl overflow-hidden relative cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.22)] transition-all duration-500 hover:-translate-y-2 border border-slate-100"
+                className="destination-card flex-shrink-0 w-[280px] xs:w-[320px] sm:w-[340px] md:w-[360px] h-[390px] xs:h-[420px] sm:h-[450px] rounded-3xl overflow-hidden relative cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.22)] transition-all duration-500 hover:-translate-y-2 border border-slate-100"
               >
                 {/* Destination Image with Zoom on Hover */}
                 <img
                   src={dest.image}
                   alt={dest.name}
-                  loading="eager" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=800&q=80"; }}
+                  loading="lazy" 
+                  onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=800&q=80"; }}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
 

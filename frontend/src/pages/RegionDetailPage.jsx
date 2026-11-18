@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RAJASTHAN_DATA } from '../data/rajasthanData';
 import { REGIONS_DATA } from '../data/regionsData';
 import { STATE_ATTRACTIONS_MAP } from '../data/attractionsData';
+import { STATE_TOURISM_DETAILS } from '../data/stateTourismDetails';
+import { REGION_GEO_COORDINATES } from '../data/mapCoordinates';
 import RegionHero from '../components/region/RegionHero';
 import QuickFactsBar from '../components/region/QuickFactsBar';
 import RegionIntro from '../components/region/RegionIntro';
@@ -16,60 +18,200 @@ import EnquiryModal from '../components/region/EnquiryModal';
 import { stateService } from '../services/api';
 import { Check, X, ShieldCheck, ArrowRight, Compass, Sparkles } from 'lucide-react';
 
+// Synchronous local region dataset builder for 0ms instantaneous navigation
+const getLocalRegionData = (slug) => {
+  const targetSlug = slug || 'rajasthan';
+
+  if (!slug || slug === 'rajasthan') {
+    return RAJASTHAN_DATA;
+  }
+
+  const found = REGIONS_DATA.find((r) => r.slug === targetSlug || r.id === targetSlug) || REGIONS_DATA[0];
+  const tourism = STATE_TOURISM_DETAILS[targetSlug] || {};
+  const attractions = STATE_ATTRACTIONS_MAP[targetSlug] || RAJASTHAN_DATA.majorAttractions;
+  const geo = REGION_GEO_COORDINATES[targetSlug] || { lat: 26.9124, lng: 75.7873 };
+
+  const pkgTitle = tourism.packages?.[0]?.title || `${found.name} Flagship Heritage & Culture Circuit`;
+  const pkgPrice = tourism.packages?.[0]?.indicativePrice || found.startingPrice || 24999;
+  const durationD = found.durationDays || 7;
+  const durationN = found.durationNights || 6;
+
+  // Custom route coordinates for Leaflet
+  const mapCoordinates = [
+    { day: 1, name: `${found.capital} Reception & Arrival`, lat: geo.lat, lng: geo.lng, description: `Arrival in the capital of ${found.name}. Orientation tour and boutique hotel check-in.` },
+    { day: 2, name: `${attractions[0]?.name || found.name} Circuit`, lat: geo.lat + 0.12, lng: geo.lng + 0.14, description: attractions[0]?.description || 'Guided historical site visit and architectural photography.' },
+    { day: 3, name: `${attractions[1]?.name || found.name} Cultural Route`, lat: geo.lat - 0.15, lng: geo.lng + 0.18, description: attractions[1]?.description || 'Immersive craft ateliers and scenic panoramic vistas.' },
+    { day: 4, name: `${attractions[2]?.name || found.name} Scenic Excursion`, lat: geo.lat + 0.08, lng: geo.lng - 0.15, description: attractions[2]?.description || 'Natural wildlife sanctuary or heritage viewpoint tour.' },
+    { day: 5, name: `${found.capital} Local Bazaars & Departure`, lat: geo.lat, lng: geo.lng, description: 'Authentic local shopping, farewell authentic high-tea, and airport transfer.' }
+  ];
+
+  // Tailored day-by-day itinerary
+  const customItinerary = [
+    {
+      day: 1,
+      title: `Arrival in ${found.capital} & Welcome Reception`,
+      overview: `Welcome to ${found.name}. Meet our verified chauffeur upon arrival and transfer to your luxury heritage accommodation. Settle in and enjoy an introductory cultural evening.`,
+      morning: 'Airport/Station reception, private SUV transfer, and welcome drink with traditional hospitality.',
+      afternoon: `Orientation stroll through ${found.capital}'s signature avenues and heritage squares.`,
+      evening: `Curated welcome dinner showcasing authentic ${found.name} cuisine and regional culinary traditions.`,
+      stay: `Heritage Resort / 5-Star Boutique Haven, ${found.capital}`,
+      meal: 'Welcome Dinner Included',
+      distance: '20-30 km local transfer'
+    },
+    {
+      day: 2,
+      title: `Iconic Highlights: ${attractions[0]?.name || 'Historic Citadels'}`,
+      overview: `Deep dive into the prime architectural wonder of the region: ${attractions[0]?.name || 'Prime Landmark'}. Guided walking exploration with our master historian.`,
+      morning: `Visit ${attractions[0]?.name || 'the primary palace complex'} during crisp morning light for optimal photography.`,
+      afternoon: 'Exclusive luncheon at a royal courtyard cafe followed by museum archive inspection.',
+      evening: 'Sunset view from the premier scenic vantage point with artisan tea service.',
+      stay: `Luxury Heritage Stay, ${found.name}`,
+      meal: 'Breakfast & High-Tea Included',
+      distance: '45 km guided circuit'
+    },
+    {
+      day: 3,
+      title: `Cultural Heritage: ${attractions[1]?.name || 'Artisan Hamlets'}`,
+      overview: `Explore ${attractions[1]?.name || 'artisan hamlets and living heritage centers'}. Meet traditional craftspeople keeping centuries-old legacies alive.`,
+      morning: `Hands-on masterclass with award-winning local artisans.`,
+      afternoon: `Scenic transfer along historic trade routes and river basins.`,
+      evening: 'Folk music recital and regional performing arts recital under starry skies.',
+      stay: `Luxury Heritage Stay, ${found.name}`,
+      meal: 'Breakfast Included',
+      distance: '65 km scenic route'
+    },
+    {
+      day: 4,
+      title: `Scenic Splendor: ${attractions[2]?.name || 'Nature & Sacred Sanctuaries'}`,
+      overview: `Immerse in the breathtaking landscapes of ${found.name}. Discover scenic river valleys, verdant plantations, or historic shrines.`,
+      morning: `Early nature walk or architectural trail at ${attractions[2]?.name || 'nature reserve'}.`,
+      afternoon: 'Leisurely picnic lunch featuring organic regional farm delicacies.',
+      evening: 'Relaxing spa ritual or quiet leisure by the resort reflecting pools.',
+      stay: `Luxury Heritage Stay, ${found.name}`,
+      meal: 'Breakfast Included',
+      distance: '50 km countryside route'
+    },
+    {
+      day: 5,
+      title: `Artisan Bazaars & Departure`,
+      overview: `Final morning in ${found.name}. Visit verified fair-trade handloom centers for authentic souvenirs, followed by private chauffeur transfer to the departure hub.`,
+      morning: `Shopping excursion with our local concierge for certified silk, spices, handicrafts, or jewelry.`,
+      afternoon: 'Checkout assistance and private chauffeur transfer to airport or railway station.',
+      evening: 'Board onward flight with unforgettable memories of Bharat Darshan.',
+      stay: 'Onward Journey',
+      meal: 'Gourmet Breakfast Included',
+      distance: 'Private airport transfer'
+    }
+  ];
+
+  return {
+    ...found,
+    id: found.slug,
+    slug: found.slug,
+    name: found.name,
+    bestSeason: found.bestTime || 'October to March',
+    gallery: tourism.gallery || [found.heroImage],
+    startingPrice: pkgPrice,
+    durationDays: durationD,
+    durationNights: durationN,
+    quickFacts: [
+      { label: 'Tour Duration', value: `${durationD} Days / ${durationN} Nights` },
+      { label: 'Capital', value: found.capital },
+      { label: 'Category', value: found.category },
+      { label: 'Major Hubs', value: found.capital },
+      { label: 'Attractions Included', value: `${attractions.length} Curated Highlights` },
+      { label: 'Recommended Season', value: found.bestTime || 'Oct – Mar' },
+      { label: 'Starting Price', value: `₹${pkgPrice.toLocaleString('en-IN')}` }
+    ],
+    introduction: {
+      history: `${found.name} possesses a vibrant civilizational history rooted in ancient Indian traditions, princely kingdoms, and timeless heritage.`,
+      geography: tourism.geoIdentity || `Characterized by its unique regional landscape in ${found.category} India, featuring diverse topographies and breathtaking natural wonders.`,
+      culture: tourism.culture || `Rich in regional language, folk performing arts, authentic craft traditions, and vibrant seasonal festivities.`,
+      distinctive: found.description || `Experience the quintessential spirit of ${found.name} through bespoke private travel experiences.`
+    },
+    majorAttractions: attractions,
+    mapCoordinates: mapCoordinates,
+    cultureAndFood: {
+      ...RAJASTHAN_DATA.cultureAndFood,
+      cuisine: tourism.famousFood ? [
+        { name: 'Regional Delicacies', desc: tourism.famousFood },
+        { name: 'Heritage Sweets & Savories', desc: `Celebrated authentic dishes prepared with cold-pressed oils and regional spices.` }
+      ] : RAJASTHAN_DATA.cultureAndFood.cuisine
+    },
+    seasonalGuidance: RAJASTHAN_DATA.seasonalGuidance,
+    package: {
+      ...RAJASTHAN_DATA.package,
+      name: pkgTitle,
+      packageName: pkgTitle,
+      code: `BD-${found.slug.toUpperCase().slice(0, 3)}-01`,
+      pricePerPerson: pkgPrice,
+      durationDays: durationD,
+      durationNights: durationN,
+      destinationsCovered: [found.capital, attractions[0]?.name || found.name, attractions[1]?.name || 'Historic Circuit']
+    },
+    itinerary: customItinerary
+  };
+};
+
 export default function RegionDetailPage() {
   const { slug } = useParams();
-  const [regionData, setRegionData] = useState(null);
+  const [regionData, setRegionData] = useState(() => getLocalRegionData(slug));
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
   const [selectedEnquiryParams, setSelectedEnquiryParams] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    // Instant zero-delay update when navigating between states
+    const localData = getLocalRegionData(slug);
+    setRegionData(localData);
+
+    // Asynchronous background update from backend API if available
+    let isSubscribed = true;
     const loadRegion = async () => {
       try {
         const targetSlug = slug || 'rajasthan';
         const res = await stateService.getBySlug(targetSlug);
 
-        if (res.data?.data) {
+        if (isSubscribed && res?.data?.data) {
           const { state, package: tourPkg, itinerary } = res.data.data;
 
-          setRegionData({
+          setRegionData((prev) => ({
+            ...prev,
             id: state.slug,
             slug: state.slug,
-            name: state.name,
-            type: state.type,
-            capital: state.capital,
-            tagline: state.tagline,
-            category: state.category,
-            heroImage: state.heroImage,
-            gallery: state.gallery || [state.heroImage],
-            startingPrice: tourPkg?.pricePerPerson || 34500,
-            durationDays: tourPkg?.durationDays || 9,
-            durationNights: tourPkg?.durationNights || 8,
-            bestSeason: state.bestTimeToVisit || 'October to March',
+            name: state.name || prev.name,
+            type: state.type || prev.type,
+            capital: state.capital || prev.capital,
+            tagline: state.tagline || prev.tagline,
+            category: state.category || prev.category,
+            heroImage: state.heroImage || prev.heroImage,
+            gallery: state.gallery?.length ? state.gallery : prev.gallery,
+            startingPrice: tourPkg?.pricePerPerson || prev.startingPrice,
+            durationDays: tourPkg?.durationDays || prev.durationDays,
+            durationNights: tourPkg?.durationNights || prev.durationNights,
+            bestSeason: state.bestTimeToVisit || prev.bestSeason,
             quickFacts: [
-              { label: 'Tour Duration', value: `${tourPkg?.durationDays || 9} Days / ${tourPkg?.durationNights || 8} Nights` },
-              { label: 'Major Hubs', value: tourPkg?.destinationsCovered?.join(', ') || state.capital },
-              { label: 'Attractions Included', value: `${state.highlights?.length || 4} Highlights` },
+              { label: 'Tour Duration', value: `${tourPkg?.durationDays || prev.durationDays} Days / ${tourPkg?.durationNights || prev.durationNights} Nights` },
+              { label: 'Major Hubs', value: tourPkg?.destinationsCovered?.join(', ') || prev.capital },
+              { label: 'Attractions Included', value: `${state.highlights?.length || prev.majorAttractions.length} Highlights` },
               { label: 'Route Distance', value: `~${tourPkg?.totalDistanceKm || 1150} km Total` },
-              { label: 'Recommended Season', value: state.bestTimeToVisit || 'Oct – Mar' },
-              { label: 'Starting Price', value: `₹${tourPkg?.pricePerPerson?.toLocaleString('en-IN') || '34,500'}` }
+              { label: 'Recommended Season', value: state.bestTimeToVisit || prev.bestSeason },
+              { label: 'Starting Price', value: `₹${(tourPkg?.pricePerPerson || prev.startingPrice).toLocaleString('en-IN')}` }
             ],
             introduction: {
-              history: state.history || RAJASTHAN_DATA.introduction.history,
-              geography: state.geography || RAJASTHAN_DATA.introduction.geography,
-              culture: state.culture || RAJASTHAN_DATA.introduction.culture,
-              distinctive: state.distinctive || RAJASTHAN_DATA.introduction.distinctive
+              history: state.history || prev.introduction.history,
+              geography: state.geography || prev.introduction.geography,
+              culture: state.culture || prev.introduction.culture,
+              distinctive: state.distinctive || prev.introduction.distinctive
             },
             majorAttractions: (state.majorAttractions && state.majorAttractions.length > 0 && state.majorAttractions.some(a => a.image))
               ? state.majorAttractions
-              : (STATE_ATTRACTIONS_MAP[targetSlug] || RAJASTHAN_DATA.majorAttractions),
+              : prev.majorAttractions,
             mapCoordinates: (state.mapCoordinates && state.mapCoordinates.length > 0)
               ? state.mapCoordinates
-              : RAJASTHAN_DATA.mapCoordinates,
-            cultureAndFood: RAJASTHAN_DATA.cultureAndFood,
-            seasonalGuidance: RAJASTHAN_DATA.seasonalGuidance,
-            package: tourPkg || RAJASTHAN_DATA.package,
+              : prev.mapCoordinates,
+            package: tourPkg || prev.package,
             itinerary: (itinerary && itinerary.length > 0)
               ? itinerary.map(d => ({
                 day: d.dayNumber,
@@ -82,56 +224,22 @@ export default function RegionDetailPage() {
                 meal: d.meal || 'Breakfast Included',
                 distance: d.distance || 'Local transfer'
               }))
-              : RAJASTHAN_DATA.itinerary
-          });
-          return;
+              : prev.itinerary
+          }));
         }
       } catch (err) {
-        console.warn('Backend region load fallback to local dataset:', err.message);
-      }
-
-      // Fallback
-      if (!slug || slug === 'rajasthan') {
-        setRegionData(RAJASTHAN_DATA);
-      } else {
-        const found = REGIONS_DATA.find((r) => r.slug === slug) || REGIONS_DATA[0];
-        setRegionData({
-          ...found,
-          bestSeason: found.bestTime,
-          quickFacts: [
-            { label: 'Tour Duration', value: `${found.durationDays}D / ${found.durationNights}N` },
-            { label: 'Capital', value: found.capital },
-            { label: 'Category', value: found.category },
-            { label: 'Best Season', value: found.bestTime },
-            { label: 'Starting Price', value: `₹${found.startingPrice.toLocaleString('en-IN')}` }
-          ],
-          introduction: {
-            history: `${found.name} possesses a vibrant civilizational history rooted in ancient Indian traditions.`,
-            geography: `Characterized by its unique regional landscape in India.`,
-            culture: `Rich in regional language, folk performing arts, authentic craft traditions, and vibrant local celebrations.`,
-            distinctive: found.description
-          },
-          majorAttractions: STATE_ATTRACTIONS_MAP[found.slug] || RAJASTHAN_DATA.majorAttractions,
-          mapCoordinates: RAJASTHAN_DATA.mapCoordinates,
-          cultureAndFood: RAJASTHAN_DATA.cultureAndFood,
-          seasonalGuidance: RAJASTHAN_DATA.seasonalGuidance,
-          package: RAJASTHAN_DATA.package,
-          itinerary: RAJASTHAN_DATA.itinerary
-        });
+        // Silently use rich local dataset - no blocking loading screens or interruptions
       }
     };
 
     loadRegion();
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [slug]);
 
-  if (!regionData) {
-    return (
-      <div className="min-h-screen pt-36 pb-20 text-center flex flex-col items-center justify-center bg-[#05070F] text-white">
-        <Compass className="w-14 h-14 text-amber-400 animate-spin-slow mb-4" />
-        <h2 className="font-display text-2xl font-bold text-white">Connecting to Destination...</h2>
-      </div>
-    );
-  }
+  const activeRegion = regionData || getLocalRegionData(slug);
 
   const handleOpenEnquiryModal = (params) => {
     setSelectedEnquiryParams(params);
@@ -142,16 +250,16 @@ export default function RegionDetailPage() {
     <div className="w-full bg-[#05070F] text-slate-100">
 
       {/* 1. Cinematic Hero */}
-      <RegionHero region={regionData} />
+      <RegionHero region={activeRegion} />
 
       {/* 2. Quick Facts Bar */}
-      <QuickFactsBar facts={regionData.quickFacts} />
+      <QuickFactsBar facts={activeRegion.quickFacts} />
 
       {/* 3. Region Introduction */}
-      <RegionIntro intro={regionData.introduction} name={regionData.name} />
+      <RegionIntro intro={activeRegion.introduction} name={activeRegion.name} />
 
       {/* 4. Major Attractions */}
-      <AttractionGallery attractions={regionData.majorAttractions} />
+      <AttractionGallery attractions={activeRegion.majorAttractions} />
 
       {/* 5. Interactive Leaflet Route Map */}
       <section className="py-24 bg-[#070A14] border-t border-white/10">
@@ -165,11 +273,11 @@ export default function RegionDetailPage() {
               Interactive Route & Stop Map
             </h2>
             <p className="text-base text-slate-400 mt-2 font-normal">
-              Verified geographic markers powered by Leaflet and OpenStreetMap. Track the logical circular route across {regionData.name}.
+              Verified geographic markers powered by Leaflet and OpenStreetMap. Track the logical circular route across {activeRegion.name}.
             </p>
           </div>
 
-          <LeafletMap coordinates={regionData.mapCoordinates} />
+          <LeafletMap coordinates={activeRegion.mapCoordinates} />
         </div>
       </section>
 
@@ -181,13 +289,13 @@ export default function RegionDetailPage() {
 
             {/* Left 8 Columns: Day-by-Day Timeline */}
             <div className="lg:col-span-8">
-              <ItineraryTimeline days={regionData.itinerary} />
+              <ItineraryTimeline days={activeRegion.itinerary} />
             </div>
 
             {/* Right 4 Columns: Sticky Price Calculator */}
             <div id="calculator-section" className="lg:col-span-4 scroll-mt-28">
               <PriceCalculator
-                packageData={regionData.package}
+                packageData={activeRegion.package}
                 onOpenEnquiry={handleOpenEnquiryModal}
               />
             </div>
@@ -207,10 +315,10 @@ export default function RegionDetailPage() {
                 Complete Package Details
               </span>
               <h3 className="font-display text-3xl sm:text-4xl font-black text-white">
-                {regionData.package?.packageName || regionData.package?.name}
+                {activeRegion.package?.packageName || activeRegion.package?.name}
               </h3>
               <p className="text-xs text-slate-400 mt-1 font-semibold">
-                Code: {regionData.package?.code} · Duration: {regionData.durationDays}D / {regionData.durationNights}N
+                Code: {activeRegion.package?.code} · Duration: {activeRegion.durationDays}D / {activeRegion.durationNights}N
               </p>
             </div>
 
@@ -223,7 +331,7 @@ export default function RegionDetailPage() {
                   <span>What is Included in Your Tour</span>
                 </h4>
                 <ul className="space-y-3.5">
-                  {regionData.package?.inclusions?.map((inc, i) => (
+                  {activeRegion.package?.inclusions?.map((inc, i) => (
                     <li key={i} className="text-xs sm:text-sm text-slate-300 flex items-start gap-3 font-normal">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0 shadow-[0_0_8px_#34D399]" />
                       <span>{inc}</span>
@@ -239,7 +347,7 @@ export default function RegionDetailPage() {
                   <span>Exclusions & Notes</span>
                 </h4>
                 <ul className="space-y-3.5">
-                  {regionData.package?.exclusions?.map((exc, i) => (
+                  {activeRegion.package?.exclusions?.map((exc, i) => (
                     <li key={i} className="text-xs sm:text-sm text-slate-300 flex items-start gap-3 font-normal">
                       <span className="w-2 h-2 rounded-full bg-rose-400 mt-1.5 flex-shrink-0 shadow-[0_0_8px_#FB7185]" />
                       <span>{exc}</span>
@@ -256,15 +364,15 @@ export default function RegionDetailPage() {
 
       {/* 8. Culture, Cuisine & Weather Guidance */}
       <CultureSection
-        cultureData={regionData.cultureAndFood}
-        seasons={regionData.seasonalGuidance}
+        cultureData={activeRegion.cultureAndFood}
+        seasons={activeRegion.seasonalGuidance}
       />
 
       {/* Enquiry Modal */}
       <EnquiryModal
         isOpen={enquiryModalOpen}
         onClose={() => setEnquiryModalOpen(false)}
-        packageData={regionData.package}
+        packageData={activeRegion.package}
         enquiryParams={selectedEnquiryParams}
       />
 

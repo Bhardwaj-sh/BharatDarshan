@@ -1,14 +1,19 @@
 import axios from 'axios';
 
 const getBaseURL = () => {
-  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  const envUrl = import.meta.env.VITE_API_URL;
+  // Guard against unreplaced placeholders
+  if (envUrl && !envUrl.includes('your-render-url')) {
+    return envUrl;
+  }
   if (import.meta.env.PROD) return '/api';
   return 'http://localhost:5000/api';
 };
 
-// Create base Axios instance pointing to our Express server
+// Create base Axios instance pointing to our Express server with fast 4s timeout
 const API = axios.create({
   baseURL: getBaseURL(),
+  timeout: 4000,
   headers: {
     'Content-Type': 'application/json'
   }
