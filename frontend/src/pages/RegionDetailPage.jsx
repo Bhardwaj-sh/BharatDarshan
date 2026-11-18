@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RAJASTHAN_DATA } from '../data/rajasthanData';
 import { REGIONS_DATA } from '../data/regionsData';
@@ -155,6 +155,7 @@ const getLocalRegionData = (slug) => {
 
 export default function RegionDetailPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [regionData, setRegionData] = useState(() => getLocalRegionData(slug));
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
   const [selectedEnquiryParams, setSelectedEnquiryParams] = useState(null);
@@ -242,8 +243,31 @@ export default function RegionDetailPage() {
   const activeRegion = regionData || getLocalRegionData(slug);
 
   const handleOpenEnquiryModal = (params) => {
-    setSelectedEnquiryParams(params);
-    setEnquiryModalOpen(true);
+    const active = regionData || getLocalRegionData(slug);
+    const currentUser = JSON.parse(localStorage.getItem('bharat_user') || 'null');
+
+    const pendingBooking = {
+      packageId: active.package?._id || '6afb8e893b848e1c801f1574',
+      packageName: active.package?.packageName || active.package?.name || `${active.name} Tour Package`,
+      regionSlug: active.slug,
+      regionName: active.name,
+      durationDays: active.durationDays || 7,
+      durationNights: active.durationNights || 6,
+      travelDate: params.travelDate,
+      travellers: params.travellers,
+      pricePerPerson: params.pricePerPerson,
+      estimatedTotal: params.estimatedTotal,
+      stateId: active.package?.stateId?._id || '6afb8e883b848e1c801f14bc'
+    };
+
+    localStorage.setItem('bharat_pending_booking', JSON.stringify(pendingBooking));
+
+    if (!currentUser) {
+      navigate('/login?redirect=/booking/confirm');
+      return;
+    }
+
+    navigate('/booking/confirm');
   };
 
   return (

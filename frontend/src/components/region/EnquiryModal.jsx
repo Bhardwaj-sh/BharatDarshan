@@ -154,39 +154,69 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
             </div>
 
             {/* Traveller Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
-                  Lead Traveller Full Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Aarav Sharma"
-                  className="w-full bg-forest-900 border border-forest-750 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {!savedUser ? (
+              <div className="bg-forest-900/90 rounded-2xl p-5 border border-amber-500/30 text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto">
+                  <ArrowRight className="w-6 h-6" />
+                </div>
                 <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="aarav@example.com"
-                    className="w-full bg-forest-900 border border-forest-750 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
-                  />
+                  <h4 className="font-display text-base font-bold text-white mb-1">
+                    Sign In Required for Booking
+                  </h4>
+                  <p className="text-xs text-slate-300 leading-relaxed max-w-xs mx-auto">
+                    To safeguard your itinerary and lock your tariff, please sign in or create your traveler account. All your selected dates and travellers will be preserved.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const regionTitle = packageData?.stateId?.name || packageData?.packageName?.split(' ')[0] || 'Rajasthan';
+                    const pendingBooking = {
+                      packageId: packageData?._id || '6afb8e893b848e1c801f1574',
+                      packageName: packageData?.packageName || `${regionTitle} Tour Package`,
+                      regionSlug: packageData?.stateId?.slug || regionTitle.toLowerCase().replace(/\s+/g, '-'),
+                      regionName: regionTitle,
+                      durationDays: packageData?.durationDays || 7,
+                      durationNights: packageData?.durationNights || 6,
+                      travelDate: enquiryParams?.travelDate,
+                      travellers: enquiryParams?.travellers || 2,
+                      pricePerPerson: enquiryParams?.pricePerPerson || 34500,
+                      estimatedTotal: enquiryParams?.estimatedTotal || 69000
+                    };
+                    localStorage.setItem('bharat_pending_booking', JSON.stringify(pendingBooking));
+                    onClose();
+                    navigate('/login?redirect=/booking/confirm');
+                  }}
+                  className="w-full btn-lime py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-full flex items-center justify-center gap-2 shadow-lime-glow cursor-pointer"
+                >
+                  <span>Sign In / Register to Continue</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                
+                {/* Pre-filled Verified Account Card */}
+                <div className="p-3.5 rounded-2xl bg-forest-900 border border-lime-400/20 text-xs space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-mono tracking-wider text-lime-400 font-bold">
+                      Verified Account
+                    </span>
+                    <span className="text-[10px] text-slate-400">Pre-filled</span>
+                  </div>
+                  <div className="flex justify-between items-center text-white">
+                    <span className="text-slate-400">Traveller:</span>
+                    <strong className="text-white">{savedUser.name}</strong>
+                  </div>
+                  <div className="flex justify-between items-center text-white">
+                    <span className="text-slate-400">Email:</span>
+                    <strong className="text-white">{savedUser.email}</strong>
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
-                    Phone / WhatsApp
+                    Phone / WhatsApp Contact
                   </label>
                   <input
                     type="tel"
@@ -197,30 +227,30 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
                     className="w-full bg-forest-900 border border-forest-750 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
-                  Special Requests & Dietary Preferences (Optional)
-                </label>
-                <textarea
-                  rows={2}
-                  value={specialRequests}
-                  onChange={(e) => setSpecialRequests(e.target.value)}
-                  placeholder="e.g., Pure vegetarian meals, ground-floor heritage rooms..."
-                  className="w-full bg-forest-900 border border-forest-750 rounded-xl p-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
-                />
-              </div>
+                <div>
+                  <label className="block text-[11px] uppercase tracking-wider text-slate-300 font-bold mb-1">
+                    Special Requests & Dietary Preferences (Optional)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={specialRequests}
+                    onChange={(e) => setSpecialRequests(e.target.value)}
+                    placeholder="e.g., Pure vegetarian meals, ground-floor heritage rooms..."
+                    className="w-full bg-forest-900 border border-forest-750 rounded-xl p-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-400 font-medium"
+                  />
+                </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full btn-lime py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-full flex items-center justify-center gap-2 mt-4 disabled:opacity-50 shadow-lime-glow cursor-pointer"
-              >
-                <span>{loading ? 'Submitting & Validating...' : 'Confirm & Send Enquiry'}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full btn-lime py-3.5 text-xs uppercase tracking-wider font-extrabold rounded-full flex items-center justify-center gap-2 mt-4 disabled:opacity-50 shadow-lime-glow cursor-pointer"
+                >
+                  <span>{loading ? 'Submitting & Validating...' : 'Confirm & Send Enquiry'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
+            )}
           </div>
         ) : (
           <div className="text-center py-6">

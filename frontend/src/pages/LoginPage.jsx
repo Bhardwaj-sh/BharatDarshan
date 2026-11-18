@@ -1,15 +1,43 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Mail, Lock, ArrowRight, AlertCircle, Eye, EyeOff, ShieldCheck, Sparkles } from 'lucide-react';
 import { authService } from '../services/api';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectPath = searchParams.get('redirect');
+
+  const pendingBooking = (() => {
+    try {
+      const s = localStorage.getItem('bharat_pending_booking');
+      return s ? JSON.parse(s) : null;
+    } catch {
+      return null;
+    }
+  })();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const handleSuccessfulAuth = (authUser) => {
+    if (authUser.role === 'admin') {
+      navigate('/admin/dashboard');
+      return;
+    }
+    if (redirectPath) {
+      navigate(redirectPath);
+      return;
+    }
+    if (pendingBooking) {
+      navigate('/booking/confirm');
+      return;
+    }
+    navigate('/dashboard');
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,11 +57,7 @@ export default function LoginPage() {
         localStorage.setItem('bharat_user', JSON.stringify(user));
         window.dispatchEvent(new Event('storage'));
 
-        if (user.role === 'admin') {
-          navigate('/admin/dashboard');
-        } else {
-          navigate('/dashboard');
-        }
+        handleSuccessfulAuth(user);
         return;
       }
       throw new Error('Authentication response invalid format');
@@ -55,7 +79,7 @@ export default function LoginPage() {
         localStorage.setItem('bharat_token', token);
         localStorage.setItem('bharat_user', JSON.stringify(adminUser));
         window.dispatchEvent(new Event('storage'));
-        navigate('/admin/dashboard');
+        handleSuccessfulAuth(adminUser);
         return;
       }
 
@@ -68,7 +92,7 @@ export default function LoginPage() {
           localStorage.setItem('bharat_token', token);
           localStorage.setItem('bharat_user', JSON.stringify(matched));
           window.dispatchEvent(new Event('storage'));
-          navigate('/dashboard');
+          handleSuccessfulAuth(matched);
           return;
         }
       } catch {}
@@ -117,6 +141,15 @@ export default function LoginPage() {
         {/* Card Box */}
         <div className="bg-slate-900/85 backdrop-blur-2xl border border-white/15 p-7 sm:p-9 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
           
+          {pendingBooking && (
+            <div className="mb-5 p-3.5 rounded-2xl bg-amber-500/15 border border-amber-400/30 text-amber-200 text-xs flex items-center gap-2.5 animate-fadeIn">
+              <Sparkles className="w-4 h-4 flex-shrink-0 text-amber-400" />
+              <span className="leading-relaxed">
+                <strong>Booking in progress:</strong> Sign in to confirm your <strong>{pendingBooking.regionName}</strong> journey ({pendingBooking.travellers} Pax).
+              </span>
+            </div>
+          )}
+
           {errorMsg && (
             <div className="mb-5 p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/35 text-rose-300 text-xs flex items-center gap-2.5 animate-fadeIn">
               <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
@@ -188,7 +221,10 @@ export default function LoginPage() {
           {/* Navigation to Register */}
           <div className="mt-6 pt-5 border-t border-white/10 text-center text-xs text-slate-400">
             <span>Don't have an account yet?</span>{' '}
-            <Link to="/register" className="text-amber-400 font-bold hover:text-amber-300 transition-colors hover:underline">
+            <Link 
+              to={`/register${redirectPath ? `?redirect=${encodeURIComponent(redirectPath)}` : (pendingBooking ? `?redirect=/booking/confirm` : '')}`} 
+              className="text-amber-400 font-bold hover:text-amber-300 transition-colors hover:underline"
+            >
               Create an account
             </Link>
           </div>

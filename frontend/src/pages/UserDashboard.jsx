@@ -19,7 +19,13 @@ export default function UserDashboard() {
       } else {
         const local = JSON.parse(localStorage.getItem('bharat_bookings') || '[]');
         if (local.length > 0) {
-          const userSpecific = local.filter((b) => !user?.email || b.leadTravellerEmail?.toLowerCase() === user.email.toLowerCase() || !b.leadTravellerEmail);
+          const userSpecific = local.filter((b) => 
+            !user?.email || 
+            b.leadTravellerEmail?.toLowerCase() === user.email.toLowerCase() || 
+            b.contactEmail?.toLowerCase() === user.email.toLowerCase() ||
+            b.userId === user.id || 
+            b.userId === user._id
+          );
           setBookings(userSpecific.length > 0 ? userSpecific : local);
         } else if (user?.email === 'aarav@example.com') {
           setBookings([
@@ -42,7 +48,13 @@ export default function UserDashboard() {
       console.warn('Could not fetch backend trips, reading local cache:', err.message);
       const local = JSON.parse(localStorage.getItem('bharat_bookings') || '[]');
       if (local.length > 0) {
-        const userSpecific = local.filter((b) => !user?.email || b.leadTravellerEmail?.toLowerCase() === user.email.toLowerCase() || !b.leadTravellerEmail);
+        const userSpecific = local.filter((b) => 
+          !user?.email || 
+          b.leadTravellerEmail?.toLowerCase() === user.email.toLowerCase() || 
+          b.contactEmail?.toLowerCase() === user.email.toLowerCase() ||
+          b.userId === user.id || 
+          b.userId === user._id
+        );
         setBookings(userSpecific.length > 0 ? userSpecific : local);
       } else if (user?.email === 'aarav@example.com') {
         setBookings([

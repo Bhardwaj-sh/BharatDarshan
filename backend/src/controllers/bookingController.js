@@ -4,7 +4,7 @@ import State from '../models/State.js';
 
 // @desc    Create a new booking enquiry with zero-trust server price calculation
 // @route   POST /api/bookings
-// @access  Public or Protected
+// @access  Protected
 export const createBooking = async (req, res) => {
   try {
     const {
@@ -17,11 +17,24 @@ export const createBooking = async (req, res) => {
       specialRequests
     } = req.body;
 
+    // Extract authoritative user identity from verified JWT token
+    const userId = req.user?._id;
+    const finalName = leadTravellerName?.trim() || req.user?.name || 'Verified Traveler';
+    const finalEmail = req.user?.email || leadTravellerEmail?.trim().toLowerCase();
+    const finalPhone = leadTravellerPhone?.trim() || req.user?.phone || '';
+
     // 1. Basic field validation
-    if (!packageId || !travelDate || !travellerCount || !leadTravellerName || !leadTravellerEmail || !leadTravellerPhone) {
+    if (!packageId || !travelDate || !travellerCount) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide all required details: package, travel date, passenger count, name, email, and phone'
+        message: 'Please provide required tour details: package ID, planned travel date, and passenger count'
+      });
+    }
+
+    if (!finalName || !finalEmail) {
+      return res.status(400).json({
+        success: false,
+        message: 'Lead traveler name and contact email are required'
       });
     }
 
@@ -46,7 +59,24 @@ export const createBooking = async (req, res) => {
       });
     }
 
-    // 4. Look up package in database (Authoritative Source of Truth)
+    // 4. Duplicate Submission Guard: Check if identical booking was submitted in the last 30 seconds
+    if (userId) {
+      const recentDuplicate = await Booking.findOne({
+        userId,
+        packageId,
+        travelDate: selectedDate,
+        createdAt: { $gte: new Date(Date.now() - 30 * 1000) }
+      });
+      if (recentDuplicate) {
+        return res.status(200).json({
+          success: true,
+          message: 'Booking enquiry already recorded.',
+          data: recentDuplicate
+        });
+      }
+    }
+
+    // 5. Look up package in database (Authoritative Source of Truth)
     const tourPackage = await Package.findById(packageId).populate('stateId');
     if (!tourPackage || !tourPackage.isActive) {
       return res.status(404).json({
@@ -55,28 +85,28 @@ export const createBooking = async (req, res) => {
       });
     }
 
-    // 5. Calculate and Snapshot Pricing strictly on the server
+    // 6. Calculate and Snapshot Pricing strictly on the server
     const pricePerPersonSnapshot = tourPackage.pricePerPerson;
     const totalAmountSnapshot = pricePerPersonSnapshot * count;
 
-    // 6. Generate unique booking reference
+    // 7. Generate unique booking reference
     const statePrefix = tourPackage.stateId?.name?.slice(0, 3)?.toUpperCase() || 'IND';
     const randomSuffix = Math.floor(10000 + Math.random() * 90000);
     const bookingReference = `BD-${statePrefix}-${randomSuffix}`;
 
-    // 7. Create booking record with initial 'Pending' status
+    // 8. Create booking record with initial 'Pending' status
     const booking = await Booking.create({
       bookingReference,
-      userId: req.user ? req.user._id : null,
+      userId: userId || null,
       packageId: tourPackage._id,
       stateId: tourPackage.stateId._id,
       travelDate: selectedDate,
       travellerCount: count,
       pricePerPersonSnapshot,
       totalAmountSnapshot,
-      leadTravellerName,
-      leadTravellerEmail,
-      leadTravellerPhone,
+      leadTravellerName: finalName,
+      leadTravellerEmail: finalEmail,
+      leadTravellerPhone: finalPhone || '+91 9876543210',
       specialRequests: specialRequests || '',
       bookingStatus: 'Pending'
     });

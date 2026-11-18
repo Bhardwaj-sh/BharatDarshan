@@ -4,7 +4,7 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', createBooking); // Zero-trust backend validation; handles both logged-in and guest enquiry
+router.post('/', protect, createBooking); // Zero-trust backend validation; strictly enforces authentication
 router.get('/my-trips', protect, getMyTrips);
 router.get('/:reference', getBookingByRef);
 

@@ -11,6 +11,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const UserDashboard = lazy(() => import('./pages/UserDashboard'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const BookingConfirmPage = lazy(() => import('./pages/BookingConfirmPage'));
 
 // Branded loading fallback while chunks resolve
 const PageLoadingFallback = () => (
@@ -36,6 +37,8 @@ export default function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/dashboard" element={<UserDashboard />} />
+            <Route path="/booking/confirm" element={<BookingConfirmPage />} />
+            <Route path="/book" element={<BookingConfirmPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             
