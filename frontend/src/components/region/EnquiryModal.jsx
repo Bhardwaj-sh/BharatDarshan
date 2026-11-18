@@ -9,7 +9,7 @@ export default function EnquiryModal({ isOpen, onClose, packageData, enquiryPara
 
   const [name, setName] = useState(savedUser?.name || '');
   const [email, setEmail] = useState(savedUser?.email || '');
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState(savedUser?.phone || '');
   const [specialRequests, setSpecialRequests] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');

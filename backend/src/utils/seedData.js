@@ -28,23 +28,27 @@ const seedDatabase = async () => {
     console.log('Existing collections cleared.');
 
     // 2. Create Users
-    const adminPasswordHash = await User.hashPassword('Admin@123');
+    const adminPasswordHash = await User.hashPassword('admin@123');
     const userPasswordHash = await User.hashPassword('Travel@123');
 
     const adminUser = await User.create({
-      name: 'Pooja (Admin)',
-      email: 'admin@bharatdarshan.com',
+      name: 'Bharat Darshan Admin',
+      email: 'admin123@gmail.com',
       passwordHash: adminPasswordHash,
-      role: 'admin'
+      role: 'admin',
+      phone: '+91 9876543210',
+      status: 'active'
     });
 
     const standardUser = await User.create({
       name: 'Aarav Sharma',
       email: 'aarav@example.com',
       passwordHash: userPasswordHash,
-      role: 'user'
+      role: 'user',
+      phone: '+91 9876501234',
+      status: 'active'
     });
-    console.log(`Created default Admin (${adminUser.email}) and Traveller (${standardUser.email}).`);
+    console.log(`Created configured Admin (${adminUser.email}) and Traveller (${standardUser.email}).`);
 
     // 3. Seed all 36 States & Union Territories
     console.log(`Seeding 36 States & Union Territories...`);

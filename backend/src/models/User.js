@@ -26,6 +26,16 @@ const UserSchema = new mongoose.Schema(
       minlength: [6, 'Password must be at least 6 characters'],
       select: false // Never return password hash in regular queries
     },
+    phone: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+    status: {
+      type: String,
+      enum: ['active', 'suspended', 'pending'],
+      default: 'active'
+    },
     role: {
       type: String,
       enum: ['user', 'admin'],

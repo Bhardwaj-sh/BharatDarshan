@@ -273,6 +273,15 @@ export default function UserDashboard() {
                 />
               </div>
               <div>
+                <label className="block text-slate-400 uppercase font-bold tracking-wider mb-1">Mobile / Contact Number</label>
+                <input
+                  type="text"
+                  readOnly
+                  value={user?.phone || 'Not provided on registration'}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-white"
+                />
+              </div>
+              <div>
                 <label className="block text-slate-400 uppercase font-bold tracking-wider mb-1">Account Role</label>
                 <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold rounded-full uppercase tracking-wider text-[10px]">
                   {user?.role || 'user'}

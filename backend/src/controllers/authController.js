@@ -6,7 +6,7 @@ import { generateToken } from '../utils/generateToken.js';
 // @access  Public
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -31,6 +31,14 @@ export const register = async (req, res) => {
       });
     }
 
+    const cleanPhone = phone ? phone.trim() : '';
+    if (cleanPhone && cleanPhone.replace(/\D/g, '').length < 10) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid 10-digit mobile number'
+      });
+    }
+
     // Check if user already exists
     const userExists = await User.findOne({ email: cleanEmail });
     if (userExists) {
@@ -40,13 +48,15 @@ export const register = async (req, res) => {
       });
     }
 
-    // Hash password and create user
+    // Hash password and create user - strictly enforce role 'user' for public registration
     const passwordHash = await User.hashPassword(password);
     const user = await User.create({
       name: name.trim(),
       email: cleanEmail,
+      phone: cleanPhone,
       passwordHash,
-      role: 'user'
+      role: 'user',
+      status: 'active'
     });
 
     const token = generateToken(user._id, user.role);
@@ -58,7 +68,10 @@ export const register = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        phone: user.phone || '',
+        role: user.role,
+        status: user.status || 'active',
+        createdAt: user.createdAt
       }
     });
   } catch (error) {
@@ -109,7 +122,10 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        phone: user.phone || '',
+        role: user.role,
+        status: user.status || 'active',
+        createdAt: user.createdAt
       }
     });
   } catch (error) {

@@ -4,13 +4,54 @@ dotenv.config();
 import mongoose from 'mongoose';
 import app from './app.js';
 import { connectDB } from './config/db.js';
+import User from './models/User.js';
 
 const PORT = process.env.PORT || 5000;
+
+// Secure Administrator Provisioning Engine
+const ensureAdminUser = async () => {
+  try {
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin123@gmail.com').toLowerCase().trim();
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin@123';
+
+    let admin = await User.findOne({ email: adminEmail }).select('+passwordHash');
+    if (!admin) {
+      const passwordHash = await User.hashPassword(adminPassword);
+      admin = await User.create({
+        name: 'Bharat Darshan Admin',
+        email: adminEmail,
+        passwordHash,
+        role: 'admin',
+        phone: '+91 9876543210',
+        status: 'active'
+      });
+      console.log(`[Security] Admin account provisioned: ${adminEmail}`);
+    } else {
+      let needsSave = false;
+      if (admin.role !== 'admin') {
+        admin.role = 'admin';
+        needsSave = true;
+      }
+      const match = await admin.comparePassword(adminPassword);
+      if (!match) {
+        admin.passwordHash = await User.hashPassword(adminPassword);
+        needsSave = true;
+      }
+      if (needsSave) {
+        await admin.save();
+        console.log(`[Security] Admin credentials verified & updated: ${adminEmail}`);
+      }
+    }
+  } catch (err) {
+    console.warn('[Security] Could not provision admin account:', err.message);
+  }
+};
 
 // Connect to Database first, then listen
 const startServer = async () => {
   try {
     await connectDB();
+    await ensureAdminUser();
 
     const server = app.listen(PORT, () => {
       console.log(`===============================================`);
